@@ -1,68 +1,167 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package dam.modelo;
 
-import java.util.Random;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Type;
 
 /**
  *
- * @author Samuel Reyes
- *
- * Clase que define cada mision creada
- *
+ * @author Samuel
  */
-public class Mision {
+@Entity
+@Table(name = "mision")
+public class Mision implements Serializable {
 
-    // Valores predefinidos para la gestion de la clase
     private static final int RECOMPENSA_POR_TURNO = 100;
-    private static final int DURACION_MAXIMA = 5;
-    private static final int DURACION_MINIMA = 2;
+    private static final int DURACION_MAXIMA = 8;
+    private static final int DURACION_MINIMA = 1;
 
-    // Atributos que definen cada mision
-    private String titulo;
-    private int duracion;
+    @Id
+    @Column(name = "id_mision")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idMision;
+
+    @ManyToOne
+    @JoinColumn(name = "id_jugador")
+    @NotNull
+    private Jugador jugador;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tarea")
+    @NotNull
+    private Tarea tarea;
+
+    @Column(name = "inicio")
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    private Date inicio;
+
+    @Column(name = "fin")
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    private Date fin;
+
+    @Column(name = "recompensa")
+    @NotNull
     private int recompensa;
 
-    // Constructor
-    public Mision(String titulo) {
-        this.titulo = titulo;
-        setRecompensaYDuracion();
+    @Column(name = "completada")
+    @Type(type = "boolean")
+    @NotNull
+    private boolean completada;
+
+    public Mision() {
     }
 
-    public String getTitulo() {
-        return titulo;
+    public Mision(int idMision, Jugador jugador, Tarea tarea, Date inicio, Date fin, int recompensa, boolean completada) {
+        this.idMision = idMision;
+        this.jugador = jugador;
+        this.tarea = tarea;
+        this.inicio = inicio;
+        this.fin = fin;
+        this.recompensa = recompensa;
+        this.completada = completada;
     }
 
-    public int getDuracion() {
-        return duracion;
+    public int getIdMision() {
+        return idMision;
+    }
+
+    public void setIdMision(int idMision) {
+        this.idMision = idMision;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 
     public int getRecompensa() {
         return recompensa;
     }
 
-    // Establece la duracion y recompensa para la mision creada
-    private void setRecompensaYDuracion() {
-        Random r = new Random();
-
-        // La duracion se establece de forma aleatoria dentro de un rango
-        duracion = r.nextInt(DURACION_MAXIMA) + DURACION_MINIMA;
-        // La recompensa se establece en base a la duracion asignada
-        // La recompensa real es igual a la recompensa establecida multiplicada
-        // por el nivel del jugador que la completa
-        recompensa = (duracion * RECOMPENSA_POR_TURNO) + (((int) Math.pow(duracion, 2) * RECOMPENSA_POR_TURNO) / 10);
+    public void setRecompensa(int recompensa) {
+        this.recompensa = recompensa;
     }
 
-    // Controla el tiempo de duracion de la mision
-    protected void disminuirDuracion() throws JuegoException {
-        duracion--;
+    public boolean isCompletada() {
+        return completada;
+    }
 
-        // Cuando la mision finalice se informa al jugador
-        if (duracion < 1) {
-            throw new JuegoException("La mision se ha completado");
-        }
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
     }
 
     @Override
-    public String toString() {
-        return titulo + "\nduracion=" + duracion + " recompensa=" + recompensa + '}';
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + Objects.hashCode(this.jugador);
+        hash = 11 * hash + Objects.hashCode(this.tarea);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Mision other = (Mision) obj;
+        if (!Objects.equals(this.jugador, other.jugador)) {
+            return false;
+        }
+        if (!Objects.equals(this.tarea, other.tarea)) {
+            return false;
+        }
+        return true;
     }
 }
