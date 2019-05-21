@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
@@ -15,73 +16,62 @@
 -->
 
 
-<VBox alignment="CENTER" minHeight="400.0" minWidth="300.0" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #232E70;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.controlador.ControladorAcceso">
+<GridPane styleClass="bloque2" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.controlador.ControladorAcceso">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Label text="Acceso">
-         <font>
-            <Font name="Arial Bold" size="40.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="0.7571428571428571" endY="1.0" startX="0.7571428571428571" startY="0.46190476190476193">
-               <stops>
-                  <Stop color="#ff0000cc" />
-                  <Stop color="#ff0000cc" offset="0.17241379310344826" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <VBox.margin>
-            <Insets left="25.0" right="25.0" />
-         </VBox.margin>
-      </Label>
-      <Label text="Knight Fight">
-         <font>
-            <Font name="Arial Bold" size="40.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="0.7571428571428571" endY="1.0" startX="0.7571428571428571" startY="0.46190476190476193">
-               <stops>
-                  <Stop color="#ff0000cc" />
-                  <Stop color="#ff0000cc" offset="0.17241379310344826" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <VBox.margin>
-            <Insets bottom="25.0" left="25.0" right="25.0" />
-         </VBox.margin>
-      </Label>
-      <TextField fx:id="correo" maxHeight="30.0" maxWidth="250.0" minHeight="25.0" minWidth="150.0" prefHeight="30.0" prefWidth="250.0" promptText="correo de registro">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
-         </VBox.margin>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </TextField>
-      <PasswordField fx:id="clave" maxHeight="30.0" maxWidth="250.0" minHeight="25.0" minWidth="150.0" prefHeight="30.0" prefWidth="250.0" promptText="clave de acceso">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </PasswordField>
-      <Label fx:id="error" text="Datos de acceso incorrectos" textFill="#e10000">
-         <VBox.margin>
-            <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Button defaultButton="true" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" prefHeight="40.0" prefWidth="100.0" text="Acceder" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" left="5.0" right="5.0" top="25.0" />
-         </VBox.margin>
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Button>
+      <VBox alignment="CENTER" minHeight="239.0" minWidth="300.0" GridPane.rowIndex="1">
+         <children>
+            <TextField fx:id="correo" minHeight="30.0" minWidth="150.0" promptText="correo de registro">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </TextField>
+            <PasswordField fx:id="clave" minHeight="30.0" minWidth="150.0" promptText="clave de acceso">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </PasswordField>
+            <Label fx:id="error" text="Datos de acceso incorrectos" textFill="RED">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Button defaultButton="true" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" text="Acceder" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox minHeight="239.0" minWidth="300.0">
+         <children>
+            <ImageView fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../imagenes/KnightFightPortada.png" />
+               </image>
+               <effect>
+                  <Reflection />
+               </effect>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
-</VBox>
+</GridPane>

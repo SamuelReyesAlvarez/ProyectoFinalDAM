@@ -15,13 +15,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
  * @author Samuel
  *
- * @version 1.2.1
- * @modified 20/05/2019
+ * @version 1.2.3
+ * @modified 21/05/2019
  */
 public class MainApp extends Application {
 
@@ -44,6 +45,7 @@ public class MainApp extends Application {
             Scene scene = new Scene(pane);
             stage.setScene(scene);
             stage.setResizable(false);
+            stage.initStyle(StageStyle.UNDECORATED);
 
             ControladorAcceso acceso = loader.getController();
             acceso.setStage(this);
@@ -60,7 +62,6 @@ public class MainApp extends Application {
             BorderPane pane = (BorderPane) loader.load();
             Scene scene = new Scene(pane);
             stage.setScene(scene);
-            stage.setFullScreen(true);
 
             ControladorPrincipal principal = loader.getController();
             principal.setStage(this);
