@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
@@ -14,71 +15,92 @@
     @author: Samuel Reyes
 -->
 
-<VBox alignment="CENTER" minHeight="400.0" minWidth="300.0" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #232E70;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.controlador.ControladorAcceso">
+<VBox styleClass="bloque2" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.controlador.ControladorAcceso">
    <children>
-      <Label text="Acceso">
-         <font>
-            <Font name="Arial Bold" size="40.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.46190476190476193">
-               <stops>
-                  <Stop color="#ff0000cc" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <VBox.margin>
-            <Insets left="25.0" right="25.0" />
-         </VBox.margin>
-      </Label>
-      <Label text="Knight Fight">
-         <font>
-            <Font name="Arial Bold" size="40.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.46190476190476193">
-               <stops>
-                  <Stop color="#ff0000cc" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-         <VBox.margin>
-            <Insets bottom="25.0" left="25.0" right="25.0" />
-         </VBox.margin>
-      </Label>
-      <TextField fx:id="correo" maxHeight="30.0" maxWidth="250.0" minHeight="25.0" minWidth="150.0" prefHeight="30.0" prefWidth="250.0" promptText="correo de registro">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
-         </VBox.margin>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </TextField>
-      <PasswordField fx:id="clave" maxHeight="30.0" maxWidth="250.0" minHeight="25.0" minWidth="150.0" prefHeight="30.0" prefWidth="250.0" promptText="clave de acceso">
+      <GridPane styleClass="bloque2">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" GridPane.rowIndex="1">
+               <children>
+                  <TextField fx:id="correo" minHeight="30.0" minWidth="150.0" promptText="correo de registro">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="50.0" right="50.0" top="50.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </TextField>
+                  <PasswordField fx:id="clave" minHeight="30.0" minWidth="150.0" promptText="clave de acceso">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </PasswordField>
+                  <Label fx:id="error" text="Datos de acceso incorrectos" textFill="RED">
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" text="Acceder" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#registrar" text="Registrar" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <ImageView fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../imagenes/KnightFightPortada.png" />
+                     </image>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+      <HBox alignment="TOP_RIGHT">
+         <children>
+            <Button id="salir" mnemonicParsing="false" onAction="#salir" text="Salir" textFill="#ab3030" />
+         </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </PasswordField>
-      <Label fx:id="error" text="Datos de acceso incorrectos" textFill="#e10000">
-         <VBox.margin>
-            <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Button defaultButton="true" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" prefHeight="40.0" prefWidth="100.0" text="Acceder" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" left="5.0" right="5.0" top="25.0" />
-         </VBox.margin>
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font>
-      </Button>
+      </HBox>
    </children>
 </VBox>

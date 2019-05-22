@@ -57,6 +57,7 @@ public class ControladorAcceso implements Initializable {
 
     @FXML
     public void acceder() {
+        System.out.println("dam.controlador.ControladorAcceso.acceder()");
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
             Acceso acceso = new Acceso();
             acceso = (Acceso) genericDao.obtener(acceso.getClass(), correo.getText().trim());
@@ -71,5 +72,18 @@ public class ControladorAcceso implements Initializable {
         } else {
             error.setVisible(true);
         }
+    }
+
+    @FXML
+    public void registrar() {
+        System.out.println("dam.controlador.ControladorAcceso.registrar()");
+        // crear nuevo jugador
+    }
+
+    @FXML
+    public void salir() {
+        System.out.println("dam.controlador.ControladorAcceso.salir()");
+        this.stage.cerrarSesion();
+        System.exit(1);
     }
 }

@@ -8,6 +8,7 @@ package dam.modelo;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +16,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -44,10 +44,9 @@ public class Atributo implements Serializable {
     @NotNull
     private TipoAtributo tipoAtributo;
 
-    @OneToMany
+    @OneToMany(mappedBy = "atributo")
     @Cascade(CascadeType.ALL)
-    @JoinColumn(name = "id_juego")
-    private HashSet<Estado> atributoJugador;
+    private Set<Estado> atributoJugador;
 
     public Atributo() {
     }
@@ -74,7 +73,7 @@ public class Atributo implements Serializable {
         this.tipoAtributo = tipoAtributo;
     }
 
-    public HashSet<Estado> getAtributoJugador() {
+    public Set<Estado> getAtributoJugador() {
         return atributoJugador;
     }
 

@@ -38,12 +38,10 @@ public class Inventario implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_jugador")
-    @NotNull
     private Jugador jugador;
 
     @ManyToOne
     @JoinColumn(name = "id_equipo")
-    @NotNull
     private Equipo equipo;
 
     @Column(name = "potenciado")

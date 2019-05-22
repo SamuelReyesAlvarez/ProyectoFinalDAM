@@ -32,12 +32,10 @@ public class Estado implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_jugador")
-    @NotNull
     private Jugador jugador;
 
     @ManyToOne
     @JoinColumn(name = "id_atributo")
-    @NotNull
     private Atributo atributo;
 
     @Column(name = "potenciado")

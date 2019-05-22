@@ -12,7 +12,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,8 +21,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.2.2
- * @modified 21/05/2019
+ * @version 1.2.4
+ * @modified 22/05/2019
  */
 public class MainApp extends Application {
 
@@ -33,11 +33,11 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Inicio de sesion");
         mostrarLogin();
-        stage.show();
     }
 
     public void mostrarLogin() {
         try {
+            cerrarSesion();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/Acceso.fxml"));
 
@@ -49,6 +49,8 @@ public class MainApp extends Application {
 
             ControladorAcceso acceso = loader.getController();
             acceso.setStage(this);
+            stage.show();
+            configurarSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,12 +61,13 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/Principal.fxml"));
 
-            BorderPane pane = (BorderPane) loader.load();
+            AnchorPane pane = (AnchorPane) loader.load();
             Scene scene = new Scene(pane);
             stage.setScene(scene);
 
             ControladorPrincipal principal = loader.getController();
             principal.setStage(this);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

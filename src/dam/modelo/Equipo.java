@@ -8,6 +8,7 @@ package dam.modelo;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,11 +16,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -48,9 +50,9 @@ public class Equipo implements Serializable {
     @NotNull
     private int nivel;
 
-    @OneToMany
-    @JoinColumn(name = "id_equipo")
-    private HashSet<Inventario> equipoJugador;
+    @OneToMany(mappedBy = "equipo")
+    @Cascade(CascadeType.ALL)
+    private Set<Inventario> equipoJugador;
 
     public Equipo() {
     }
@@ -86,7 +88,7 @@ public class Equipo implements Serializable {
         this.nivel = nivel;
     }
 
-    public HashSet<Inventario> getEquipoJugador() {
+    public Set<Inventario> getEquipoJugador() {
         return equipoJugador;
     }
 
