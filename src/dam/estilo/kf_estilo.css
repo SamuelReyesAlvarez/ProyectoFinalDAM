@@ -41,3 +41,7 @@ and open the template in the editor.
 #bloque-izqda {
     -fx-background-radius:  15px;
 }
+
+#salir {
+    -fx-background-color: transparent;
+}

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dam.controlador;
+package dam.vista;
 
 import dam.DAO.GenericDAO;
 import dam.MainApp;
@@ -61,15 +61,41 @@ public class ControladorAcceso implements Initializable {
             Acceso acceso = new Acceso();
             acceso = (Acceso) genericDao.obtener(acceso.getClass(), correo.getText().trim());
 
-            if (acceso.getClave().equals(clave.getText().trim())) {
+            if (acceso != null && acceso.getClave().equals(clave.getText().trim())) {
                 stage.mostrarPrincipal();
                 correo.setText("");
                 clave.setText("");
             } else {
+                error.setText("Datos de acceso incorrectos");
                 error.setVisible(true);
             }
         } else {
+            error.setText("Rellena todos los campos");
             error.setVisible(true);
         }
+    }
+
+    @FXML
+    public void registrar() {
+        if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
+            Acceso acceso = new Acceso();
+            acceso = (Acceso) genericDao.obtener(acceso.getClass(), correo.getText().trim());
+
+            if (acceso == null) {
+
+            } else {
+                error.setText("Correo ya registrado");
+                error.setVisible(true);
+            }
+        } else {
+            error.setText("Rellena todos los campos");
+            error.setVisible(true);
+        }
+    }
+
+    @FXML
+    public void salir() {
+        this.stage.cerrarSesion();
+        System.exit(1);
     }
 }

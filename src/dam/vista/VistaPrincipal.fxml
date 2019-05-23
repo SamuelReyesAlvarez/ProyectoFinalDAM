@@ -15,7 +15,7 @@
     @author: Samuel Reyes
 -->
 
-<AnchorPane stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.controlador.ControladorPrincipal">
+<AnchorPane stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorPrincipal">
    <children>
       <ImageView fitWidth="950.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -24,16 +24,16 @@
       </ImageView>
       <BorderPane>
          <bottom>
-            <HBox alignment="CENTER_RIGHT" minHeight="50.0" styleClass="bloque" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_RIGHT" minHeight="64.0" styleClass="bloque" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                </padding>
             </HBox>
          </bottom>
          <left>
-            <VBox id="bloque-izqda" alignment="TOP_CENTER" minHeight="625.0" styleClass="bloque" BorderPane.alignment="CENTER">
+            <VBox id="bloque-izqda" alignment="TOP_CENTER" styleClass="bloque" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="10.0" right="10.0" top="5.0" />
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </BorderPane.margin>
                <children>
                   <Label text="Nombre de Jugador" textAlignment="CENTER">
@@ -227,19 +227,26 @@
                <children>
                   <MenuBar>
                     <menus>
-                      <Menu mnemonicParsing="false" text="Juego">
+                      <Menu mnemonicParsing="false" text="Menu">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" text="Salir de la partida" />
+                              <MenuItem mnemonicParsing="false" text="Salir del juego" />
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Partida">
+                      <Menu mnemonicParsing="false" text="Acciones">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem mnemonicParsing="false" text="Inventario" />
+                              <MenuItem mnemonicParsing="false" text="Combatir" />
+                              <MenuItem mnemonicParsing="false" text="Mision" />
+                              <MenuItem mnemonicParsing="false" text="Bazar" />
+                              <MenuItem mnemonicParsing="false" text="Clasificacion" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Ayuda">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="About" />
+                          <MenuItem mnemonicParsing="false" text="Tutorial" />
+                              <MenuItem mnemonicParsing="false" text="Manual" />
+                              <MenuItem mnemonicParsing="false" text="Ayuda" />
                         </items>
                       </Menu>
                     </menus>

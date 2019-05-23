@@ -3,9 +3,9 @@
 <hibernate-configuration>
   <session-factory>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://localhost/kfdb</property>
-    <property name="connection.username">kfadmin</property>
-    <property name="connection.password">Zaq12wsX</property>
+    <property name="connection.url">jdbc:mysql://remotemysql.com/TwTcYjCeWV</property>
+    <property name="connection.username">TwTcYjCeWV</property>
+    <property name="connection.password">U7zSvSvVRk</property>
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.show_sql">true</property>
 

@@ -5,14 +5,14 @@
  */
 package dam;
 
-import dam.controlador.ControladorAcceso;
-import dam.controlador.ControladorPrincipal;
 import dam.modelo.HibernateUtil;
+import dam.vista.ControladorAcceso;
+import dam.vista.ControladorPrincipal;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,8 +21,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.2.3
- * @modified 21/05/2019
+ * @version 1.2.5
+ * @modified 23/05/2019
  */
 public class MainApp extends Application {
 
@@ -33,13 +33,13 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Inicio de sesion");
         mostrarLogin();
-        stage.show();
     }
 
     public void mostrarLogin() {
         try {
+            cerrarSesion();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("vista/Acceso.fxml"));
+            loader.setLocation(MainApp.class.getResource("vista/VistaAcceso.fxml"));
 
             VBox pane = (VBox) loader.load();
             Scene scene = new Scene(pane);
@@ -49,6 +49,8 @@ public class MainApp extends Application {
 
             ControladorAcceso acceso = loader.getController();
             acceso.setStage(this);
+            stage.show();
+            configurarSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,14 +59,15 @@ public class MainApp extends Application {
     public void mostrarPrincipal() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("vista/Principal.fxml"));
+            loader.setLocation(MainApp.class.getResource("vista/VistaPrincipal.fxml"));
 
-            BorderPane pane = (BorderPane) loader.load();
+            AnchorPane pane = (AnchorPane) loader.load();
             Scene scene = new Scene(pane);
             stage.setScene(scene);
 
             ControladorPrincipal principal = loader.getController();
             principal.setStage(this);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dam.controlador;
+package dam.vista;
 
 import dam.MainApp;
+import javafx.fxml.FXML;
 
 /**
  *
@@ -17,5 +18,16 @@ public class ControladorPrincipal {
 
     public void setStage(MainApp stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    public void salirPartida() {
+        stage.mostrarLogin();
+    }
+
+    @FXML
+    public void salirJuego() {
+        stage.cerrarSesion();
+        System.exit(1);
     }
 }

@@ -7,18 +7,21 @@ package dam.modelo;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -69,22 +72,22 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @NotNull
     private int oroActual;
 
-    @OneToMany
-    @JoinColumn(name = "id_jugador")
-    private HashSet<Estado> estadoJugador;
+    @OneToMany(mappedBy = "jugador")
+    @Cascade(CascadeType.ALL)
+    private Set<Estado> estadoJugador;
 
-    @OneToMany
-    @JoinColumn(name = "id_jugador")
-    private HashSet<Inventario> equipoJugador;
+    @OneToMany(mappedBy = "jugador")
+    @Cascade(CascadeType.ALL)
+    private Set<Inventario> equipoJugador;
 
-    @OneToMany
-    @JoinColumn(name = "id_jugador")
-    private Mision tareaActiva;
+    @OneToMany(mappedBy = "jugador")
+    @Cascade(CascadeType.ALL)
+    private List<Mision> tareaActiva;
 
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, HashSet<Estado> estadoJugador, HashSet<Inventario> equipoJugador, Mision tareaActiva) {
+    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, HashSet<Estado> estadoJugador, HashSet<Inventario> equipoJugador, List<Mision> tareaActiva) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.nivel = nivel;
@@ -144,7 +147,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.oroActual = oroActual;
     }
 
-    public HashSet<Estado> getEstadoJugador() {
+    public Set<Estado> getEstadoJugador() {
         return estadoJugador;
     }
 
@@ -152,7 +155,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.estadoJugador = estadoJugador;
     }
 
-    public HashSet<Inventario> getEquipoJugador() {
+    public Set<Inventario> getEquipoJugador() {
         return equipoJugador;
     }
 
@@ -160,11 +163,11 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.equipoJugador = equipoJugador;
     }
 
-    public Mision getTareaActiva() {
+    public List<Mision> getTareaActiva() {
         return tareaActiva;
     }
 
-    public void setTareaActiva(Mision tareaActiva) {
+    public void setTareaActiva(List<Mision> tareaActiva) {
         this.tareaActiva = tareaActiva;
     }
 
