@@ -12,7 +12,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,8 +21,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.2.5
- * @modified 23/05/2019
+ * @version 1.3.6
+ * @modified 25/05/2019
  */
 public class MainApp extends Application {
 
@@ -61,7 +61,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaPrincipal.fxml"));
 
-            AnchorPane pane = (AnchorPane) loader.load();
+            BorderPane pane = (BorderPane) loader.load();
             Scene scene = new Scene(pane);
             stage.setScene(scene);
 
