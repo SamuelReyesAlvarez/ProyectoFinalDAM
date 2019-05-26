@@ -60,7 +60,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                  <Label fx:id="nivel" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -80,7 +80,7 @@
                         <Insets bottom="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="000000" textFill="WHITE">
+                  <Label fx:id="oro" minHeight="35.0" minWidth="50.0" text="000000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -101,7 +101,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="vida" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -111,7 +111,7 @@
                   </Label>
                </children>
             </HBox>
-            <ProgressBar minWidth="250.0" progress="1.0" styleClass="progressbar-vida">
+            <ProgressBar fx:id="barraVida" minWidth="250.0" progress="1.0" styleClass="progressbar-vida">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -126,7 +126,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="experiencia" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -136,7 +136,7 @@
                   </Label>
                </children>
             </HBox>
-            <ProgressBar minWidth="250.0" progress="1.0" />
+            <ProgressBar fx:id="barraExperiencia" minWidth="250.0" progress="1.0" />
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
@@ -147,7 +147,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="ataqueMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -163,7 +163,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="ataqueMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -183,7 +183,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="defensaMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -199,7 +199,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="defensaMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -228,18 +228,18 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Acciones">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Inventario" />
-                        <MenuItem mnemonicParsing="false" text="Combatir" />
-                        <MenuItem mnemonicParsing="false" text="Mision" />
-                        <MenuItem mnemonicParsing="false" text="Bazar" />
-                        <MenuItem mnemonicParsing="false" text="Clasificacion" />
+                    <MenuItem mnemonicParsing="false" onAction="#inventario" text="Inventario" />
+                        <MenuItem mnemonicParsing="false" onAction="#combatir" text="Combatir" />
+                        <MenuItem mnemonicParsing="false" onAction="#mision" text="Mision" />
+                        <MenuItem mnemonicParsing="false" onAction="#bazar" text="Bazar" />
+                        <MenuItem mnemonicParsing="false" onAction="#clasificacion" text="Clasificacion" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Tutorial" />
-                        <MenuItem mnemonicParsing="false" text="Manual" />
-                        <MenuItem mnemonicParsing="false" text="Ayuda" />
+                    <MenuItem mnemonicParsing="false" onAction="#tutorial" text="Tutorial" />
+                        <MenuItem mnemonicParsing="false" onAction="#manual" text="Manual" />
+                        <MenuItem mnemonicParsing="false" onAction="#ayuda" text="Ayuda" />
                   </items>
                 </Menu>
               </menus>

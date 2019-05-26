@@ -7,6 +7,11 @@ package dam;
 
 import dam.modelo.HibernateUtil;
 import dam.vista.ControladorAcceso;
+import dam.vista.ControladorBazar;
+import dam.vista.ControladorClasificacion;
+import dam.vista.ControladorCombatir;
+import dam.vista.ControladorInventario;
+import dam.vista.ControladorMision;
 import dam.vista.ControladorPrincipal;
 import java.io.IOException;
 import javafx.application.Application;
@@ -21,17 +26,20 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.3.6
- * @modified 25/05/2019
+ * @version 1.3.7
+ * @modified 26/05/2019
  */
 public class MainApp extends Application {
 
     private Stage stage;
+    private BorderPane principal;
 
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
         stage.setTitle("Inicio de sesion");
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UNDECORATED);
         mostrarLogin();
     }
 
@@ -41,14 +49,12 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaAcceso.fxml"));
 
-            VBox pane = (VBox) loader.load();
-            Scene scene = new Scene(pane);
+            VBox acceso = (VBox) loader.load();
+            Scene scene = new Scene(acceso);
             stage.setScene(scene);
-            stage.setResizable(false);
-            stage.initStyle(StageStyle.UNDECORATED);
 
-            ControladorAcceso acceso = loader.getController();
-            acceso.setStage(this);
+            ControladorAcceso controlAcceso = loader.getController();
+            controlAcceso.setStage(this);
             stage.show();
             configurarSesion();
         } catch (IOException e) {
@@ -61,12 +67,92 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaPrincipal.fxml"));
 
-            BorderPane pane = (BorderPane) loader.load();
-            Scene scene = new Scene(pane);
+            principal = (BorderPane) loader.load();
+            Scene scene = new Scene(principal);
             stage.setScene(scene);
 
-            ControladorPrincipal principal = loader.getController();
-            principal.setStage(this);
+            ControladorPrincipal controlPrincipal = loader.getController();
+            controlPrincipal.setStage(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarInventario() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaInventario.fxml"));
+
+            BorderPane inventario = (BorderPane) loader.load();
+            principal.setCenter(inventario);
+
+            ControladorInventario controlInventario = loader.getController();
+            controlInventario.setStage(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarCombatir() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaCombatir.fxml"));
+
+            BorderPane combatir = (BorderPane) loader.load();
+            principal.setCenter(combatir);
+
+            ControladorCombatir controlCombatir = loader.getController();
+            controlCombatir.setStage(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarMision() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaMision.fxml"));
+
+            BorderPane mision = (BorderPane) loader.load();
+            principal.setCenter(mision);
+
+            ControladorMision controlMision = loader.getController();
+            controlMision.setStage(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarBazar() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaBazar.fxml"));
+
+            BorderPane bazar = (BorderPane) loader.load();
+            principal.setCenter(bazar);
+
+            ControladorBazar controlBazar = loader.getController();
+            controlBazar.setStage(this);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarClasificacion() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaClasificacion.fxml"));
+
+            BorderPane clasificacion = (BorderPane) loader.load();
+            principal.setCenter(clasificacion);
+
+            ControladorClasificacion controlClasificacion = loader.getController();
+            controlClasificacion.setStage(this);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

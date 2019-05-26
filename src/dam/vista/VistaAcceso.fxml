@@ -96,7 +96,7 @@
         </GridPane>
         <HBox alignment="TOP_RIGHT">
             <children>
-                <Button id="salir" mnemonicParsing="false" onAction="#salir" text="Salir" textFill="#ab3030" />
+                <Button mnemonicParsing="false" onAction="#salir" styleClass="sinfondo" text="Salir" textFill="#ab3030" />
             </children>
             <VBox.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

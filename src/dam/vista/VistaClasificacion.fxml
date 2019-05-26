@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    @author: Samuel Reyes
+-->
+
+
+<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="bloque" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Clasificación">
+               <font>
+                  <Font name="Arial Bold" size="28.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
