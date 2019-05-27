@@ -10,13 +10,13 @@
     <property name="hibernate.show_sql">true</property>
 
     <mapping class="dam.modelo.Acceso"/>
-    <mapping class="dam.modelo.Atributo"/>
+    <mapping class="dam.modelo.Bazar"/>
+    <mapping class="dam.modelo.Combate"/>
     <mapping class="dam.modelo.Equipo"/>
     <mapping class="dam.modelo.Estadisticas"/>
     <mapping class="dam.modelo.Estado"/>
     <mapping class="dam.modelo.Inventario"/>
     <mapping class="dam.modelo.Jugador"/>
     <mapping class="dam.modelo.Mision"/>
-    <mapping class="dam.modelo.Tarea"/>
   </session-factory>
 </hibernate-configuration>

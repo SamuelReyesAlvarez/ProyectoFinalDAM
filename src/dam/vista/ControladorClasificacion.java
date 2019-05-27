@@ -6,7 +6,7 @@
 package dam.vista;
 
 import dam.DAO.JugadorDAO;
-import dam.MainApp;
+import dam.modelo.Estadisticas;
 import dam.modelo.Jugador;
 import java.net.URL;
 import java.util.List;
@@ -27,7 +27,6 @@ public class ControladorClasificacion implements Initializable {
 
     private JugadorDAO jugadorDAO = new JugadorDAO();
     private ObservableList<Jugador> clasificacion;
-    private MainApp stage;
 
     @FXML
     private TableView<Jugador> tabla;
@@ -36,24 +35,20 @@ public class ControladorClasificacion implements Initializable {
     @FXML
     private TableColumn<Jugador, Integer> experiencia;
     @FXML
-    private TableColumn<Jugador, Integer> recaudacion;
+    private TableColumn<Estadisticas, Integer> recaudacion;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clasificacion = FXCollections.observableArrayList();
         List<Jugador> listaJugadores = jugadorDAO.obtenerOrdenadoPorExperiencia();
 
-        for (Jugador jugador : clasificacion) {
-            listaJugadores.add(jugador);
+        for (Jugador jugador : listaJugadores) {
+            clasificacion.add(jugador);
         }
 
         nombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
         experiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
-        recaudacion.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("totalRecaudacion"));
+        recaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
+        tabla.setItems(clasificacion);
     }
-
-    public void setStage(MainApp mainApp) {
-        this.stage = mainApp;
-    }
-
 }

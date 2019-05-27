@@ -26,8 +26,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.3.7
- * @modified 26/05/2019
+ * @version 1.3.8
+ * @modified 27/05/2019
  */
 public class MainApp extends Application {
 
@@ -41,6 +41,7 @@ public class MainApp extends Application {
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
         mostrarLogin();
+        stage.show();
     }
 
     public void mostrarLogin() {
@@ -55,7 +56,7 @@ public class MainApp extends Application {
 
             ControladorAcceso controlAcceso = loader.getController();
             controlAcceso.setStage(this);
-            stage.show();
+
             configurarSesion();
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,7 +74,6 @@ public class MainApp extends Application {
 
             ControladorPrincipal controlPrincipal = loader.getController();
             controlPrincipal.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,8 +88,6 @@ public class MainApp extends Application {
             principal.setCenter(inventario);
 
             ControladorInventario controlInventario = loader.getController();
-            controlInventario.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,8 +102,6 @@ public class MainApp extends Application {
             principal.setCenter(combatir);
 
             ControladorCombatir controlCombatir = loader.getController();
-            controlCombatir.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,8 +116,6 @@ public class MainApp extends Application {
             principal.setCenter(mision);
 
             ControladorMision controlMision = loader.getController();
-            controlMision.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,8 +130,6 @@ public class MainApp extends Application {
             principal.setCenter(bazar);
 
             ControladorBazar controlBazar = loader.getController();
-            controlBazar.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,8 +144,6 @@ public class MainApp extends Application {
             principal.setCenter(clasificacion);
 
             ControladorClasificacion controlClasificacion = loader.getController();
-            controlClasificacion.setStage(this);
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

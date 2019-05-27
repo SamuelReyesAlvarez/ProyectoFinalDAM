@@ -84,10 +84,18 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @Cascade(CascadeType.ALL)
     private List<Mision> tareaActiva;
 
+    @OneToMany(mappedBy = "jugador")
+    @Cascade(CascadeType.ALL)
+    private List<Bazar> ventas;
+
+    @OneToMany(mappedBy = "jugador")
+    @Cascade(CascadeType.ALL)
+    private List<Combate> combates;
+
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, HashSet<Estado> estadoJugador, HashSet<Inventario> equipoJugador, List<Mision> tareaActiva) {
+    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, List<Bazar> ventas, List<Combate> combates) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.nivel = nivel;
@@ -97,6 +105,8 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.estadoJugador = estadoJugador;
         this.equipoJugador = equipoJugador;
         this.tareaActiva = tareaActiva;
+        this.ventas = ventas;
+        this.combates = combates;
     }
 
     public int getIdJugador() {
@@ -171,6 +181,22 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.tareaActiva = tareaActiva;
     }
 
+    public List<Bazar> getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(List<Bazar> ventas) {
+        this.ventas = ventas;
+    }
+
+    public List<Combate> getCombate() {
+        return combates;
+    }
+
+    public void setCombate(List<Combate> combate) {
+        this.combates = combate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -200,10 +226,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         return (int) (Math.pow(nivel, 3) + Math.pow(nivel, 2));
     }
 
-    public int getValorAtributo(Atributo.TipoAtributo tipo) {
+    public int getValorAtributo(Estado.TipoAtributo tipo) {
         int potenciando = 0;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == tipo) {
+            if (estado.getTipoAtributo() == tipo) {
                 potenciando = estado.getPotenciado();
             }
         }
@@ -213,10 +239,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public int getVidaMax() {
         int vidaTotal = VIDA_BASE;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.AGUA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.AGUA) {
                 vidaTotal += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.CONSTITUCION) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.CONSTITUCION) {
                 vidaTotal += estado.getPotenciado() * VALOR_CONSTITUCION;
             }
         }
@@ -226,10 +252,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public int getAtaqueMin() {
         int ataqueMin = ATAQUE_MIN_BASE;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.FUEGO) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
                 ataqueMin += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.FUERZA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.FUERZA) {
                 ataqueMin += estado.getPotenciado() * VALOR_FUERZA;
             }
         }
@@ -239,16 +265,16 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public int getAtaqueMax() {
         int ataqueMax = ATAQUE_MAX_BASE;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.FUEGO) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
                 ataqueMax += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.VIENTO) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.VIENTO) {
                 ataqueMax += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.FUERZA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.FUERZA) {
                 ataqueMax += estado.getPotenciado() * VALOR_FUERZA;
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.DESTREZA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.DESTREZA) {
                 ataqueMax += estado.getPotenciado() * VALOR_DESTREZA;
             }
         }
@@ -258,10 +284,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public int getDefensaMin() {
         int defensaMin = DEFENSA_MIN_BASE;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.TIERRA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
                 defensaMin += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.ARMADURA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.ARMADURA) {
                 defensaMin += estado.getPotenciado() * VALOR_ARMADURA;
             }
         }
@@ -271,16 +297,16 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public int getDefensaMax() {
         int defensaMax = DEFENSA_MAX_BASE;
         for (Estado estado : estadoJugador) {
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.TIERRA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
                 defensaMax += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.VIENTO) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.VIENTO) {
                 defensaMax += estado.getPotenciado();
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.ARMADURA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.ARMADURA) {
                 defensaMax += estado.getPotenciado() * VALOR_ARMADURA;
             }
-            if (estado.getAtributo().getTipoAtributo() == Atributo.TipoAtributo.DESTREZA) {
+            if (estado.getTipoAtributo() == Estado.TipoAtributo.DESTREZA) {
                 defensaMax += estado.getPotenciado() * VALOR_DESTREZA;
             }
         }

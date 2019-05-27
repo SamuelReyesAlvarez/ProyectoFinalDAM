@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +27,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "estado")
 public class Estado implements Serializable {
 
+    public enum TipoAtributo {
+        FUERZA, DESTREZA, ARMADURA, CONSTITUCION, TIERRA, AGUA, FUEGO, VIENTO
+    }
+
     @Id
     @Column(name = "id_estado")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,9 +40,10 @@ public class Estado implements Serializable {
     @JoinColumn(name = "id_jugador")
     private Jugador jugador;
 
-    @ManyToOne
-    @JoinColumn(name = "id_atributo")
-    private Atributo atributo;
+    @Column(name = "tipo_atributo")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private TipoAtributo tipoAtributo;
 
     @Column(name = "potenciado")
     @NotNull
@@ -45,10 +52,10 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(int idEstado, Jugador jugador, Atributo atributo, int potenciado) {
+    public Estado(int idEstado, Jugador jugador, TipoAtributo tipoAtributo, int potenciado) {
         this.idEstado = idEstado;
         this.jugador = jugador;
-        this.atributo = atributo;
+        this.tipoAtributo = tipoAtributo;
         this.potenciado = potenciado;
     }
 
@@ -68,12 +75,12 @@ public class Estado implements Serializable {
         this.jugador = jugador;
     }
 
-    public Atributo getAtributo() {
-        return atributo;
+    public TipoAtributo getTipoAtributo() {
+        return tipoAtributo;
     }
 
-    public void setAtributo(Atributo atributo) {
-        this.atributo = atributo;
+    public void setTipoAtributo(TipoAtributo tipoAtributo) {
+        this.tipoAtributo = tipoAtributo;
     }
 
     public int getPotenciado() {
@@ -86,9 +93,8 @@ public class Estado implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.jugador);
-        hash = 53 * hash + Objects.hashCode(this.atributo);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.tipoAtributo);
         return hash;
     }
 
@@ -104,10 +110,7 @@ public class Estado implements Serializable {
             return false;
         }
         final Estado other = (Estado) obj;
-        if (!Objects.equals(this.jugador, other.jugador)) {
-            return false;
-        }
-        if (!Objects.equals(this.atributo, other.atributo)) {
+        if (this.tipoAtributo != other.tipoAtributo) {
             return false;
         }
         return true;

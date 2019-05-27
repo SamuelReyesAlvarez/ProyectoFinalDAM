@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 
 /**
@@ -42,9 +43,10 @@ public class Mision implements Serializable {
     @JoinColumn(name = "id_jugador")
     private Jugador jugador;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tarea")
-    private Tarea tarea;
+    @Column(name = "descripcion")
+    @Size(min = 15, max = 250)
+    @NotNull
+    private String descripcion;
 
     @Column(name = "inicio")
     @Temporal(TemporalType.DATE)
@@ -68,10 +70,10 @@ public class Mision implements Serializable {
     public Mision() {
     }
 
-    public Mision(int idMision, Jugador jugador, Tarea tarea, Date inicio, Date fin, int recompensa, boolean completada) {
+    public Mision(int idMision, Jugador jugador, String descripcion, Date inicio, Date fin, int recompensa, boolean completada) {
         this.idMision = idMision;
         this.jugador = jugador;
-        this.tarea = tarea;
+        this.descripcion = descripcion;
         this.inicio = inicio;
         this.fin = fin;
         this.recompensa = recompensa;
@@ -94,12 +96,12 @@ public class Mision implements Serializable {
         this.jugador = jugador;
     }
 
-    public Tarea getTarea() {
-        return tarea;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setTarea(Tarea tarea) {
-        this.tarea = tarea;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Date getInicio() {
@@ -136,9 +138,8 @@ public class Mision implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + Objects.hashCode(this.jugador);
-        hash = 11 * hash + Objects.hashCode(this.tarea);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.inicio);
         return hash;
     }
 
@@ -154,10 +155,7 @@ public class Mision implements Serializable {
             return false;
         }
         final Mision other = (Mision) obj;
-        if (!Objects.equals(this.jugador, other.jugador)) {
-            return false;
-        }
-        if (!Objects.equals(this.tarea, other.tarea)) {
+        if (!Objects.equals(this.inicio, other.inicio)) {
             return false;
         }
         return true;

@@ -124,7 +124,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
                         Optional<String> result = dialog.showAndWait();
                         System.out.println(result.get());
-                        if (result.isPresent() && result.get().equals(codigo)) {
+                        if (result.isPresent() && result.get().trim().equals(codigo)) {
                             genericDao.guardarActualizar(new Acceso(correo.getText().trim(), clave.getText().trim(), null));
                             stage.mostrarPrincipal();
                         } else {
