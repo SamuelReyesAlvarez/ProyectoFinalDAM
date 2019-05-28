@@ -12,7 +12,6 @@
     <mapping class="dam.modelo.Acceso"/>
     <mapping class="dam.modelo.Bazar"/>
     <mapping class="dam.modelo.Combate"/>
-    <mapping class="dam.modelo.Equipo"/>
     <mapping class="dam.modelo.Estadisticas"/>
     <mapping class="dam.modelo.Estado"/>
     <mapping class="dam.modelo.Inventario"/>

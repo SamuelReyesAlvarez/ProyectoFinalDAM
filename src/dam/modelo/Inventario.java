@@ -6,9 +6,10 @@
 package dam.modelo;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,6 +32,10 @@ public class Inventario implements Serializable {
     private static final int VALOR_POTENCIADO = 150;
     private static final int PROBABILIDAD_CREAR_EQUIPO = 5;
 
+    public enum TipoEquipo {
+        PENDIENTE, CASCO, COLLAR, PULSERA, CHALECO, CAPA, ESCUDO, PANTALON, ARMA, CINTURON, BOTAS, ANILLO
+    }
+
     @Id
     @Column(name = "id_inventario")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,9 +45,15 @@ public class Inventario implements Serializable {
     @JoinColumn(name = "id_jugador")
     private Jugador jugador;
 
-    @ManyToOne
-    @JoinColumn(name = "id_equipo")
-    private Equipo equipo;
+    @Column(name = "tipo_equipo")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private TipoEquipo tipoEquipo;
+
+    @Column(name = "nivel")
+    @Min(1)
+    @NotNull
+    private int nivel;
 
     @Column(name = "potenciado")
     @Min(0)
@@ -66,10 +77,11 @@ public class Inventario implements Serializable {
     public Inventario() {
     }
 
-    public Inventario(int idInventario, Jugador jugador, Equipo equipo, int potenciado, int precio, boolean equipado, boolean enVenta) {
+    public Inventario(int idInventario, Jugador jugador, TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, boolean equipado, boolean enVenta) {
         this.idInventario = idInventario;
         this.jugador = jugador;
-        this.equipo = equipo;
+        this.tipoEquipo = tipoEquipo;
+        this.nivel = nivel;
         this.potenciado = potenciado;
         this.precio = precio;
         this.equipado = equipado;
@@ -92,12 +104,20 @@ public class Inventario implements Serializable {
         this.jugador = jugador;
     }
 
-    public Equipo getEquipo() {
-        return equipo;
+    public TipoEquipo getTipoEquipo() {
+        return tipoEquipo;
     }
 
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
+    public void setTipoEquipo(TipoEquipo tipoEquipo) {
+        this.tipoEquipo = tipoEquipo;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 
     public int getPotenciado() {
@@ -141,8 +161,7 @@ public class Inventario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.jugador);
-        hash = 83 * hash + Objects.hashCode(this.equipo);
+        hash = 67 * hash + this.idInventario;
         return hash;
     }
 
@@ -158,22 +177,22 @@ public class Inventario implements Serializable {
             return false;
         }
         final Inventario other = (Inventario) obj;
-        if (!Objects.equals(this.jugador, other.jugador) && !Objects.equals(this.equipo, other.equipo)) {
+        if (this.idInventario != other.idInventario) {
             return false;
         }
         return true;
     }
 
     public int getValor() {
-        return (VALOR_BASE + (VALOR_POTENCIADO * potenciado)) * equipo.getNivel();
+        return (VALOR_BASE + (VALOR_POTENCIADO * potenciado)) * getNivel();
     }
 
     public int getCostePotenciar() {
-        return VALOR_POTENCIADO * (potenciado + 1) * equipo.getNivel();
+        return VALOR_POTENCIADO * (potenciado + 1) * getNivel();
     }
 
     public void aumentarPotenciado() throws JuegoException {
-        if (potenciado == equipo.getNivel() * 10) {
+        if (potenciado == getNivel() * 10) {
             throw new JuegoException("Limite de potenciado alcanzado");
         }
         potenciado++;

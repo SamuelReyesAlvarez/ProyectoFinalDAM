@@ -31,11 +31,11 @@ public class ControladorClasificacion implements Initializable {
     @FXML
     private TableView<Jugador> tabla;
     @FXML
-    private TableColumn<Jugador, String> nombre;
+    private TableColumn<Jugador, String> columnaNombre;
     @FXML
-    private TableColumn<Jugador, Integer> experiencia;
+    private TableColumn<Jugador, Integer> columnaExperiencia;
     @FXML
-    private TableColumn<Estadisticas, Integer> recaudacion;
+    private TableColumn<Estadisticas, Integer> columnaRecaudacion;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,9 +46,9 @@ public class ControladorClasificacion implements Initializable {
             clasificacion.add(jugador);
         }
 
-        nombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
-        experiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
-        recaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
+        columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
+        columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
+        columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
         tabla.setItems(clasificacion);
     }
 }

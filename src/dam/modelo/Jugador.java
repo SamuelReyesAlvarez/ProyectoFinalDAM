@@ -84,6 +84,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @Cascade(CascadeType.ALL)
     private List<Mision> tareaActiva;
 
+    /*
     @OneToMany(mappedBy = "jugador")
     @Cascade(CascadeType.ALL)
     private List<Bazar> ventas;
@@ -91,7 +92,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @OneToMany(mappedBy = "jugador")
     @Cascade(CascadeType.ALL)
     private List<Combate> combates;
-
+     */
     public Jugador() {
     }
 
@@ -105,8 +106,8 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.estadoJugador = estadoJugador;
         this.equipoJugador = equipoJugador;
         this.tareaActiva = tareaActiva;
-        this.ventas = ventas;
-        this.combates = combates;
+        //this.ventas = ventas;
+        //this.combates = combates;
     }
 
     public int getIdJugador() {
@@ -181,6 +182,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.tareaActiva = tareaActiva;
     }
 
+    /*
     public List<Bazar> getVentas() {
         return ventas;
     }
@@ -196,7 +198,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public void setCombate(List<Combate> combate) {
         this.combates = combate;
     }
-
+     */
     @Override
     public int hashCode() {
         int hash = 7;

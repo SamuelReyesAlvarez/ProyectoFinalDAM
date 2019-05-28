@@ -50,16 +50,16 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     public void initialize(URL location, ResourceBundle resources) {
         this.onDraggedScene(marco);
         error.setVisible(false);
-        correo.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+        correo.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 error.setVisible(false);
             }
-        }));
-        clave.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+        });
+        clave.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 error.setVisible(false);
             }
-        }));
+        });
     }
 
     public void setStage(MainApp stage) {
@@ -70,7 +70,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     public void acceder() {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
             Acceso acceso = new Acceso();
-            acceso = (Acceso) genericDao.obtener(acceso.getClass(), correo.getText().trim());
+            acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), correo.getText().trim());
 
             if (acceso != null && acceso.getClave().equals(clave.getText().trim())) {
                 stage.mostrarPrincipal();
@@ -89,11 +89,11 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void registrar() {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
-            acceso = (Acceso) genericDao.obtener(acceso.getClass(), correo.getText().trim());
+            acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), correo.getText().trim());
 
             if (acceso == null) {
                 acceso = new Acceso();
-                acceso = (Acceso) genericDao.obtener(acceso.getClass(), REMITENTE);
+                acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), REMITENTE);
 
                 if (acceso == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -21,24 +21,17 @@ CREATE TABLE IF NOT EXISTS jugador (
     CONSTRAINT jugador_pk PRIMARY KEY (id_jugador)
 );
 
-CREATE TABLE IF NOT EXISTS equipo (
-    id_equipo INT NOT NULL,
-    tipo_equipo VARCHAR(15) NOT NULL,
-    nivel INT NOT NULL,
-    CONSTRAINT equipo_pk PRIMARY KEY (id_equipo)
-);
-
 CREATE TABLE IF NOT EXISTS inventario (
     id_inventario INT NOT NULL,
     id_jugador INT NULL,
-    id_equipo INT NULL,
+    tipo_equipo VARCHAR(15) NOT NULL,
+    nivel INT NOT NULL,
     potenciado INT NOT NULL,
     precio INT NOT NULL,
     equipado TINYINT NOT NULL,
     en_venta TINYINT NOT NULL,
     CONSTRAINT inventario_pk PRIMARY KEY (id_inventario),
-    CONSTRAINT inventario_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador),
-    CONSTRAINT inventario_equipo_fk FOREIGN KEY (id_equipo) REFERENCES equipo (id_equipo)
+    CONSTRAINT inventario_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
 );
 
 

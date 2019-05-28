@@ -26,8 +26,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel
  *
- * @version 1.3.8
- * @modified 27/05/2019
+ * @version 1.3.9
+ * @modified 28/05/2019
  */
 public class MainApp extends Application {
 
@@ -53,6 +53,7 @@ public class MainApp extends Application {
             VBox acceso = (VBox) loader.load();
             Scene scene = new Scene(acceso);
             stage.setScene(scene);
+            stage.centerOnScreen();
 
             ControladorAcceso controlAcceso = loader.getController();
             controlAcceso.setStage(this);
@@ -71,6 +72,7 @@ public class MainApp extends Application {
             principal = (BorderPane) loader.load();
             Scene scene = new Scene(principal);
             stage.setScene(scene);
+            stage.centerOnScreen();
 
             ControladorPrincipal controlPrincipal = loader.getController();
             controlPrincipal.setStage(this);

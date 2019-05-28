@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -41,9 +44,15 @@ public class Bazar implements Serializable {
     @JoinColumn(name = "id_vendedor")
     private Jugador vendedor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_equipo")
-    private Equipo equipo;
+    @Column(name = "tipo_equipo")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Inventario.TipoEquipo tipoEquipo;
+
+    @Column(name = "nivel")
+    @Min(1)
+    @NotNull
+    private int nivel;
 
     @Column(name = "potenciado")
     @NotNull
@@ -61,11 +70,12 @@ public class Bazar implements Serializable {
     public Bazar() {
     }
 
-    public Bazar(int idBazar, Jugador comprador, Jugador vendedor, Equipo equipo, int potenciado, int precio, Date fechaVenta) {
+    public Bazar(int idBazar, Jugador comprador, Jugador vendedor, Inventario.TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, Date fechaVenta) {
         this.idBazar = idBazar;
         this.comprador = comprador;
         this.vendedor = vendedor;
-        this.equipo = equipo;
+        this.tipoEquipo = tipoEquipo;
+        this.nivel = nivel;
         this.potenciado = potenciado;
         this.precio = precio;
         this.fechaVenta = fechaVenta;
@@ -95,12 +105,20 @@ public class Bazar implements Serializable {
         this.vendedor = vendedor;
     }
 
-    public Equipo getEquipo() {
-        return equipo;
+    public Inventario.TipoEquipo getTipoEquipo() {
+        return tipoEquipo;
     }
 
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
+    public void setTipoEquipo(Inventario.TipoEquipo tipoEquipo) {
+        this.tipoEquipo = tipoEquipo;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 
     public int getPotenciado() {
@@ -130,7 +148,7 @@ public class Bazar implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.fechaVenta);
+        hash = 53 * hash + Objects.hashCode(this.fechaVenta);
         return hash;
     }
 

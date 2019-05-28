@@ -6,6 +6,7 @@
 package dam.DAO;
 
 import dam.modelo.HibernateUtil;
+import java.util.List;
 import org.hibernate.Session;
 
 /**
@@ -40,12 +41,17 @@ public class GenericDAO<T> {
         session.getTransaction().commit();
     }
 
-    public T obtener(Class<T> objeto, int id) {
+    public List<T> obtenerTodo(T entidad) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.createQuery("FROM " + entidad).list();
+    }
+
+    public T obtenerPorId(Class<T> objeto, int id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         return (T) session.get(objeto, id);
     }
 
-    public T obtener(Class<T> objeto, String id) {
+    public T obtenerPorId(Class<T> objeto, String id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         return (T) session.get(objeto, id);
     }
