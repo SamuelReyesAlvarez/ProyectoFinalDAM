@@ -17,7 +17,8 @@ import javafx.scene.layout.HBox;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class ControladorPrincipal implements Initializable, MoverVentana {
 

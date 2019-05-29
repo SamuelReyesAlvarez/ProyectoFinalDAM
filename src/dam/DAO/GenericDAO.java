@@ -6,12 +6,16 @@
 package dam.DAO;
 
 import dam.modelo.HibernateUtil;
+import dam.modelo.JuegoException;
 import java.util.List;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.hibernate.Session;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class GenericDAO<T> {
 
@@ -21,11 +25,35 @@ public class GenericDAO<T> {
      *
      * @param entidad que se desea persistir
      */
-    public void guardarActualizar(T entidad) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(entidad);
-        session.getTransaction().commit();
+    public void guardarActualizar(T entidad) throws JuegoException {
+        StringBuilder mensajeError = new StringBuilder();
+        String mensajeValidacion;
+        Session session;
+
+        if (HibernateUtil.getSessionFactory().getCurrentSession().isConnected()) {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+        } else {
+            session = HibernateUtil.getSessionFactory().openSession();
+        }
+
+        try {
+            session.beginTransaction();
+            session.saveOrUpdate(entidad);
+            session.getTransaction().commit();
+            session.evict(entidad);
+        } catch (ConstraintViolationException e) {
+            session.getTransaction().rollback();
+            for (ConstraintViolation constraintViolation : e.getConstraintViolations()) {
+                if (constraintViolation.getPropertyPath().toString().contains("correo")) {
+                    mensajeValidacion = "formato incorrecto";
+                } else {
+                    mensajeValidacion = constraintViolation.getMessage();
+                }
+                mensajeError.append(constraintViolation.getPropertyPath() + ": " + mensajeValidacion + "\n");
+            }
+            session.evict(entidad);
+            throw new JuegoException(mensajeError.toString());
+        }
     }
 
     /**

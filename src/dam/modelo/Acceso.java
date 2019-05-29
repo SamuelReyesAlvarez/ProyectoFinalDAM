@@ -14,11 +14,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 @Entity
 @Table(name = "acceso")
@@ -26,12 +28,12 @@ public class Acceso implements Serializable {
 
     @Id
     @Column(name = "correo")
-    @Size(min = 5, max = 150)
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     @NotNull
     private String correo;
 
     @Column(name = "clave")
-    @Size(min = 8, max = 150)
+    @Size(min = 6, max = 150)
     @NotNull
     private String clave;
 

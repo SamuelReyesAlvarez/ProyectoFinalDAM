@@ -24,15 +24,16 @@ import javafx.stage.StageStyle;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
  *
- * @version 1.3.9
- * @modified 28/05/2019
+ * @version 1.3.10
+ * @modified 29/05/2019
  */
 public class MainApp extends Application {
 
     private Stage stage;
     private BorderPane principal;
+    private ControladorPrincipal controlPrincipal;
 
     @Override
     public void start(Stage primaryStage) {
@@ -74,7 +75,7 @@ public class MainApp extends Application {
             stage.setScene(scene);
             stage.centerOnScreen();
 
-            ControladorPrincipal controlPrincipal = loader.getController();
+            controlPrincipal = loader.getController();
             controlPrincipal.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,6 +91,7 @@ public class MainApp extends Application {
             principal.setCenter(inventario);
 
             ControladorInventario controlInventario = loader.getController();
+            controlInventario.setControladorPrincipal(controlPrincipal);
         } catch (IOException e) {
             e.printStackTrace();
         }

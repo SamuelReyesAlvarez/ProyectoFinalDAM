@@ -12,7 +12,8 @@ import org.hibernate.Session;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class JugadorDAO {
 

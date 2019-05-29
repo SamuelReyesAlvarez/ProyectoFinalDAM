@@ -13,7 +13,8 @@ import org.hibernate.Session;
 
 /**
  *
- * @author Samuel Reyes
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class InventarioDAO {
 

@@ -25,7 +25,8 @@ import org.hibernate.annotations.CascadeType;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 @Entity
 @Table(name = "jugador")
@@ -96,7 +97,8 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, List<Bazar> ventas, List<Combate> combates) {
+    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva) {
+        //public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, List<Bazar> ventas, List<Combate> combates) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.nivel = nivel;

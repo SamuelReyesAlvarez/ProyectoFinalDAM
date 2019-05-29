@@ -16,9 +16,10 @@ import javax.mail.internet.MimeMessage;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
-public class Registro {
+public class EnvioCorreos {
 
     private static final String ALFANUMERICO = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int LONGITUD_CODIGO = 6;
@@ -28,7 +29,7 @@ public class Registro {
     private static final int PUERTO = 587;
 
     //private String clave = "!Q2w3e4r5t6y7u8i9o0p";
-    public String enviarcorreo(String destinatario, String remitente, String clave) {
+    public String enviarCodigoVerificacion(String destinatario, String remitente, String clave) {
         StringBuilder codigo = new StringBuilder();
         Random r = new Random();
 

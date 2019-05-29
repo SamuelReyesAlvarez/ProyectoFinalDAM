@@ -21,7 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class ControladorClasificacion implements Initializable {
 

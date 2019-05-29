@@ -9,7 +9,8 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class HibernateUtil {
 

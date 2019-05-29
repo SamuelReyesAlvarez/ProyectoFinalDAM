@@ -2,10 +2,10 @@ package dam.modelo;
 
 /**
  *
- * @author Samuel Reyes
+ * @author Samuel Reyes Alvarez
  *
  * Se necesita de un lanzador de excepciones propio para la transimision de
- * mensajes importantes entre el modelo y el controlador
+ * mensajes importantes
  *
  */
 public class JuegoException extends Exception {

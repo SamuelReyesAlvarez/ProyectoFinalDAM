@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 
 <!--
-    @author: Samuel Reyes
+    @author: Samuel Reyes Alvarez
 -->
 
 <BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="bloque" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorClasificacion">

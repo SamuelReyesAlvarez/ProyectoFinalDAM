@@ -8,8 +8,9 @@ package dam.vista;
 import dam.DAO.GenericDAO;
 import dam.MainApp;
 import dam.modelo.Acceso;
+import dam.modelo.EnvioCorreos;
+import dam.modelo.JuegoException;
 import dam.modelo.MoverVentana;
-import dam.modelo.Registro;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -24,13 +25,13 @@ import javafx.scene.layout.HBox;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class ControladorAcceso implements Initializable, MoverVentana {
 
     private static final String REMITENTE = "knight.fight.pi@gmail.com";
     private GenericDAO genericDao = new GenericDAO();
-    private Acceso acceso = new Acceso();
     private MainApp stage;
 
     @FXML
@@ -69,10 +70,10 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void acceder() {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
-            Acceso acceso = new Acceso();
-            acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), correo.getText().trim());
+            Acceso acceder = new Acceso();
+            acceder = (Acceso) genericDao.obtenerPorId(acceder.getClass(), correo.getText().trim());
 
-            if (acceso != null && acceso.getClave().equals(clave.getText().trim())) {
+            if (acceder != null && acceder.getClave().equals(clave.getText().trim())) {
                 stage.mostrarPrincipal();
                 correo.setText("");
                 clave.setText("");
@@ -88,14 +89,23 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
     @FXML
     public void registrar() {
-        if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
-            acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), correo.getText().trim());
+        Acceso nuevaCuenta = new Acceso(correo.getText().trim(), clave.getText().trim(), null);
 
-            if (acceso == null) {
-                acceso = new Acceso();
-                acceso = (Acceso) genericDao.obtenerPorId(acceso.getClass(), REMITENTE);
+        try {
+            Acceso registrar = new Acceso();
+            // comprueba que el correo introducido no esta ya registrado
+            registrar = (Acceso) genericDao.obtenerPorId(registrar.getClass(), correo.getText().trim());
 
-                if (acceso == null) {
+            if (registrar == null) {
+                // guarda la nueva cuenta en la base de datos para validar los campos
+                genericDao.guardarActualizar(nuevaCuenta);
+
+                Acceso cuentaKF = new Acceso();
+                // obtiene los datos de la cuenta de gmail del juego
+                cuentaKF = (Acceso) genericDao.obtenerPorId(registrar.getClass(), REMITENTE);
+
+                if (cuentaKF == null) {
+                    // informa que no se pudo obtener los datos del gmail del juego
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Función no disponible");
@@ -106,10 +116,12 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
                     alert.showAndWait();
                 } else {
-                    Registro registro = new Registro();
-                    String codigo = registro.enviarcorreo(correo.getText().trim(), REMITENTE, acceso.getClave());
+                    EnvioCorreos codigoVerificacion = new EnvioCorreos();
+                    // envia el correo a la direccion introducida por el jugador
+                    String codigo = codigoVerificacion.enviarCodigoVerificacion(correo.getText().trim(), REMITENTE, cuentaKF.getClave());
 
                     if (codigo == null) {
+                        // informa que no se pude enviar el correo con el codigo de verificacion
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");
                         alert.setHeaderText("Correo no enviado");
@@ -117,29 +129,37 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
                         alert.showAndWait();
                     } else {
+                        // pide al jugador el codigo que debe haber recibido por correo
                         TextInputDialog dialog = new TextInputDialog();
                         dialog.setTitle("Registro Knight Fight");
                         dialog.setHeaderText("Confirmación de cuenta");
                         dialog.setContentText("Introduce el código aquí:");
-
                         Optional<String> result = dialog.showAndWait();
-                        System.out.println(result.get());
+
                         if (result.isPresent() && result.get().trim().equals(codigo)) {
-                            genericDao.guardarActualizar(new Acceso(correo.getText().trim(), clave.getText().trim(), null));
+                            // crea la partida para el nuevo jugador
+                            // TODO
+
+                            // abre la partida creada
                             stage.mostrarPrincipal();
                         } else {
+                            // informa que el codigo introducido no es correcto
                             error.setText("Codigo incorrecto");
                             error.setVisible(true);
+                            genericDao.borrar(nuevaCuenta);
                         }
                     }
                 }
             } else {
+                // informa que ya existe una cuenta con el correo introducido
                 error.setText("Correo ya vinculado a una cuenta");
                 error.setVisible(true);
             }
-        } else {
-            error.setText("Rellena todos los campos");
+        } catch (JuegoException ex) {
+            // informa los errores cometidos en los datos introducidos
+            error.setText(ex.getMessage());
             error.setVisible(true);
+            genericDao.borrar(nuevaCuenta);
         }
     }
 

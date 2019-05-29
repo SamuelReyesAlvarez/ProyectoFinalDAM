@@ -22,7 +22,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Samuel Reyes
+ * @author Samuel Reyes Alvarez
+ *
  */
 @Entity
 @Table(name = "registro_combate")

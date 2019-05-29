@@ -22,7 +22,8 @@ import org.hibernate.annotations.Type;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 @Entity
 @Table(name = "inventario")

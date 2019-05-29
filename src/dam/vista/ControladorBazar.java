@@ -26,10 +26,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class ControladorBazar implements Initializable {
 
+    private ControladorPrincipal controlPrincipal;
     private GenericDAO genericDao = new GenericDAO();
     private InventarioDAO inventarioDao = new InventarioDAO();
     private ObservableList<Inventario> ofertas;
@@ -71,10 +73,37 @@ public class ControladorBazar implements Initializable {
                 if (newValue == "Todos") {
                     cargarTabla(null);
                 } else {
+                    listaEnVenta = inventarioDao.obtenerObjetosEnVenta(comboTipoObjeto.getValue(), comboNivel.getValue(), comboPotenciado.getValue());
                     cargarTabla(listaEnVenta);
                 }
             }
         });
+
+        comboNivel.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != oldValue) {
+                if (newValue == "Todos") {
+                    cargarTabla(null);
+                } else {
+                    listaEnVenta = inventarioDao.obtenerObjetosEnVenta(comboTipoObjeto.getValue(), comboNivel.getValue(), comboPotenciado.getValue());
+                    cargarTabla(listaEnVenta);
+                }
+            }
+        });
+
+        comboPotenciado.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != oldValue) {
+                if (newValue == "Todos") {
+                    cargarTabla(null);
+                } else {
+                    listaEnVenta = inventarioDao.obtenerObjetosEnVenta(comboTipoObjeto.getValue(), comboNivel.getValue(), comboPotenciado.getValue());
+                    cargarTabla(listaEnVenta);
+                }
+            }
+        });
+    }
+
+    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
+        this.controlPrincipal = controlPrincipal;
     }
 
     private void cargarTabla(List<Inventario> listaEnVenta) {

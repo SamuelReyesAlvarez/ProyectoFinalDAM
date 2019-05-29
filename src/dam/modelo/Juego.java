@@ -7,7 +7,8 @@ package dam.modelo;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class Juego {
 

@@ -5,16 +5,16 @@
  */
 package dam.vista;
 
-import dam.MainApp;
-
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public class ControladorInventario {
 
-    public void setStage(MainApp aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private ControladorPrincipal controlPrincipal;
 
+    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
+        this.controlPrincipal = controlPrincipal;
+    }
 }

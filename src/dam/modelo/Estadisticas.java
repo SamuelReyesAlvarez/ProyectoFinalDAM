@@ -19,7 +19,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 @Entity
 @Table(name = "estadisticas")

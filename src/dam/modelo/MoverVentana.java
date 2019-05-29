@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Samuel
+ * @author Samuel Reyes Alvarez
+ *
  */
 public interface MoverVentana {
 

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.*?>
 
 <!--
-    @author: Samuel Reyes
+    @author: Samuel Reyes Alvarez
 -->
 
 <VBox styleClass="bloque2" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorAcceso">
@@ -33,14 +33,14 @@
                                 <Image url="@../../imagenes/KnightFightPortada.png" />
                             </image>
                             <effect>
-                                <Reflection />
+                                <Reflection bottomOpacity="0.06" fraction="0.97" topOffset="-2.0" topOpacity="0.69" />
                             </effect>
                         </ImageView>
                </children>
             </HBox>
                 <VBox alignment="CENTER" GridPane.rowIndex="1">
                     <children>
-                        <TextField fx:id="correo" minHeight="30.0" minWidth="150.0" promptText="correo de registro">
+                        <TextField fx:id="correo" minHeight="35.0" minWidth="150.0" promptText="correo de registro">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="50.0" right="50.0" top="50.0" />
                             </VBox.margin>
@@ -48,7 +48,7 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </TextField>
-                        <PasswordField fx:id="clave" minHeight="30.0" minWidth="150.0" promptText="clave de acceso">
+                        <PasswordField fx:id="clave" minHeight="35.0" minWidth="150.0" promptText="clave de acceso">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                             </VBox.margin>
@@ -56,7 +56,7 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </PasswordField>
-                        <Label fx:id="error" text="Datos de acceso incorrectos" textFill="RED">
+                        <Label fx:id="error" alignment="TOP_CENTER" prefHeight="50.0" text="Datos de acceso incorrectos" textFill="RED">
                             <VBox.margin>
                                 <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
- * Author:  Samuel Reyes
- * Created: 17-may-2019
+ * @author:  Samuel Reyes Alvarez
  */
 DROP DATABASE IF EXISTS kfdb;
 CREATE DATABASE kfdb;
