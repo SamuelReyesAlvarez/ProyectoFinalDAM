@@ -12,15 +12,11 @@
     @author: Samuel Reyes Alvarez
 -->
 
-
-<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="bloque" stylesheets="@../estilo/kf_estilo.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="dam.vista.ControladorBazar">
+<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="fondo-negro-60" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorBazar">
    <top>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Bazar" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="28.0" />
-               </font>
+            <Label styleClass="titulo" text="Bazar">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -29,7 +25,7 @@
       </HBox>
    </top>
    <center>
-      <TableView fx:id="tabla" styleClass="sinfondo" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabla" styleClass="sin-fondo" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="tipoEquipo" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Tipo Equipo" />
           <TableColumn fx:id="nivel" editable="false" maxWidth="3000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Nivel" />
@@ -48,19 +44,19 @@
    <bottom>
       <AnchorPane>
          <children>
-            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ComboBox fx:id="comboTipoObjeto" prefWidth="150.0" promptText="Tipo de objeto">
+                  <ComboBox fx:id="comboTipoObjeto" prefWidth="150.0" promptText="Tipo de objeto" styleClass="combobox">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="comboNivel" prefWidth="150.0" promptText="Nivel">
+                  <ComboBox fx:id="comboNivel" prefWidth="150.0" promptText="Nivel" styleClass="combobox">
                      <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        <Insets bottom="15.0" top="15.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <ComboBox fx:id="comboPotenciado" prefWidth="150.0" promptText="Potenciado">
+                  <ComboBox fx:id="comboPotenciado" prefWidth="150.0" promptText="Potenciado" styleClass="combobox">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
@@ -69,7 +65,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Comprar">
+                  <Button mnemonicParsing="false" onAction="#comprar" styleClass="boton" text="Comprar">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>

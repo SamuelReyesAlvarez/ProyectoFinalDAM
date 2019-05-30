@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -68,6 +69,8 @@ public class ControladorBazar implements Initializable {
         listaEnVenta = inventarioDao.obtenerObjetosEnVenta(comboTipoObjeto.getValue(), comboNivel.getValue(), comboPotenciado.getValue());
         cargarTabla(listaEnVenta);
 
+        tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         comboTipoObjeto.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != oldValue) {
                 if (newValue == "Todos") {
@@ -104,6 +107,22 @@ public class ControladorBazar implements Initializable {
 
     public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
         this.controlPrincipal = controlPrincipal;
+    }
+
+    @FXML
+    public void comprar() {
+        Inventario equipo = tabla.getSelectionModel().getSelectedItem();
+
+        // << los pasos siguientes deben hacerse dentro de la misma transaccion de hibernate >>
+        // Comprobar que se dispone del oro suficiente para comprar el objeto
+        // TODO
+        // Transferir el oro del comprador al vendedor
+        // TODO
+        // Transferir el objeto del vendedor al comprador
+        // TODO
+        // Cambiar el atributo 'enVenta' del objeto a false
+        // << antes de poceder a la transaccion, controlar que el objeto no ha
+        // sido alterado por la accion de otro jugador >>
     }
 
     private void cargarTabla(List<Inventario> listaEnVenta) {

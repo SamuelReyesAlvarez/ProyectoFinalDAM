@@ -26,8 +26,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.3.10
- * @modified 29/05/2019
+ * @version 1.3.11
+ * @modified 30/05/2019
  */
 public class MainApp extends Application {
 
@@ -59,7 +59,7 @@ public class MainApp extends Application {
             ControladorAcceso controlAcceso = loader.getController();
             controlAcceso.setStage(this);
 
-            configurarSesion();
+            configurarYAbrirSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,6 +106,7 @@ public class MainApp extends Application {
             principal.setCenter(combatir);
 
             ControladorCombatir controlCombatir = loader.getController();
+            controlCombatir.setControladorPrincipal(controlPrincipal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,6 +121,7 @@ public class MainApp extends Application {
             principal.setCenter(mision);
 
             ControladorMision controlMision = loader.getController();
+            controlMision.setControladorPrincipal(controlPrincipal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,6 +136,7 @@ public class MainApp extends Application {
             principal.setCenter(bazar);
 
             ControladorBazar controlBazar = loader.getController();
+            controlBazar.setControladorPrincipal(controlPrincipal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,6 +151,7 @@ public class MainApp extends Application {
             principal.setCenter(clasificacion);
 
             ControladorClasificacion controlClasificacion = loader.getController();
+            controlClasificacion.setControladorPrincipal(controlPrincipal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,7 +168,7 @@ public class MainApp extends Application {
      * Abre una nueva sesión de hibernate con mysql para gestionar la
      * persistencia de los datos generados y modificados en la aplicación
      */
-    public void configurarSesion() {
+    public void configurarYAbrirSesion() {
         HibernateUtil.buildSessionFactory();
         HibernateUtil.openSessionAndBindToThread();
     }

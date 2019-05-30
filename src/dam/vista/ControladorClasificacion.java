@@ -26,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ControladorClasificacion implements Initializable {
 
+    private ControladorPrincipal controlPrincipal;
     private JugadorDAO jugadorDAO = new JugadorDAO();
     private ObservableList<Jugador> clasificacion;
 
@@ -41,7 +42,7 @@ public class ControladorClasificacion implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clasificacion = FXCollections.observableArrayList();
-        List<Jugador> listaJugadores = jugadorDAO.obtenerOrdenadoPorExperiencia();
+        List<Jugador> listaJugadores = jugadorDAO.obtenerClasificacion();
 
         for (Jugador jugador : listaJugadores) {
             clasificacion.add(jugador);
@@ -51,5 +52,9 @@ public class ControladorClasificacion implements Initializable {
         columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
         columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
         tabla.setItems(clasificacion);
+    }
+
+    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
+        this.controlPrincipal = controlPrincipal;
     }
 }

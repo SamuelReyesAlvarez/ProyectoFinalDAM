@@ -42,4 +42,16 @@
          </BorderPane.margin>
       </TableView>
    </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <TextField prefWidth="200.0" promptText="Buscar por nombre de jugador" />
+            <Button mnemonicParsing="false" text="Buscar">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

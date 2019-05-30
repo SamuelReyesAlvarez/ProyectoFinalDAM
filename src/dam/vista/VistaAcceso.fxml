@@ -15,9 +15,9 @@
     @author: Samuel Reyes Alvarez
 -->
 
-<VBox styleClass="bloque2" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorAcceso">
+<VBox alignment="CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorAcceso">
     <children>
-        <GridPane styleClass="bloque2">
+        <GridPane>
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             </columnConstraints>
@@ -42,7 +42,7 @@
                     <children>
                         <TextField fx:id="correo" minHeight="35.0" minWidth="150.0" promptText="correo de registro">
                             <VBox.margin>
-                                <Insets bottom="5.0" left="50.0" right="50.0" top="50.0" />
+                                <Insets bottom="5.0" left="50.0" right="50.0" top="20.0" />
                             </VBox.margin>
                             <padding>
                                 <Insets left="20.0" right="20.0" />
@@ -50,34 +50,34 @@
                         </TextField>
                         <PasswordField fx:id="clave" minHeight="35.0" minWidth="150.0" promptText="clave de acceso">
                             <VBox.margin>
-                                <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                <Insets left="50.0" right="50.0" top="5.0" />
                             </VBox.margin>
                             <padding>
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </PasswordField>
-                        <Label fx:id="error" alignment="TOP_CENTER" prefHeight="50.0" text="Datos de acceso incorrectos" textFill="RED">
+                        <Label id="error" fx:id="error" alignment="CENTER" prefHeight="60.0" text="Datos de acceso incorrectos">
                             <VBox.margin>
-                                <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="Comic Sans MS" size="12.0" />
+                     </font>
                         </Label>
                         <HBox alignment="CENTER">
                             <children>
-                                <Button defaultButton="true" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" text="Acceder" textAlignment="CENTER">
+                                <Button defaultButton="true" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#acceder" styleClass="boton" text="Acceder" textAlignment="CENTER">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" top="5.0" />
                                     </VBox.margin>
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
                                     <HBox.margin>
                                         <Insets right="10.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#registrar" text="Registrar" textAlignment="CENTER">
+                                <Button minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#registrar" styleClass="boton" text="Registrar" textAlignment="CENTER">
                                     <font>
                                         <Font name="Arial" size="18.0" />
                                     </font>
@@ -87,7 +87,7 @@
                                 </Button>
                             </children>
                             <VBox.margin>
-                                <Insets bottom="50.0" />
+                                <Insets bottom="15.0" />
                             </VBox.margin>
                         </HBox>
                     </children>
@@ -96,10 +96,15 @@
         </GridPane>
         <HBox alignment="TOP_RIGHT">
             <children>
-                <Button mnemonicParsing="false" onAction="#salir" styleClass="sinfondo" text="Salir" textFill="#ab3030" />
+                <Button id="salir" mnemonicParsing="false" onAction="#salir" text="Salir">
+               <styleClass>
+                  <String fx:value="sin-fondo" />
+                  <String fx:value="negrita" />
+                  <String fx:value="boton" />
+               </styleClass></Button>
             </children>
             <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" />
             </VBox.margin>
         </HBox>
     </children>

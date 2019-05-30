@@ -17,11 +17,11 @@ import org.hibernate.Session;
  */
 public class JugadorDAO {
 
-    public List obtenerOrdenadoPorExperiencia() {
+    public List obtenerClasificacion() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
                 "FROM jugador j, estadisticas e "
-                + "WHERE j.idJugador = e.jugador"
+                + "WHERE j.idJugador = e.jugador "
                 + "ORDER BY j.experiencia DESC");
         return resultado.list();
     }
