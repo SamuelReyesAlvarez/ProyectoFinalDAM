@@ -12,14 +12,11 @@
     @author: Samuel Reyes Alvarez
 -->
 
-<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="bloque" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorClasificacion">
+<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="fondo-negro-60" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorClasificacion">
    <top>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Clasificación General" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="28.0" />
-               </font>
+            <Label styleClass="titulo" text="Clasificación General">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -46,7 +43,7 @@
       <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
          <children>
             <TextField prefWidth="200.0" promptText="Buscar por nombre de jugador" />
-            <Button mnemonicParsing="false" text="Buscar">
+            <Button mnemonicParsing="false" styleClass="boton" text="Buscar">
                <HBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </HBox.margin>

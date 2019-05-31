@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -11,19 +12,35 @@
     @author: Samuel Reyes Alvarez
 -->
 
-
-<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="bloque" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="600.0" prefWidth="750.0" styleClass="fondo-negro-60" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorCombatir">
    <top>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Sala de Combate" textFill="WHITE" />
+            <Label styleClass="titulo" text="Sala de Combate">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" />
+      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#desafiar" styleClass="boton" text="Desafiar">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children></HBox>
    </bottom>
    <center>
-      <HBox alignment="CENTER" BorderPane.alignment="CENTER" />
+      <ScrollPane vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </BorderPane.margin>
+         <content>
+            <HBox fx:id="listaCombatir" styleClass="sin-fondo" />
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>
