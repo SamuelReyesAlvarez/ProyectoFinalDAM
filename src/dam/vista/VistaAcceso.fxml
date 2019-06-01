@@ -40,7 +40,7 @@
             </HBox>
                 <VBox alignment="CENTER" GridPane.rowIndex="1">
                     <children>
-                        <TextField fx:id="correo" minHeight="35.0" minWidth="150.0" promptText="correo de registro">
+                        <TextField fx:id="correo" minHeight="35.0" minWidth="150.0" promptText="correo de registro" styleClass="boton">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="50.0" right="50.0" top="20.0" />
                             </VBox.margin>
@@ -48,7 +48,7 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </TextField>
-                        <PasswordField fx:id="clave" minHeight="35.0" minWidth="150.0" promptText="clave de acceso">
+                        <PasswordField fx:id="clave" minHeight="35.0" minWidth="150.0" promptText="clave de acceso" styleClass="boton">
                             <VBox.margin>
                                 <Insets left="50.0" right="50.0" top="5.0" />
                             </VBox.margin>

@@ -17,6 +17,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -26,8 +27,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.3.12
- * @modified 31/05/2019
+ * @version 1.3.13
+ * @modified 01/06/2019
  */
 public class MainApp extends Application {
 
@@ -87,7 +88,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaInventario.fxml"));
 
-            BorderPane inventario = (BorderPane) loader.load();
+            AnchorPane inventario = (AnchorPane) loader.load();
             principal.setCenter(inventario);
 
             ControladorInventario controlInventario = loader.getController();
@@ -102,7 +103,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaCombatir.fxml"));
 
-            BorderPane combatir = (BorderPane) loader.load();
+            AnchorPane combatir = (AnchorPane) loader.load();
             principal.setCenter(combatir);
 
             ControladorCombatir controlCombatir = loader.getController();
@@ -117,7 +118,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaMision.fxml"));
 
-            BorderPane mision = (BorderPane) loader.load();
+            AnchorPane mision = (AnchorPane) loader.load();
             principal.setCenter(mision);
 
             ControladorMision controlMision = loader.getController();
@@ -132,7 +133,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaBazar.fxml"));
 
-            BorderPane bazar = (BorderPane) loader.load();
+            AnchorPane bazar = (AnchorPane) loader.load();
             principal.setCenter(bazar);
 
             ControladorBazar controlBazar = loader.getController();
@@ -147,7 +148,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaClasificacion.fxml"));
 
-            BorderPane clasificacion = (BorderPane) loader.load();
+            AnchorPane clasificacion = (AnchorPane) loader.load();
             principal.setCenter(clasificacion);
 
             ControladorClasificacion controlClasificacion = loader.getController();

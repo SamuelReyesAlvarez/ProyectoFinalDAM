@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
@@ -31,7 +33,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "mision")
 public class Mision implements Serializable {
 
-    private static final int RECOMPENSA_POR_TURNO = 100;
+    private static final int RECOMPENSA_POR_HORA = 100;
     private static final int DURACION_MAXIMA = 8;
     private static final int DURACION_MINIMA = 1;
 
@@ -49,14 +51,17 @@ public class Mision implements Serializable {
     @NotNull
     private String descripcion;
 
+    @Column(name = "duracion")
+    @Min(DURACION_MINIMA)
+    @Max(DURACION_MAXIMA)
+    private int duracion;
+
     @Column(name = "inicio")
     @Temporal(TemporalType.DATE)
-    @NotNull
     private Date inicio;
 
     @Column(name = "fin")
     @Temporal(TemporalType.DATE)
-    @NotNull
     private Date fin;
 
     @Column(name = "recompensa")
@@ -135,6 +140,14 @@ public class Mision implements Serializable {
 
     public void setCompletada(boolean completada) {
         this.completada = completada;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
     }
 
     @Override

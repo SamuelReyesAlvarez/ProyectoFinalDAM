@@ -23,22 +23,22 @@ public class InventarioDAO {
         String filtroNivel = "";
         String filtroPotenciado = "";
 
-        if (!tipo.equals("")) {
+        if (!tipo.equals("Todos")) {
             filtroTipo = " AND i.tipoEquipo = '" + tipo + "'";
         }
 
-        if (!nivel.equals("")) {
+        if (!nivel.equals("Todos")) {
             filtroNivel = " AND i.nivel = " + nivel;
         }
 
-        if (!potenciado.equals("")) {
+        if (!potenciado.equals("Todos")) {
             filtroPotenciado = " AND i.potenciado = " + potenciado;
 
         }
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
-                "FROM inventario i "
+                "FROM Inventario i "
                 + "WHERE i.enVenta = 1"
                 + filtroTipo
                 + filtroNivel

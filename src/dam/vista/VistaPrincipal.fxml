@@ -15,7 +15,7 @@
     @author: Samuel Reyes Alvarez
 -->
 
-<BorderPane styleClass="bloque_fondo_negro" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorPrincipal">
+<BorderPane styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorPrincipal">
    <bottom>
       <HBox alignment="CENTER_RIGHT" minHeight="64.0" styleClass="bloque" BorderPane.alignment="CENTER">
          <padding>
@@ -29,10 +29,21 @@
             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
          </BorderPane.margin>
          <children>
-            <Label id="nombre" text="Nombre de Jugador" textAlignment="CENTER">
+            <Label fx:id="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="0.719047619047619" startX="1.0" startY="0.3571428571428571">
+                     <stops>
+                        <Stop color="#b20000" />
+                        <Stop color="#cdc600" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
             </Label>
             <ImageView disable="true" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,40 +53,40 @@
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="nivel" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="50.0" text="Oro:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets bottom="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="oro" minHeight="35.0" minWidth="50.0" text="000000" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" />
+                     </HBox.margin>
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets bottom="5.0" />
-                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
@@ -83,20 +94,20 @@
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="vida" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
@@ -108,20 +119,20 @@
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="105.0" text="Experiencia:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="experiencia" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
@@ -129,72 +140,72 @@
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="ataqueMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Label minHeight="35.0" text="-" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                  </Label>
+                  <Label minHeight="35.0" text="-" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Label fx:id="ataqueMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                  </Label>
+                  <Label fx:id="ataqueMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
                   </Label>
                </children>
             </HBox>
             <HBox>
                <children>
                   <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Label>
                   <Label fx:id="defensaMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Label minHeight="35.0" text="-" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                  </Label>
+                  <Label minHeight="35.0" text="-" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Label fx:id="defensaMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                  </Label>
+                  <Label fx:id="defensaMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
                   </Label>
                </children>
             </HBox>
@@ -237,7 +248,7 @@
       </HBox>
    </top>
    <center>
-      <ImageView fitWidth="750.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <ImageView fitHeight="590.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>

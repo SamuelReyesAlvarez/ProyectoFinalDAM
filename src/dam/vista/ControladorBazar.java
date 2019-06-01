@@ -126,20 +126,28 @@ public class ControladorBazar implements Initializable {
     }
 
     private void cargarTabla(List<Inventario> listaEnVenta) {
-        // Cargar la tabla del bazar con los objetos puestos en venta por los jugadores
-        ofertas = FXCollections.observableArrayList();
+        if (!listaEnVenta.isEmpty()) {
+            // Cargar la tabla del bazar con los objetos puestos en venta por los jugadores
+            ofertas = FXCollections.observableArrayList();
 
-        for (Inventario objeto : listaEnVenta) {
-            ofertas.add(objeto);
+            for (Inventario objeto : listaEnVenta) {
+                ofertas.add(objeto);
+            }
+
+            columnaTipoEquipo = new TableColumn<>();
+            columnaNivel = new TableColumn<>();
+            columnaPotenciado = new TableColumn<>();
+            columnaPropietario = new TableColumn<>();
+            columnaPrecio = new TableColumn<>();
+
+            columnaTipoEquipo.setCellValueFactory(new PropertyValueFactory<Inventario, Inventario.TipoEquipo>("tipoEquipo"));
+            columnaNivel.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("nivel"));
+            columnaPotenciado.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("potenciado"));
+            columnaPropietario.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
+            columnaPrecio.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("precio"));
+            tabla.setItems(ofertas);
+            // Fin carga de la tabla del bazar
         }
-
-        columnaTipoEquipo.setCellValueFactory(new PropertyValueFactory<Inventario, Inventario.TipoEquipo>("tipoEquipo"));
-        columnaNivel.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("nivel"));
-        columnaPotenciado.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("potenciado"));
-        columnaPropietario.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
-        columnaPrecio.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("precio"));
-        tabla.setItems(ofertas);
-        // Fin carga de la tabla del bazar
     }
 
     private void cargarComboTipoEquipo() {
@@ -159,6 +167,8 @@ public class ControladorBazar implements Initializable {
 
         comboTipoObjeto.setItems(listaTipoEquipo);
         // Fin carga del combobox de tipos de equipo
+
+        comboTipoObjeto.getSelectionModel().select(0);
     }
 
     private void cargarComboNivelEquipo() {
@@ -179,6 +189,8 @@ public class ControladorBazar implements Initializable {
         Collections.sort(listaNivel);
         comboNivel.setItems(listaNivel);
         // Fin carga del combobox de niveles de equipo
+
+        comboNivel.getSelectionModel().select(0);
     }
 
     private void cargarComboPotenciadoEquipo() {
@@ -199,5 +211,7 @@ public class ControladorBazar implements Initializable {
         Collections.sort(listaPotenciado);
         comboPotenciado.setItems(listaPotenciado);
         // Fin carga del combobox del potenciado de equipos
+
+        comboPotenciado.getSelectionModel().select(0);
     }
 }

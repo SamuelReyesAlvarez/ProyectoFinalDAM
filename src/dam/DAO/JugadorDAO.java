@@ -20,9 +20,9 @@ public class JugadorDAO {
     public List obtenerClasificacion() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
-                "FROM jugador j, estadisticas e "
+                "FROM Jugador j, Estadisticas e "
                 + "WHERE j.idJugador = e.jugador "
-                + "ORDER BY j.experiencia DESC");
+                + "ORDER BY j.expAcumulada DESC");
         return resultado.list();
     }
 }

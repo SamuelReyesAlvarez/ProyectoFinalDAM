@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -13,7 +12,7 @@
     @author: Samuel Reyes Alvarez
 -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorClasificacion">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorMision">
    <children>
       <ImageView fitHeight="590.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -21,37 +20,10 @@
          </image>
       </ImageView>
       <BorderPane styleClass="fondo-negro-60" stylesheets="@../estilo/kf_estilo.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-               <children>
-                  <Label styleClass="titulo" text="Clasificación General">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </top>
-         <center>
-            <TableView fx:id="tabla" styleClass="sinfondo" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="nombre" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Jugador" />
-                  <TableColumn fx:id="experiencia" editable="false" maxWidth="4000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Experiencia" />
-                  <TableColumn fx:id="recaudacion" editable="false" maxWidth="4000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Recaudación" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-               <BorderPane.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </BorderPane.margin>
-            </TableView>
-         </center>
          <bottom>
-            <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField prefWidth="200.0" promptText="Buscar jugador" styleClass="boton" />
-                  <Button mnemonicParsing="false" styleClass="boton" text="Buscar">
+                  <Button mnemonicParsing="false" onAction="#aceptar" styleClass="boton" text="Aceptar">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
@@ -59,6 +31,32 @@
                </children>
             </HBox>
          </bottom>
+         <center>
+            <TableView fx:id="tabla" styleClass="sin-fondo" BorderPane.alignment="CENTER">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn fx:id="descripcion" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Descripción" />
+                  <TableColumn fx:id="duracion" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Duración" />
+                  <TableColumn fx:id="recompensa" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Recompensa" />
+               </columns>
+               <BorderPane.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <top>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label styleClass="titulo" text="Tablón de Misiones">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>

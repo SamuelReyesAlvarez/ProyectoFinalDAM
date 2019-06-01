@@ -48,6 +48,10 @@ public class ControladorClasificacion implements Initializable {
             clasificacion.add(jugador);
         }
 
+        columnaNombre = new TableColumn<>();
+        columnaExperiencia = new TableColumn<>();
+        columnaRecaudacion = new TableColumn<>();
+
         columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
         columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
         columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
