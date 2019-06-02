@@ -184,6 +184,11 @@ public class Inventario implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return tipoEquipo.toString() + "\n N: " + nivel + " P: +" + potenciado;
+    }
+
     public int getValor() {
         return (VALOR_BASE + (VALOR_POTENCIADO * potenciado)) * getNivel();
     }

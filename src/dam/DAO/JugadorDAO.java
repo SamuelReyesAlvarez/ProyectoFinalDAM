@@ -18,7 +18,9 @@ import org.hibernate.Session;
 public class JugadorDAO {
 
     public List obtenerClasificacion() {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
                 "FROM Jugador j, Estadisticas e "
                 + "WHERE j.idJugador = e.jugador "

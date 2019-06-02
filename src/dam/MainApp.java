@@ -6,6 +6,7 @@
 package dam;
 
 import dam.modelo.HibernateUtil;
+import dam.modelo.Jugador;
 import dam.vista.ControladorAcceso;
 import dam.vista.ControladorBazar;
 import dam.vista.ControladorClasificacion;
@@ -27,14 +28,15 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.3.13
- * @modified 01/06/2019
+ * @version 1.4.1
+ * @modified 02/06/2019
  */
 public class MainApp extends Application {
 
     private Stage stage;
     private BorderPane principal;
     private ControladorPrincipal controlPrincipal;
+    private Jugador jugador;
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,11 +44,11 @@ public class MainApp extends Application {
         stage.setTitle("Inicio de sesion");
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
-        mostrarLogin();
+        mostrarLogin(null);
         stage.show();
     }
 
-    public void mostrarLogin() {
+    public void mostrarLogin(String mensaje) {
         try {
             cerrarSesion();
             FXMLLoader loader = new FXMLLoader();
@@ -60,6 +62,10 @@ public class MainApp extends Application {
             ControladorAcceso controlAcceso = loader.getController();
             controlAcceso.setStage(this);
 
+            if (mensaje != null) {
+                controlAcceso.establecerMensaje(mensaje);
+            }
+
             configurarYAbrirSesion();
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,6 +74,7 @@ public class MainApp extends Application {
 
     public void mostrarPrincipal() {
         try {
+            this.jugador = jugador;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaPrincipal.fxml"));
 
@@ -78,6 +85,7 @@ public class MainApp extends Application {
 
             controlPrincipal = loader.getController();
             controlPrincipal.setStage(this);
+            mostrarInventario();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,6 +164,14 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     /**

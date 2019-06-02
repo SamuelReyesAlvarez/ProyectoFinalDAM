@@ -5,6 +5,7 @@
  */
 package dam.DAO;
 
+import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.JuegoException;
 import java.util.List;
@@ -19,6 +20,20 @@ import org.hibernate.Session;
  */
 public class GenericDAO<T> {
 
+    public Session comprobarConexion() {
+        Session session;
+
+        if (HibernateUtil.getSessionFactory().getCurrentSession().isConnected()) {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+        } else {
+            session = HibernateUtil.getSessionFactory().openSession();
+            if (!session.isConnected()) {
+                new MainApp().mostrarLogin("Conexión perdida");
+            }
+        }
+        return session;
+    }
+
     /**
      * Guarda o actualiza el objeto pasado por parámetro y sus relaciones a
      * través de una transacción.
@@ -28,13 +43,8 @@ public class GenericDAO<T> {
     public void guardarActualizar(T entidad) throws JuegoException {
         StringBuilder mensajeError = new StringBuilder();
         String mensajeValidacion;
-        Session session;
 
-        if (HibernateUtil.getSessionFactory().getCurrentSession().isConnected()) {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-        } else {
-            session = HibernateUtil.getSessionFactory().openSession();
-        }
+        Session session = comprobarConexion();
 
         try {
             session.beginTransaction();
@@ -63,24 +73,32 @@ public class GenericDAO<T> {
      * @param entidad que se desea borrar
      */
     public void borrar(T entidad) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.delete(entidad);
         session.getTransaction().commit();
     }
 
     public List<T> obtenerTodo(T entidad) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         return session.createQuery("FROM " + entidad).list();
     }
 
     public T obtenerPorId(Class<T> objeto, int id) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         return (T) session.get(objeto, id);
     }
 
     public T obtenerPorId(Class<T> objeto, String id) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         return (T) session.get(objeto, id);
     }
 }

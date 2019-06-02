@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
@@ -16,7 +17,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorInventario">
    <children>
-      <ImageView fitHeight="590.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>
@@ -34,20 +35,304 @@
             </HBox>
          </top>
          <center>
-            <GridPane alignment="CENTER" prefWidth="500.0" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
+            <AnchorPane>
+               <children>
+                  <VBox alignment="TOP_CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="subtitulo" text="Equipado" />
+                        <GridPane styleClass="fondo-negro-60">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="pendiente" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Pendiente" />
+                              <Label fx:id="casco" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Casco" GridPane.columnIndex="1" />
+                              <Label fx:id="collar" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Collar" GridPane.columnIndex="2" />
+                              <Label fx:id="pulsera" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Pulsera" GridPane.rowIndex="1" />
+                              <Label fx:id="chaleco" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Chaleco" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="capa" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Capa" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label fx:id="escudo" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Escudo" GridPane.rowIndex="2" />
+                              <Label fx:id="pantalon" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Pantalón" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="arma" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Arma" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="cinturon" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Cinturón" GridPane.rowIndex="3" />
+                              <Label fx:id="botas" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Botas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="anillo" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" text="Anillo" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                           </children>
+                           <padding>
+                              <Insets left="1.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="subtitulo" text="Almacenado" />
+                        <GridPane alignment="TOP_RIGHT" styleClass="fondo-negro-60" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="inv01" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" />
+                              <Label fx:id="inv02" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="1" />
+                              <Label fx:id="inv03" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="2" />
+                              <Label fx:id="inv04" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="3" />
+                              <Label fx:id="inv05" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="4" />
+                              <Label fx:id="inv06" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="5" />
+                              <Label fx:id="inv07" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.rowIndex="1" />
+                              <Label fx:id="inv08" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="inv09" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label fx:id="inv10" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <Label fx:id="inv11" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                              <Label fx:id="inv12" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                              <Label fx:id="inv13" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.rowIndex="2" />
+                              <Label fx:id="inv14" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="inv15" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="inv16" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <Label fx:id="inv17" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <Label fx:id="inv18" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                              <Label fx:id="inv19" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.rowIndex="3" />
+                              <Label fx:id="inv20" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="inv21" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label fx:id="inv22" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <Label fx:id="inv23" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                              <Label fx:id="inv24" alignment="CENTER" disable="true" prefHeight="83.0" prefWidth="83.0" styleClass="objeto" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                           </children>
+                           <padding>
+                              <Insets left="1.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
          </center>
          <bottom>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="85.0" styleClass="atributo" text="Fuerza">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraFuerza" prefWidth="200.0" progress="0.0" styleClass="progressbar">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                              <Label fx:id="fuerza" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosFuerza" text="+1" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="85.0" styleClass="atributo" text="Destreza">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraDestreza" prefWidth="200.0" progress="0.0" styleClass="progressbar">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                              <Label fx:id="destreza" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosDestreza" text="+1" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="85.0" styleClass="atributo" text="Armadura">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraArmadura" prefWidth="200.0" progress="0.0" styleClass="progressbar">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                              <Label fx:id="armadura" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosArmadura" text="+1" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="85.0" styleClass="atributo" text="Constitución">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraConstitucion" prefWidth="200.0" progress="0.0" styleClass="progressbar">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                              <Label fx:id="constitucion" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosConstitucion" text="+1" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="25.0">
+                           <children>
+                              <Label styleClass="atributo" text="Puntos pendientes de asignar:" />
+                              <Label fx:id="puntosSinAsignar" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </VBox>
+                  <Separator orientation="VERTICAL">
+                     <HBox.margin>
+                        <Insets bottom="5.0" />
+                     </HBox.margin></Separator>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="50.0" styleClass="atributo" text="Tierra">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraTierra" prefWidth="200.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="progressbar" />
+                                    <String fx:value="progressbar-tierra" />
+                                 </styleClass>
+                              </ProgressBar>
+                              <Label fx:id="tierra" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="50.0" styleClass="atributo" text="Agua">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraAgua" prefWidth="200.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="progressbar" />
+                                    <String fx:value="progressbar-agua" />
+                                 </styleClass>
+                              </ProgressBar>
+                              <Label fx:id="agua" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="50.0" styleClass="atributo" text="Fuego">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraFuego" prefWidth="200.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="progressbar" />
+                                    <String fx:value="progressbar-fuego" />
+                                 </styleClass>
+                              </ProgressBar>
+                              <Label fx:id="fuego" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefWidth="50.0" styleClass="atributo" text="Viento">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="barraViento" prefWidth="200.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="progressbar" />
+                                    <String fx:value="progressbar-viento" />
+                                 </styleClass>
+                              </ProgressBar>
+                              <Label fx:id="viento" prefWidth="50.0" styleClass="atributo" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="26.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </HBox>
          </bottom>
       </BorderPane>
    </children>

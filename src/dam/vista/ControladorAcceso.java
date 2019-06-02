@@ -10,6 +10,7 @@ import dam.MainApp;
 import dam.modelo.Acceso;
 import dam.modelo.EnvioCorreos;
 import dam.modelo.JuegoException;
+import dam.modelo.Jugador;
 import dam.modelo.MoverVentana;
 import java.net.URL;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
     private static final String REMITENTE = "knight.fight.pi@gmail.com";
     private GenericDAO genericDao = new GenericDAO();
+    private Jugador jugador;
     private MainApp stage;
 
     @FXML
@@ -70,10 +72,16 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void acceder() {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
+            // Comprobar datos de acceso
             Acceso acceder = new Acceso();
             acceder = (Acceso) genericDao.obtenerPorId(acceder.getClass(), correo.getText().trim());
 
             if (acceder != null && acceder.getClave().equals(clave.getText().trim())) {
+                // Establecer el jugador para la partida
+                //jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, acceder.getJugador().getIdJugador());
+                //stage.setJugador(jugador);
+
+                // Continuar la partida para ese jugador
                 stage.mostrarPrincipal();
                 correo.setText("");
                 clave.setText("");
@@ -167,5 +175,19 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     public void salir() {
         this.stage.cerrarSesion();
         System.exit(1);
+    }
+
+    public void establecerMensaje(String mensaje) {
+        error.setText(mensaje);
+        error.setVisible(true);
+
+        if (mensaje.equalsIgnoreCase("Conexión perdida")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de conexión");
+            alert.setHeaderText("Conexión perdida");
+            alert.setContentText("Se ha perdido la conexión con el servicio de persistencia de datos.\n"
+                    + "Si esto le ocurre muy a menudo, póngase en contacto con nuestro servicio técnico");
+            alert.showAndWait();
+        }
     }
 }

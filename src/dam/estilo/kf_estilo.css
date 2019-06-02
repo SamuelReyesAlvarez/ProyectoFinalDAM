@@ -48,6 +48,7 @@ and open the template in the editor.
 }
 
 .menu-item .label {
+    -fx-background-radius: 5px;
     -fx-font-size: 16px;
     -fx-text-fill: white;
 }
@@ -66,7 +67,7 @@ and open the template in the editor.
 }
  
 .context-menu {
-    -fx-background-color: rgb(0, 0, 0, 0); 
+    -fx-background-color: rgb(0, 0, 0); 
 }
 
 /*************************** Tabla Clasificacion ******************************/
@@ -171,8 +172,29 @@ and open the template in the editor.
     -fx-background-color: rgb(0, 0, 0);
 }
 
+.progressbar {
+    -fx-text-box-border: grey;
+    -fx-control-inner-background: black;
+}
+
 .progressbar-vida {
     -fx-accent: red;
+}
+
+.progressbar-tierra {
+    -fx-accent: brown;
+}
+
+.progressbar-agua {
+    -fx-accent: blue;
+}
+
+.progressbar-fuego {
+    -fx-accent: red;
+}
+
+.progressbar-viento {
+    -fx-accent: green;
 }
 
 .boton {
@@ -186,9 +208,37 @@ and open the template in the editor.
     -fx-font-weight: bold;
 }
 
+.subtitulo {
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 .combobox {
     -fx-background-color: linear-gradient(#ffffff 10%, #424141 100%);
     -fx-font-size: 16px;
+}
+
+.objeto {
+    -fx-background-color: grey;
+    -fx-background-radius: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.atributo {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.nombre {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.estado {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
 
 /****************************** Identificadores *******************************/

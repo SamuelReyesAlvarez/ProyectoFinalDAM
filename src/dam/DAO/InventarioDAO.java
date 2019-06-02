@@ -7,6 +7,7 @@ package dam.DAO;
 
 import dam.modelo.HibernateUtil;
 import dam.modelo.Inventario;
+import dam.modelo.Jugador;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -36,13 +37,25 @@ public class InventarioDAO {
 
         }
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
                 "FROM Inventario i "
                 + "WHERE i.enVenta = 1"
                 + filtroTipo
                 + filtroNivel
                 + filtroPotenciado);
+        return resultado.list();
+    }
+
+    public List<Inventario> obtenerInventarioJugador(Jugador jugador) {
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query resultado = session.createQuery(
+                "FROM Inventario i "
+                + "WHERE i.jugador = " + jugador);
         return resultado.list();
     }
 }

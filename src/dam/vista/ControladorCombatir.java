@@ -19,7 +19,7 @@ import javafx.scene.image.ImageView;
  */
 public class ControladorCombatir implements Initializable {
 
-    private static final int TAMANIO_LISTA_DESAFIAR = 5;
+    private static final int MAX_LISTA_DESAFIAR = 5;
 
     private ControladorPrincipal controlPrincipal;
 

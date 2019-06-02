@@ -16,7 +16,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorCombatir">
    <children>
-      <ImageView fitHeight="590.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>
@@ -34,7 +34,7 @@
             </HBox>
          </top>
          <center>
-            <ScrollPane hbarPolicy="NEVER" pannable="true" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+            <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </BorderPane.margin>
@@ -43,7 +43,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css">
                            <children>
-                              <Label fx:id="nombre0" text="Nombre de Jugador" textAlignment="CENTER">
+                              <Label fx:id="nombre0" styleClass="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -59,14 +59,14 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen0" disable="true" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen0" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -74,7 +74,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="nivel0" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                                    <Label fx:id="nivel0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -86,7 +86,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Vida:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -94,7 +94,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="vida0" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="vida0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -106,7 +106,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Ataque:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -114,7 +114,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin0" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -122,7 +122,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -130,7 +130,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMax0" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMax0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -142,7 +142,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Defensa:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -150,7 +150,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin0" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -158,7 +158,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -166,7 +166,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMax0" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMax0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -192,7 +192,7 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css">
                            <children>
-                              <Label fx:id="nombre1" text="Nombre de Jugador" textAlignment="CENTER">
+                              <Label fx:id="nombre1" styleClass="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -208,14 +208,14 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen1" disable="true" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen1" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -223,7 +223,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="nivel1" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                                    <Label fx:id="nivel1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -235,7 +235,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Vida:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -243,7 +243,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="vida1" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="vida1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -255,7 +255,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Ataque:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -263,7 +263,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin1" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -271,7 +271,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -279,7 +279,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMax1" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMax1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -291,7 +291,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Defensa:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -299,7 +299,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin1" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -307,7 +307,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -315,7 +315,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMax1" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMax1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -341,7 +341,7 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css">
                            <children>
-                              <Label fx:id="nombre2" text="Nombre de Jugador" textAlignment="CENTER">
+                              <Label fx:id="nombre2" styleClass="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -357,14 +357,14 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen2" disable="true" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen2" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -372,7 +372,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="nivel2" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                                    <Label fx:id="nivel2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -384,7 +384,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Vida:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -392,7 +392,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="vida2" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="vida2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -404,7 +404,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Ataque:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -412,7 +412,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin2" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -420,7 +420,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -428,7 +428,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMax2" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMax2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -440,7 +440,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Defensa:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -448,7 +448,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin2" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -456,7 +456,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -464,7 +464,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMax2" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMax2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -490,7 +490,7 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css">
                            <children>
-                              <Label fx:id="nombre3" text="Nombre de Jugador" textAlignment="CENTER">
+                              <Label fx:id="nombre3" styleClass="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -506,14 +506,14 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen3" disable="true" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen3" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -521,7 +521,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="nivel3" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                                    <Label fx:id="nivel3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -533,7 +533,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Vida:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -541,7 +541,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="vida3" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="vida3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -553,7 +553,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Ataque:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -561,7 +561,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin3" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -569,7 +569,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -577,7 +577,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMax3" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMax3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -589,7 +589,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Defensa:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -597,7 +597,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin3" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -605,7 +605,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -613,7 +613,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMax3" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMax3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -639,7 +639,7 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css">
                            <children>
-                              <Label fx:id="nombre4" text="Nombre de Jugador" textAlignment="CENTER">
+                              <Label fx:id="nombre4" styleClass="nombre" text="Nombre de Jugador" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -655,14 +655,14 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen4" disable="true" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen4" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -670,7 +670,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="nivel4" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
+                                    <Label fx:id="nivel4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -682,7 +682,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Vida:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -690,7 +690,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="vida4" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="vida4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -702,7 +702,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Ataque:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -710,7 +710,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin4" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -718,7 +718,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -726,7 +726,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMax4" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMax4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -738,7 +738,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                                    <Label minHeight="35.0" minWidth="80.0" styleClass="atributo" text="Defensa:" textFill="WHITE">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -746,7 +746,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin4" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -754,7 +754,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label minHeight="35.0" text="-" textFill="WHITE">
+                                    <Label minHeight="35.0" styleClass="estado" text="-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -762,7 +762,7 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMax4" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMax4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>

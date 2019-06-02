@@ -46,9 +46,12 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
     private Label defensaMin;
     @FXML
     private Label defensaMax;
+    @FXML
+    private Label creditos;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        creditos.setText("Knight Fight 1.4.1 - @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
     }
 
@@ -58,7 +61,7 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     @FXML
     public void salirPartida() {
-        stage.mostrarLogin();
+        stage.mostrarLogin(null);
     }
 
     @FXML
