@@ -45,14 +45,15 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     private Label error;
 
-    public ControladorAcceso() {
-
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Establecer la función de arrastrar la ventana de juego al HBox superior
         this.onDraggedScene(marco);
+
+        // Ocultar el mensaje de error
         error.setVisible(false);
+
+        // Escuchar cambios en el foco de los componentes correo y clave
         correo.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 error.setVisible(false);
@@ -72,24 +73,30 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void acceder() {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
-            // Comprobar datos de acceso
+            // Comprobar que los datos de acceso son correctos
             Acceso acceder = new Acceso();
             acceder = (Acceso) genericDao.obtenerPorId(acceder.getClass(), correo.getText().trim());
 
             if (acceder != null && acceder.getClave().equals(clave.getText().trim())) {
                 // Establecer el jugador para la partida
-                //jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, acceder.getJugador().getIdJugador());
-                //stage.setJugador(jugador);
+                jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, acceder.getJugador().getIdJugador());
+                stage.setJugador(jugador);
 
                 // Continuar la partida para ese jugador
                 stage.mostrarPrincipal();
+
+                // Limpiar los textos de los componentes de la vista de acceso
                 correo.setText("");
                 clave.setText("");
             } else {
+                // Informar que se han introducido datos incorrectos para acceder
+                // En este caso no se informa de los errores exactos para dificultar
+                // el robo de cuentas
                 error.setText("Datos de acceso incorrectos");
                 error.setVisible(true);
             }
         } else {
+            // Informar que hay campos sin rellenar
             error.setText("Rellena todos los campos");
             error.setVisible(true);
         }
@@ -97,23 +104,59 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
     @FXML
     public void registrar() {
+        // Crear un nuevo acceso con los datos introducidos
         Acceso nuevaCuenta = new Acceso(correo.getText().trim(), clave.getText().trim(), null);
 
-        try {
-            Acceso registrar = new Acceso();
-            // comprueba que el correo introducido no esta ya registrado
-            registrar = (Acceso) genericDao.obtenerPorId(registrar.getClass(), correo.getText().trim());
+        Acceso registrar = new Acceso();
+        // Comprobar que el correo introducido no está ya registrado
+        registrar = (Acceso) genericDao.obtenerPorId(registrar.getClass(), correo.getText().trim());
 
-            if (registrar == null) {
-                // guarda la nueva cuenta en la base de datos para validar los campos
+        if (registrar == null) {
+            try {
+                // Guardar la nueva cuenta en la base de datos para validar los campos
                 genericDao.guardarActualizar(nuevaCuenta);
 
                 Acceso cuentaKF = new Acceso();
-                // obtiene los datos de la cuenta de gmail del juego
+                // Obtener los datos de la cuenta de gmail del juego
                 cuentaKF = (Acceso) genericDao.obtenerPorId(registrar.getClass(), REMITENTE);
 
-                if (cuentaKF == null) {
-                    // informa que no se pudo obtener los datos del gmail del juego
+                if (cuentaKF != null) {
+                    EnvioCorreos codigoVerificacion = new EnvioCorreos();
+                    // Enviar el correo a la dirección introducida por el jugador
+                    String codigo = codigoVerificacion.enviarCodigoVerificacion(correo.getText().trim(), REMITENTE, cuentaKF.getClave());
+
+                    if (codigo != null) {
+                        // Pedir al jugador el código que debe haber recibido por correo
+                        TextInputDialog dialog = new TextInputDialog();
+                        dialog.setTitle("Registro Knight Fight");
+                        dialog.setHeaderText("Confirmación de cuenta");
+                        dialog.setContentText("Introduce el código aquí:");
+                        Optional<String> result = dialog.showAndWait();
+
+                        if (result.isPresent() && result.get().trim().equals(codigo)) {
+                            // Crear la partida para el nuevo jugador
+                            // TODO
+
+                            // Abrir la partida creada
+                            stage.mostrarPrincipal();
+                        } else {
+                            // Informar que el código introducido no es correcto
+                            error.setText("Codigo incorrecto");
+                            error.setVisible(true);
+                            genericDao.borrar(nuevaCuenta);
+                        }
+                    } else {
+                        // Informar que no se pudo enviar el correo con el código de verificación
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Correo no enviado");
+                        alert.setContentText("Se produjo un error en el envío del correo de confirmación.");
+
+                        alert.showAndWait();
+                        genericDao.borrar(nuevaCuenta);
+                    }
+                } else {
+                    // Informar que no se pudo obtener los datos del gmail del juego
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Función no disponible");
@@ -123,57 +166,27 @@ public class ControladorAcceso implements Initializable, MoverVentana {
                             + "que procedan a su correción.");
 
                     alert.showAndWait();
-                } else {
-                    EnvioCorreos codigoVerificacion = new EnvioCorreos();
-                    // envia el correo a la direccion introducida por el jugador
-                    String codigo = codigoVerificacion.enviarCodigoVerificacion(correo.getText().trim(), REMITENTE, cuentaKF.getClave());
-
-                    if (codigo == null) {
-                        // informa que no se pude enviar el correo con el codigo de verificacion
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Correo no enviado");
-                        alert.setContentText("Se produjo un error en el envío del correo de confirmación.");
-
-                        alert.showAndWait();
-                    } else {
-                        // pide al jugador el codigo que debe haber recibido por correo
-                        TextInputDialog dialog = new TextInputDialog();
-                        dialog.setTitle("Registro Knight Fight");
-                        dialog.setHeaderText("Confirmación de cuenta");
-                        dialog.setContentText("Introduce el código aquí:");
-                        Optional<String> result = dialog.showAndWait();
-
-                        if (result.isPresent() && result.get().trim().equals(codigo)) {
-                            // crea la partida para el nuevo jugador
-                            // TODO
-
-                            // abre la partida creada
-                            stage.mostrarPrincipal();
-                        } else {
-                            // informa que el codigo introducido no es correcto
-                            error.setText("Codigo incorrecto");
-                            error.setVisible(true);
-                            genericDao.borrar(nuevaCuenta);
-                        }
-                    }
+                    genericDao.borrar(nuevaCuenta);
                 }
-            } else {
-                // informa que ya existe una cuenta con el correo introducido
-                error.setText("Correo ya vinculado a una cuenta");
+            } catch (JuegoException ex) {
+                // Informar los errores cometidos en los datos introducidos
+                error.setText(ex.getMessage());
                 error.setVisible(true);
+                genericDao.borrar(nuevaCuenta);
             }
-        } catch (JuegoException ex) {
-            // informa los errores cometidos en los datos introducidos
-            error.setText(ex.getMessage());
+        } else {
+            // Informar que ya existe una cuenta con el correo introducido
+            error.setText("Correo ya vinculado a una cuenta");
             error.setVisible(true);
-            genericDao.borrar(nuevaCuenta);
         }
     }
 
     @FXML
     public void salir() {
+        // Finalizar la sesión de hibernate con la base de datos
         this.stage.cerrarSesion();
+
+        // Salir de la aplicación sin errores
         System.exit(1);
     }
 

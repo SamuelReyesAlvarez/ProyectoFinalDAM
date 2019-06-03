@@ -21,17 +21,12 @@ import org.hibernate.Session;
 public class GenericDAO<T> {
 
     public Session comprobarConexion() {
-        Session session;
-
         if (HibernateUtil.getSessionFactory().getCurrentSession().isConnected()) {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            return HibernateUtil.getSessionFactory().getCurrentSession();
         } else {
-            session = HibernateUtil.getSessionFactory().openSession();
-            if (!session.isConnected()) {
-                new MainApp().mostrarLogin("Conexión perdida");
-            }
+            new MainApp().mostrarLogin("Conexión perdida");
+            return null;
         }
-        return session;
     }
 
     /**
