@@ -177,6 +177,11 @@ and open the template in the editor.
     -fx-control-inner-background: black;
 }
 
+.progressbar-carga {
+    -fx-background-radius: 0;
+    -fx-control-inner-background: black;
+}
+
 .progressbar-vida {
     -fx-accent: red;
 }

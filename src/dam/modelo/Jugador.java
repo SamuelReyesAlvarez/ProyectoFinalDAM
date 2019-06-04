@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -32,16 +32,16 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "jugador")
 public class Jugador implements Serializable, Comparable<Jugador> {
 
-    private static final int VIDA_BASE = 1000;
-    private static final int ATAQUE_MIN_BASE = 100;
-    private static final int ATAQUE_MAX_BASE = 120;
-    private static final int DEFENSA_MIN_BASE = 0;
-    private static final int DEFENSA_MAX_BASE = 0;
-    private static final int PUNTOS_ATR_NUEVO_NIVEL = 3;
-    private static final int VALOR_FUERZA = 2;
-    private static final int VALOR_ARMADURA = 2;
-    private static final int VALOR_DESTREZA = 1;
-    private static final int VALOR_CONSTITUCION = 20;
+    public static final int VIDA_BASE = 1000;
+    public static final int ATAQUE_MIN_BASE = 100;
+    public static final int ATAQUE_MAX_BASE = 120;
+    public static final int DEFENSA_MIN_BASE = 0;
+    public static final int DEFENSA_MAX_BASE = 0;
+    public static final int PUNTOS_ATR_NUEVO_NIVEL = 3;
+    public static final int VALOR_FUERZA = 2;
+    public static final int VALOR_ARMADURA = 2;
+    public static final int VALOR_DESTREZA = 1;
+    public static final int VALOR_CONSTITUCION = 20;
 
     @Id
     @Column(name = "id_jugador")
@@ -49,7 +49,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     private int idJugador;
 
     @Column(name = "nombre")
-    @Size(min = 3, max = 15)
+    @Pattern(regexp = "[A-Za-z]{3,15}")
     @NotNull
     private String nombre;
 
@@ -226,7 +226,19 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         return true;
     }
 
-    public int getExpNivel(int nivel) {
+    public int getExpAcumuladaNivelActual() {
+        return getExpAcumulada() - (int) (Math.pow(nivel - 1, 3) + Math.pow(nivel - 1, 2));
+    }
+
+    public int getExpTotalNivelActual() {
+        return (int) (Math.pow(nivel, 3) + Math.pow(nivel, 2)) - (int) (Math.pow(nivel - 1, 3) + Math.pow(nivel - 1, 2));
+    }
+
+    public double getProgresoExp() {
+        return (double) (getExpAcumuladaNivelActual() / getExpTotalNivelActual());
+    }
+
+    public int getExpSiguienteNivel() {
         return (int) (Math.pow(nivel, 3) + Math.pow(nivel, 2));
     }
 
@@ -320,7 +332,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public void subirExpAcumulada(int exp) {
         this.expAcumulada += exp;
 
-        while (this.expAcumulada >= getExpNivel(this.nivel)) {
+        while (getExpAcumulada() >= getExpSiguienteNivel()) {
             this.nivel++;
             this.puntosNoUsados += PUNTOS_ATR_NUEVO_NIVEL;
         }

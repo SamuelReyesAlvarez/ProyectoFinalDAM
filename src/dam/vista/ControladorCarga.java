@@ -15,9 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ProgressBar;
 
 /**
  *
@@ -26,6 +24,7 @@ import javafx.scene.control.ProgressBar;
  */
 public class ControladorCarga implements Initializable {
 
+    private static final String NOMBRE_INICIAL = "NuevoJugador";
     private static final int EXP_ACUMULADA_INICIAL = 0;
     private static final int NIVEL_INICIAL = 1;
     private static final int ORO_INICIAL = 0;
@@ -37,28 +36,37 @@ public class ControladorCarga implements Initializable {
     private Jugador jugador;
     private MainApp stage;
 
-    @FXML
-    private ProgressBar barraCarga;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        barraCarga.setProgress(0);
+
     }
 
     public void setStage(MainApp stage) {
         this.stage = stage;
     }
 
-    public void crearNuevoJugador(String nombre) throws JuegoException {
+    public void crearNuevoJugador() throws JuegoException {
         jugador = new Jugador();
         jugador.setEquipoJugador(new HashSet<>());
         jugador.setEstadoJugador(new HashSet<>());
         jugador.setExpAcumulada(EXP_ACUMULADA_INICIAL);
         jugador.setNivel(NIVEL_INICIAL);
-        jugador.setNombre(nombre);
+        jugador.setNombre(NOMBRE_INICIAL);
         jugador.setOroActual(ORO_INICIAL);
         jugador.setPuntosNoUsados(PUNTOS_NO_USADOS_INICIAL);
         jugador.setTareaActiva(new ArrayList<>());
+
+        HashSet<Estado> estadoJugador = new HashSet<Estado>();
+        Estado estado = new Estado();
+        estado.setJugador(jugador);
+        estado.setPotenciado(POTENCIADO_ESTADO_INICIAL);
+
+        for (Estado.TipoAtributo tipoEstado : Estado.TipoAtributo.values()) {
+            estado.setTipoAtributo(tipoEstado);
+            estadoJugador.add(estado);
+        }
+
+        jugador.setEstadoJugador(estadoJugador);
 
         genericDao.guardarActualizar(jugador);
 
@@ -73,15 +81,9 @@ public class ControladorCarga implements Initializable {
 
         genericDao.guardarActualizar(estadisticas);
 
-        Estado estado = new Estado();
-        estado.setJugador(jugador);
-        estado.setPotenciado(POTENCIADO_ESTADO_INICIAL);
+        stage.setJugador((Jugador) genericDao.obtenerTodo(jugador));
 
-        for (Estado.TipoAtributo tipoEstado : Estado.TipoAtributo.values()) {
-            estado.setTipoAtributo(tipoEstado);
-            genericDao.guardarActualizar(jugador);
-        }
-
-        new MainApp().setJugador((Jugador) genericDao.obtenerTodo(jugador));
+        // Abrir la partida creada
+        stage.mostrarPrincipal();
     }
 }

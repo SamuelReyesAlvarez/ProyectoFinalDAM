@@ -6,10 +6,11 @@
 package dam.vista;
 
 import dam.DAO.InventarioDAO;
+import dam.MainApp;
+import dam.modelo.Estado;
 import dam.modelo.Inventario;
 import dam.modelo.Jugador;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,6 @@ import javafx.scene.control.ProgressBar;
 public class ControladorInventario implements Initializable {
 
     private InventarioDAO inventarioDao = new InventarioDAO();
-    private List<Inventario> inventarioJugador;
     private Jugador jugador;
     private ControladorPrincipal controlPrincipal;
 
@@ -139,21 +139,23 @@ public class ControladorInventario implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Iniciar etiquetas Equipado y Almacenado
         iniciarEtiquetas();
-        /*
+
         // Obtener el jugador de la partida
         this.jugador = (new MainApp()).getJugador();
 
+        // Cargar estado del jugador
+        cargarEstado();
+
+        puntosSinAsignar.setText(String.valueOf(jugador.getPuntosNoUsados()));
+
         // Cargar objetos del inventario
-        inventarioJugador = inventarioDao.obtenerInventarioJugador(jugador);
-        for (Inventario objeto : inventarioJugador) {
+        for (Inventario objeto : jugador.getEquipoJugador()) {
             if (objeto.isEquipado()) {
                 cargarEquipado(objeto);
             } else if (!objeto.isEnVenta()) {
                 cargarAlmacenado(objeto);
             }
         }
-         */
-        // Cargar estado del jugador
     }
 
     public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
@@ -180,12 +182,52 @@ public class ControladorInventario implements Initializable {
 
     }
 
+    private void cargarEstado() {
+        for (Estado estado : jugador.getEstadoJugador()) {
+            switch (estado.getTipoAtributo()) {
+                case AGUA:
+                    agua.setText(String.valueOf(estado.getPotenciado()));
+                    break;
+                case ARMADURA:
+                    armadura.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarDefensaMin(estado.getPotenciado() * jugador.VALOR_ARMADURA);
+                    controlPrincipal.cambiarDefensaMax(estado.getPotenciado() * jugador.VALOR_ARMADURA);
+                    break;
+                case CONSTITUCION:
+                    constitucion.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarVida(estado.getPotenciado() * jugador.VALOR_CONSTITUCION);
+                    break;
+                case DESTREZA:
+                    destreza.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarAtaqueMax(estado.getPotenciado() * jugador.VALOR_DESTREZA);
+                    controlPrincipal.cambiarDefensaMax(estado.getPotenciado() * jugador.VALOR_DESTREZA);
+                    break;
+                case FUEGO:
+                    fuego.setText(String.valueOf(estado.getPotenciado()));
+                    break;
+                case FUERZA:
+                    fuerza.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarAtaqueMin(estado.getPotenciado() * jugador.VALOR_FUERZA);
+                    controlPrincipal.cambiarAtaqueMax(estado.getPotenciado() * jugador.VALOR_FUERZA);
+                    break;
+                case TIERRA:
+                    tierra.setText(String.valueOf(estado.getPotenciado()));
+                    break;
+                case VIENTO:
+                    viento.setText(String.valueOf(estado.getPotenciado()));
+                    break;
+            }
+        }
+    }
+
     private void cargarEquipado(Inventario objeto) {
         switch (objeto.getTipoEquipo()) {
             case PENDIENTE:
                 if (pendiente.isDisabled()) {
                     pendiente.setText(objeto.toString());
                     pendiente.setDisable(false);
+                    crear columna en base de datos, en la tabla inventario
+                    , para asignar el atributo al que afecta cada objeto
                 }
                 break;
             case CASCO:

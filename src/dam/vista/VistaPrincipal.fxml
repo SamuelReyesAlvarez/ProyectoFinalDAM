@@ -138,13 +138,29 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="experiencia" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="experienciaActual" contentDisplay="RIGHT" minHeight="35.0" text="0000" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                  </Label>
+                  <Label contentDisplay="CENTER" minHeight="35.0" text="/" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="experienciaNivel" minHeight="35.0" text="0000" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
@@ -159,7 +175,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="ataqueMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="ataqueMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -167,7 +183,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label minHeight="35.0" text="-" textFill="WHITE">
+                  <Label contentDisplay="CENTER" minHeight="35.0" text="-" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -195,7 +211,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="defensaMin" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="defensaMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -203,7 +219,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label minHeight="35.0" text="-" textFill="WHITE">
+                  <Label contentDisplay="CENTER" minHeight="35.0" text="-" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

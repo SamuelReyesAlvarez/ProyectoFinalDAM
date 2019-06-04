@@ -6,16 +6,21 @@
 package dam;
 
 import dam.modelo.HibernateUtil;
+import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.vista.ControladorAcceso;
 import dam.vista.ControladorBazar;
+import dam.vista.ControladorCarga;
 import dam.vista.ControladorClasificacion;
 import dam.vista.ControladorCombatir;
 import dam.vista.ControladorInventario;
 import dam.vista.ControladorMision;
 import dam.vista.ControladorPrincipal;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -28,10 +33,12 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.4.2
- * @modified 03/06/2019
+ * @version 1.4.3
+ * @modified 04/06/2019
  */
 public class MainApp extends Application {
+
+    private static HostServices hostServices;
 
     private Stage stage;
     private BorderPane principal;
@@ -40,6 +47,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        hostServices = getHostServices();
+
         stage = primaryStage;
         stage.setTitle("Inicio de sesion");
         stage.setResizable(false);
@@ -67,6 +76,29 @@ public class MainApp extends Application {
             }
 
             configurarYAbrirSesion();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarCarga() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaCarga.fxml"));
+
+            VBox acceso = (VBox) loader.load();
+            Scene scene = new Scene(acceso);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+
+            ControladorCarga controlCarga = loader.getController();
+            controlCarga.setStage(this);
+
+            try {
+                controlCarga.crearNuevoJugador();
+            } catch (JuegoException ex) {
+                Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
