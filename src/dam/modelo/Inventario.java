@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -45,6 +47,11 @@ public class Inventario implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_jugador")
     private Jugador jugador;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    @NotNull
+    private Estado estado;
 
     @Column(name = "tipo_equipo")
     @Enumerated(EnumType.STRING)
@@ -78,9 +85,10 @@ public class Inventario implements Serializable {
     public Inventario() {
     }
 
-    public Inventario(int idInventario, Jugador jugador, TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, boolean equipado, boolean enVenta) {
+    public Inventario(int idInventario, Jugador jugador, Estado estado, TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, boolean equipado, boolean enVenta) {
         this.idInventario = idInventario;
         this.jugador = jugador;
+        this.estado = estado;
         this.tipoEquipo = tipoEquipo;
         this.nivel = nivel;
         this.potenciado = potenciado;
@@ -103,6 +111,14 @@ public class Inventario implements Serializable {
 
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public TipoEquipo getTipoEquipo() {
@@ -186,7 +202,7 @@ public class Inventario implements Serializable {
 
     @Override
     public String toString() {
-        return tipoEquipo.toString() + "\n N: " + nivel + " P: +" + potenciado;
+        return tipoEquipo.toString() + "\n N: " + nivel + " P: +" + potenciado + "\n" + estado.getTipoAtributo() + " +" + estado.getPotenciado();
     }
 
     public int getValor() {

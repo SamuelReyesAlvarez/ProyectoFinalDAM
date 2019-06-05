@@ -5,15 +5,19 @@
  */
 package dam.vista;
 
-import dam.DAO.InventarioDAO;
+import dam.DAO.GenericDAO;
 import dam.MainApp;
 import dam.modelo.Estado;
 import dam.modelo.Inventario;
+import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -24,7 +28,7 @@ import javafx.scene.control.ProgressBar;
  */
 public class ControladorInventario implements Initializable {
 
-    private InventarioDAO inventarioDao = new InventarioDAO();
+    private GenericDAO genericDao = new GenericDAO();
     private Jugador jugador;
     private ControladorPrincipal controlPrincipal;
 
@@ -44,6 +48,14 @@ public class ControladorInventario implements Initializable {
     private ProgressBar barraFuego;
     @FXML
     private ProgressBar barraViento;
+    @FXML
+    private Button masFuerza;
+    @FXML
+    private Button masDestreza;
+    @FXML
+    private Button masArmadura;
+    @FXML
+    private Button masConstitucion;
     @FXML
     private Label fuerza;
     @FXML
@@ -145,8 +157,8 @@ public class ControladorInventario implements Initializable {
 
         // Cargar estado del jugador
         cargarEstado();
-
         puntosSinAsignar.setText(String.valueOf(jugador.getPuntosNoUsados()));
+        activarDesactivarBotones();
 
         // Cargar objetos del inventario
         for (Inventario objeto : jugador.getEquipoJugador()) {
@@ -156,6 +168,8 @@ public class ControladorInventario implements Initializable {
                 cargarAlmacenado(objeto);
             }
         }
+
+        crear menu contextual para los objetos del inventario
     }
 
     public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
@@ -164,22 +178,90 @@ public class ControladorInventario implements Initializable {
 
     @FXML
     public void asignarPuntosFuerza() {
-
+        try {
+            for (Estado estado : jugador.getEstadoJugador()) {
+                if (estado.getTipoAtributo() == Estado.TipoAtributo.FUERZA) {
+                    estado.setPotenciado(estado.getPotenciado() + 1);
+                    jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    fuerza.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarAtaqueMin(jugador.VALOR_FUERZA);
+                    controlPrincipal.cambiarAtaqueMax(jugador.VALOR_FUERZA);
+                    activarDesactivarBotones();
+                }
+            }
+            rellenarBarras();
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+        }
     }
 
     @FXML
     public void asignarPuntosDestreza() {
-
+        try {
+            for (Estado estado : jugador.getEstadoJugador()) {
+                if (estado.getTipoAtributo() == Estado.TipoAtributo.DESTREZA) {
+                    estado.setPotenciado(estado.getPotenciado() + 1);
+                    jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    destreza.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarAtaqueMax(jugador.VALOR_DESTREZA);
+                    controlPrincipal.cambiarDefensaMax(jugador.VALOR_DESTREZA);
+                    activarDesactivarBotones();
+                }
+            }
+            rellenarBarras();
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+        }
     }
 
     @FXML
     public void asignarPuntosArmadura() {
-
+        try {
+            for (Estado estado : jugador.getEstadoJugador()) {
+                if (estado.getTipoAtributo() == Estado.TipoAtributo.ARMADURA) {
+                    estado.setPotenciado(estado.getPotenciado() + 1);
+                    jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    armadura.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarDefensaMin(jugador.VALOR_ARMADURA);
+                    controlPrincipal.cambiarDefensaMax(jugador.VALOR_ARMADURA);
+                    activarDesactivarBotones();
+                }
+            }
+            rellenarBarras();
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+        }
     }
 
     @FXML
     public void asignarPuntosConstitucion() {
+        try {
+            for (Estado estado : jugador.getEstadoJugador()) {
+                if (estado.getTipoAtributo() == Estado.TipoAtributo.CONSTITUCION) {
+                    estado.setPotenciado(estado.getPotenciado() + 1);
+                    jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    constitucion.setText(String.valueOf(estado.getPotenciado()));
+                    controlPrincipal.cambiarVida(jugador.VALOR_CONSTITUCION);
+                    controlPrincipal.cambiarBarraVida(1);
+                    activarDesactivarBotones();
+                }
+            }
+            rellenarBarras();
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+        }
+    }
 
+    private void mostrarAlerta(String titulo, String cabecera, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(cabecera);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     private void cargarEstado() {
@@ -190,25 +272,25 @@ public class ControladorInventario implements Initializable {
                     break;
                 case ARMADURA:
                     armadura.setText(String.valueOf(estado.getPotenciado()));
-                    controlPrincipal.cambiarDefensaMin(estado.getPotenciado() * jugador.VALOR_ARMADURA);
-                    controlPrincipal.cambiarDefensaMax(estado.getPotenciado() * jugador.VALOR_ARMADURA);
+                    controlPrincipal.cambiarDefensaMin(jugador.DEFENSA_MIN_BASE + (estado.getPotenciado() * jugador.VALOR_ARMADURA));
+                    controlPrincipal.cambiarDefensaMax(jugador.DEFENSA_MAX_BASE + (estado.getPotenciado() * jugador.VALOR_ARMADURA));
                     break;
                 case CONSTITUCION:
                     constitucion.setText(String.valueOf(estado.getPotenciado()));
-                    controlPrincipal.cambiarVida(estado.getPotenciado() * jugador.VALOR_CONSTITUCION);
+                    controlPrincipal.cambiarVida(jugador.VIDA_BASE + (estado.getPotenciado() * jugador.VALOR_CONSTITUCION));
                     break;
                 case DESTREZA:
                     destreza.setText(String.valueOf(estado.getPotenciado()));
-                    controlPrincipal.cambiarAtaqueMax(estado.getPotenciado() * jugador.VALOR_DESTREZA);
-                    controlPrincipal.cambiarDefensaMax(estado.getPotenciado() * jugador.VALOR_DESTREZA);
+                    controlPrincipal.cambiarAtaqueMax(jugador.ATAQUE_MAX_BASE + (estado.getPotenciado() * jugador.VALOR_DESTREZA));
+                    controlPrincipal.cambiarDefensaMax(jugador.DEFENSA_MAX_BASE + (estado.getPotenciado() * jugador.VALOR_DESTREZA));
                     break;
                 case FUEGO:
                     fuego.setText(String.valueOf(estado.getPotenciado()));
                     break;
                 case FUERZA:
                     fuerza.setText(String.valueOf(estado.getPotenciado()));
-                    controlPrincipal.cambiarAtaqueMin(estado.getPotenciado() * jugador.VALOR_FUERZA);
-                    controlPrincipal.cambiarAtaqueMax(estado.getPotenciado() * jugador.VALOR_FUERZA);
+                    controlPrincipal.cambiarAtaqueMin(jugador.ATAQUE_MIN_BASE + (estado.getPotenciado() * jugador.VALOR_FUERZA));
+                    controlPrincipal.cambiarAtaqueMax(jugador.ATAQUE_MAX_BASE + (estado.getPotenciado() * jugador.VALOR_FUERZA));
                     break;
                 case TIERRA:
                     tierra.setText(String.valueOf(estado.getPotenciado()));
@@ -218,6 +300,7 @@ public class ControladorInventario implements Initializable {
                     break;
             }
         }
+        rellenarBarras();
     }
 
     private void cargarEquipado(Inventario objeto) {
@@ -226,8 +309,6 @@ public class ControladorInventario implements Initializable {
                 if (pendiente.isDisabled()) {
                     pendiente.setText(objeto.toString());
                     pendiente.setDisable(false);
-                    crear columna en base de datos, en la tabla inventario
-                    , para asignar el atributo al que afecta cada objeto
                 }
                 break;
             case CASCO:
@@ -414,6 +495,15 @@ public class ControladorInventario implements Initializable {
         inv22.setText("");
         inv23.setText("");
         inv24.setText("");
+        fuerza.setText("0");
+        destreza.setText("0");
+        armadura.setText("0");
+        constitucion.setText("0");
+        tierra.setText("0");
+        agua.setText("0");
+        fuego.setText("0");
+        viento.setText("0");
+        rellenarBarras();
 
         pendiente.setDisable(true);
         casco.setDisable(true);
@@ -451,5 +541,33 @@ public class ControladorInventario implements Initializable {
         inv22.setDisable(true);
         inv23.setDisable(true);
         inv24.setDisable(true);
+    }
+
+    private void rellenarBarras() {
+        double[] atributos = {Double.parseDouble(fuerza.getText()), Double.parseDouble(destreza.getText()), Double.parseDouble(armadura.getText()), Double.parseDouble(constitucion.getText())};
+        double mayorAtributo = Arrays.stream(atributos).max().getAsDouble();
+
+        barraFuerza.setProgress(Double.parseDouble(fuerza.getText()) / mayorAtributo);
+        barraDestreza.setProgress(Double.parseDouble(destreza.getText()) / mayorAtributo);
+        barraArmadura.setProgress(Double.parseDouble(armadura.getText()) / mayorAtributo);
+        barraConstitucion.setProgress(Double.parseDouble(constitucion.getText()) / mayorAtributo);
+
+        double[] elementos = {Double.parseDouble(tierra.getText()), Double.parseDouble(agua.getText()), Double.parseDouble(fuego.getText()), Double.parseDouble(viento.getText())};
+        double mayorElemento = Arrays.stream(atributos).max().getAsDouble();
+
+        barraTierra.setProgress(Double.parseDouble(tierra.getText()) / mayorElemento);
+        barraAgua.setProgress(Double.parseDouble(agua.getText()) / mayorElemento);
+        barraFuego.setProgress(Double.parseDouble(fuego.getText()) / mayorElemento);
+        barraViento.setProgress(Double.parseDouble(viento.getText()) / mayorElemento);
+    }
+
+    private void activarDesactivarBotones() {
+        boolean activado = (jugador.getPuntosNoUsados() < 1) ? true : false;
+
+        masArmadura.setDisable(activado);
+        masConstitucion.setDisable(activado);
+        masDestreza.setDisable(activado);
+        masFuerza.setDisable(activado);
+
     }
 }

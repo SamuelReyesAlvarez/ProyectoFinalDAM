@@ -147,7 +147,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosFuerza" text="+1" />
+                              <Button fx:id="masFuerza" disable="true" mnemonicParsing="false" onAction="#asignarPuntosFuerza" text="+1" />
                            </children>
                         </HBox>
                         <HBox>
@@ -167,7 +167,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosDestreza" text="+1" />
+                              <Button fx:id="masDestreza" disable="true" mnemonicParsing="false" onAction="#asignarPuntosDestreza" text="+1" />
                            </children>
                         </HBox>
                         <HBox>
@@ -187,7 +187,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosArmadura" text="+1" />
+                              <Button fx:id="masArmadura" disable="true" mnemonicParsing="false" onAction="#asignarPuntosArmadura" text="+1" />
                            </children>
                         </HBox>
                         <HBox>
@@ -207,7 +207,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Button disable="true" mnemonicParsing="false" onAction="#asignarPuntosConstitucion" text="+1" />
+                              <Button fx:id="masConstitucion" disable="true" mnemonicParsing="false" onAction="#asignarPuntosConstitucion" text="+1" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="25.0">

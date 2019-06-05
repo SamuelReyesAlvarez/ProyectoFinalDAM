@@ -30,19 +30,6 @@ CREATE TABLE IF NOT EXISTS jugador (
     CONSTRAINT jugador_pk PRIMARY KEY (id_jugador)
 );
 
-CREATE TABLE IF NOT EXISTS inventario (
-    id_inventario INT NOT NULL,
-    id_jugador INT NULL,
-    tipo_equipo VARCHAR(15) NOT NULL,
-    nivel INT NOT NULL,
-    potenciado INT NOT NULL,
-    precio INT NOT NULL,
-    equipado TINYINT NOT NULL,
-    en_venta TINYINT NOT NULL,
-    CONSTRAINT inventario_pk PRIMARY KEY (id_inventario),
-    CONSTRAINT inventario_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
-);
-
 
 CREATE TABLE IF NOT EXISTS estado (
     id_estado INT NOT NULL,
@@ -51,6 +38,21 @@ CREATE TABLE IF NOT EXISTS estado (
     potenciado INT NOT NULL,
     CONSTRAINT estado_pk PRIMARY KEY (id_estado),
     CONSTRAINT estado_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
+);
+
+CREATE TABLE IF NOT EXISTS inventario (
+    id_inventario INT NOT NULL,
+    id_jugador INT NULL,
+    id_estado INT NULL,
+    tipo_equipo VARCHAR(15) NOT NULL,
+    nivel INT NOT NULL,
+    potenciado INT NOT NULL,
+    precio INT NOT NULL,
+    equipado TINYINT NOT NULL,
+    en_venta TINYINT NOT NULL,
+    CONSTRAINT inventario_pk PRIMARY KEY (id_inventario),
+    CONSTRAINT inventario_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador),
+    CONSTRAINT inventario_estado_fk FOREIGN KEY (id_estado) REFERENCES estado (id_estado)
 );
 
 CREATE TABLE IF NOT EXISTS mision (
