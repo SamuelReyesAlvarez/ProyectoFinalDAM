@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -33,12 +32,10 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.4.4
- * @modified 05/06/2019
+ * @version 1.5.0
+ * @modified 06/06/2019
  */
 public class MainApp extends Application {
-
-    private static HostServices hostServices;
 
     private Stage stage;
     private BorderPane principal;
@@ -47,8 +44,6 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        hostServices = getHostServices();
-
         stage = primaryStage;
         stage.setTitle("Inicio de sesion");
         stage.setResizable(false);

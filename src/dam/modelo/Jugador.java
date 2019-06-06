@@ -348,4 +348,19 @@ public class Jugador implements Serializable, Comparable<Jugador> {
             return 0;
         }
     }
+
+    public Inventario getEquipo(Inventario patron) {
+        for (Inventario equipo : equipoJugador) {
+            if (equipo.isEquipado() == patron.isEquipado()
+                    && equipo.isEnVenta() == patron.isEnVenta()
+                    && equipo.getTipoEquipo() == patron.getTipoEquipo()
+                    && equipo.getNivel() == patron.getNivel()
+                    && equipo.getPotenciado() == patron.getPotenciado()
+                    && equipo.getEstado().getTipoAtributo() == patron.getEstado().getTipoAtributo()
+                    && equipo.getEstado().getPotenciado() == patron.getEstado().getPotenciado()) {
+                return equipo;
+            }
+        }
+        return null;
+    }
 }

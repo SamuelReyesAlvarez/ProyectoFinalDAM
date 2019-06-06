@@ -13,13 +13,18 @@ import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextInputDialog;
 
 /**
  *
@@ -31,6 +36,7 @@ public class ControladorInventario implements Initializable {
     private GenericDAO genericDao = new GenericDAO();
     private Jugador jugador;
     private ControladorPrincipal controlPrincipal;
+    private MainApp stage;
 
     @FXML
     private ProgressBar barraFuerza;
@@ -168,12 +174,83 @@ public class ControladorInventario implements Initializable {
                 cargarAlmacenado(objeto);
             }
         }
-
-        crear menu contextual para los objetos del inventario
     }
 
     public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
         this.controlPrincipal = controlPrincipal;
+    }
+
+    public void setStage(MainApp stage) {
+        this.stage = stage;
+    }
+
+    @FXML
+    public void equiparDesequipar(Inventario objeto) {
+        try {
+            objeto.setEquipado(!objeto.isEquipado());
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Error", "Acción no disponible", "No se pudo cambiar el estado del objeto");
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+        }
+        stage.mostrarPrincipal();
+    }
+
+    @FXML
+    public void mejorarEquipo(Inventario objeto) {
+        try {
+            // Comprobar coste de mejora
+            int coste = objeto.getCostePotenciar();
+            // Comprobar oro disponible
+            int disponible = jugador.getOroActual();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmar acción");
+            alert.setContentText("Mejorar " + objeto.getTipoEquipo() + " nivel: " + objeto.getNivel() + " +" + objeto.getPotenciado() + " requiere " + coste + " de oro\n¿Confirmar acción?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                if (coste > disponible) {
+                    throw new JuegoException("No dispones de oro suficiente");
+                } else {
+                    // Mejorar objeto
+                    objeto.aumentarPotenciado();
+                    // Restar coste
+                    jugador.setOroActual(disponible - coste);
+                    // Guardar cambios a través del jugador
+                    genericDao.guardarActualizar(jugador);
+                }
+            }
+        } catch (JuegoException ex) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+        }
+        stage.mostrarPrincipal();
+    }
+
+    @FXML
+    public void venderEquipo(Inventario objeto) {
+        try {
+            // Obtener el valor estándar del objeto
+            int precio = objeto.getValor();
+
+            // Informar y solicitar confirmación recogiendo precio deseado para el objeto
+            TextInputDialog dialog = new TextInputDialog(String.valueOf(precio));
+            dialog.setTitle("Confirmar acción");
+            dialog.setContentText("Enviar " + objeto.getTipoEquipo() + " nivel: " + objeto.getNivel() + " +" + objeto.getPotenciado() + " con " + objeto.getEstado().getTipoAtributo() + " +" + objeto.getEstado().getPotenciado() + " al bazar con un precio de venta de: ");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                objeto.setPrecio(Integer.parseInt(result.get()));
+                genericDao.guardarActualizar(jugador);
+            }
+        } catch (JuegoException ex) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+        } catch (NumberFormatException ex) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", "Debes introducir una cantidad válida");
+        }
+        stage.mostrarPrincipal();
     }
 
     @FXML
@@ -183,17 +260,21 @@ public class ControladorInventario implements Initializable {
                 if (estado.getTipoAtributo() == Estado.TipoAtributo.FUERZA) {
                     estado.setPotenciado(estado.getPotenciado() + 1);
                     jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    /* revisar utilidad
                     fuerza.setText(String.valueOf(estado.getPotenciado()));
                     controlPrincipal.cambiarAtaqueMin(jugador.VALOR_FUERZA);
                     controlPrincipal.cambiarAtaqueMax(jugador.VALOR_FUERZA);
                     activarDesactivarBotones();
+                     */
                 }
             }
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
         }
+        stage.mostrarPrincipal();
     }
 
     @FXML
@@ -203,17 +284,21 @@ public class ControladorInventario implements Initializable {
                 if (estado.getTipoAtributo() == Estado.TipoAtributo.DESTREZA) {
                     estado.setPotenciado(estado.getPotenciado() + 1);
                     jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    /* revisar utilidad
                     destreza.setText(String.valueOf(estado.getPotenciado()));
                     controlPrincipal.cambiarAtaqueMax(jugador.VALOR_DESTREZA);
                     controlPrincipal.cambiarDefensaMax(jugador.VALOR_DESTREZA);
                     activarDesactivarBotones();
+                     */
                 }
             }
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
         }
+        stage.mostrarPrincipal();
     }
 
     @FXML
@@ -223,17 +308,21 @@ public class ControladorInventario implements Initializable {
                 if (estado.getTipoAtributo() == Estado.TipoAtributo.ARMADURA) {
                     estado.setPotenciado(estado.getPotenciado() + 1);
                     jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    /* revisar utilidad
                     armadura.setText(String.valueOf(estado.getPotenciado()));
                     controlPrincipal.cambiarDefensaMin(jugador.VALOR_ARMADURA);
                     controlPrincipal.cambiarDefensaMax(jugador.VALOR_ARMADURA);
                     activarDesactivarBotones();
+                     */
                 }
             }
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
         }
+        stage.mostrarPrincipal();
     }
 
     @FXML
@@ -243,21 +332,25 @@ public class ControladorInventario implements Initializable {
                 if (estado.getTipoAtributo() == Estado.TipoAtributo.CONSTITUCION) {
                     estado.setPotenciado(estado.getPotenciado() + 1);
                     jugador.setPuntosNoUsados(jugador.getPuntosNoUsados() - 1);
+                    /* revisar utilidad
                     constitucion.setText(String.valueOf(estado.getPotenciado()));
                     controlPrincipal.cambiarVida(jugador.VALOR_CONSTITUCION);
                     controlPrincipal.cambiarBarraVida(1);
                     activarDesactivarBotones();
+                     */
                 }
             }
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta("Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
         }
+        stage.mostrarPrincipal();
     }
 
-    private void mostrarAlerta(String titulo, String cabecera, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void mostrarAlerta(Alert.AlertType tipoAlerta, String titulo, String cabecera, String mensaje) {
+        Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(cabecera);
         alert.setContentText(mensaje);
@@ -541,6 +634,43 @@ public class ControladorInventario implements Initializable {
         inv22.setDisable(true);
         inv23.setDisable(true);
         inv24.setDisable(true);
+
+        pendiente.setContextMenu(new MenuContextual(pendiente));
+        casco.setContextMenu(new MenuContextual(casco));
+        collar.setContextMenu(new MenuContextual(collar));
+        pulsera.setContextMenu(new MenuContextual(pulsera));
+        chaleco.setContextMenu(new MenuContextual(chaleco));
+        capa.setContextMenu(new MenuContextual(capa));
+        escudo.setContextMenu(new MenuContextual(escudo));
+        pantalon.setContextMenu(new MenuContextual(pantalon));
+        arma.setContextMenu(new MenuContextual(arma));
+        cinturon.setContextMenu(new MenuContextual(cinturon));
+        botas.setContextMenu(new MenuContextual(botas));
+        anillo.setContextMenu(new MenuContextual(anillo));
+        inv01.setContextMenu(new MenuContextual(inv01));
+        inv02.setContextMenu(new MenuContextual(inv02));
+        inv03.setContextMenu(new MenuContextual(inv03));
+        inv04.setContextMenu(new MenuContextual(inv04));
+        inv05.setContextMenu(new MenuContextual(inv05));
+        inv06.setContextMenu(new MenuContextual(inv06));
+        inv07.setContextMenu(new MenuContextual(inv07));
+        inv08.setContextMenu(new MenuContextual(inv08));
+        inv09.setContextMenu(new MenuContextual(inv09));
+        inv10.setContextMenu(new MenuContextual(inv10));
+        inv11.setContextMenu(new MenuContextual(inv11));
+        inv12.setContextMenu(new MenuContextual(inv12));
+        inv13.setContextMenu(new MenuContextual(inv13));
+        inv14.setContextMenu(new MenuContextual(inv14));
+        inv15.setContextMenu(new MenuContextual(inv15));
+        inv16.setContextMenu(new MenuContextual(inv16));
+        inv17.setContextMenu(new MenuContextual(inv17));
+        inv18.setContextMenu(new MenuContextual(inv18));
+        inv19.setContextMenu(new MenuContextual(inv19));
+        inv20.setContextMenu(new MenuContextual(inv20));
+        inv21.setContextMenu(new MenuContextual(inv21));
+        inv22.setContextMenu(new MenuContextual(inv22));
+        inv23.setContextMenu(new MenuContextual(inv23));
+        inv24.setContextMenu(new MenuContextual(inv24));
     }
 
     private void rellenarBarras() {
@@ -568,6 +698,39 @@ public class ControladorInventario implements Initializable {
         masConstitucion.setDisable(activado);
         masDestreza.setDisable(activado);
         masFuerza.setDisable(activado);
+    }
 
+    private class MenuContextual extends ContextMenu {
+
+        public MenuContextual(Label label) {
+            boolean isEquipado = label.getId().contains("inv") ? false : true;
+            boolean isEnVenta = false;
+            Inventario.TipoEquipo tipoEquipo = Inventario.TipoEquipo.valueOf(label.getText().split("N:")[0].trim());
+            int nivel = Integer.parseInt(label.getText().split("N:")[1].split("P:")[0].trim());
+            int potenciado = Integer.parseInt(label.getText().split(": +")[1].split("\n")[0].trim());
+            Estado.TipoAtributo tipoAtributo = Estado.TipoAtributo.valueOf(label.getText().split("+")[1].split("\n")[1].trim());
+            int potenciadoEstado = Integer.parseInt(label.getText().split("+")[2].trim());
+            Estado estado = new Estado(0, jugador, tipoAtributo, potenciadoEstado);
+
+            Inventario equipo = jugador.getEquipo(new Inventario(0, jugador, estado, tipoEquipo, nivel, potenciado, 0, isEquipado, isEnVenta));
+
+            MenuItem item1 = new MenuItem("Des/Equipar");
+            item1.setOnAction(event -> {
+                equiparDesequipar(equipo);
+                event.consume();
+            });
+            MenuItem item2 = new MenuItem("Mejorar");
+            item2.setOnAction(event -> {
+                mejorarEquipo(equipo);
+                event.consume();
+            });
+            MenuItem item3 = new MenuItem("Vender");
+            item3.setOnAction(event -> {
+                venderEquipo(equipo);
+                event.consume();
+            });
+
+            getItems().addAll(item1, item2, item3);
+        }
     }
 }
