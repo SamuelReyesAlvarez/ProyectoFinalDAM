@@ -32,8 +32,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.5.0
- * @modified 06/06/2019
+ * @version 1.6.1
+ * @modified 07/06/2019
  */
 public class MainApp extends Application {
 
@@ -142,7 +142,7 @@ public class MainApp extends Application {
             principal.setCenter(combatir);
 
             ControladorCombatir controlCombatir = loader.getController();
-            controlCombatir.setControladorPrincipal(controlPrincipal);
+            controlCombatir.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,7 +187,7 @@ public class MainApp extends Application {
             principal.setCenter(clasificacion);
 
             ControladorClasificacion controlClasificacion = loader.getController();
-            controlClasificacion.setControladorPrincipal(controlPrincipal);
+            controlClasificacion.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

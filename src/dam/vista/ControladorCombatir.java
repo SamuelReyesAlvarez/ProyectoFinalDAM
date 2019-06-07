@@ -5,7 +5,14 @@
  */
 package dam.vista;
 
+import dam.DAO.JugadorDAO;
+import dam.MainApp;
+import dam.modelo.Jugador;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,8 +27,12 @@ import javafx.scene.image.ImageView;
 public class ControladorCombatir implements Initializable {
 
     private static final int MAX_LISTA_DESAFIAR = 5;
+    private static final int RANGO_MAX_BUSQUEDA = 5;
 
-    private ControladorPrincipal controlPrincipal;
+    private JugadorDAO jugadorDao = new JugadorDAO();
+    private List<Jugador> clasificacion;
+    private ArrayList<Jugador> listaDesafio;
+    private MainApp stage;
 
     @FXML
     private Label nombre0, nombre1, nombre2, nombre3, nombre4;
@@ -42,11 +53,11 @@ public class ControladorCombatir implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Cargar lista con 5 jugadores con puntuación aproximada
+        cargarListaDesafio();
     }
 
-    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
-        this.controlPrincipal = controlPrincipal;
+    public void setStage(MainApp stage) {
+        this.stage = stage;
     }
 
     @FXML
@@ -76,5 +87,83 @@ public class ControladorCombatir implements Initializable {
 
     private void desafiar(int id) {
         // Realizar combate entre el jugador de la partida y el seleccionado de la lista
+    }
+
+    private void cargarListaDesafio() {
+        // Cargar clasificacion por puntos de combate
+        clasificacion = jugadorDao.filtroDesafio();
+
+        // Cargar lista con 5 jugadores con puntuación aproximada
+        HashSet<Jugador> prelistado = new HashSet<>();
+        int posicionJugador = clasificacion.indexOf(stage.getJugador());
+        Random r = new Random();
+        int i = 0;
+
+        while (prelistado.size() < MAX_LISTA_DESAFIAR) {
+            try {
+                if (i % 2 == 0) {
+                    prelistado.add(clasificacion.get(posicionJugador + r.nextInt(RANGO_MAX_BUSQUEDA) + 1));
+                } else {
+                    prelistado.add(clasificacion.get(posicionJugador - r.nextInt(RANGO_MAX_BUSQUEDA) - 1));
+                }
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                // En este caso no es necesario hacer nada
+            }
+            i++;
+        }
+
+        for (Jugador jugador : prelistado) {
+            listaDesafio.add(jugador);
+        }
+
+        // Cargar datos de los jugadores elegidos en la vista
+        cargarDatosEnVista();
+    }
+
+    private void cargarDatosEnVista() {
+        nombre0.setText(listaDesafio.get(0).getNombre());
+        imagen0.setImage(null);
+        nivel0.setText(String.valueOf(listaDesafio.get(0).getNivel()));
+        vida0.setText(String.valueOf(listaDesafio.get(0).getVidaMax()));
+        ataqueMin0.setText(String.valueOf(listaDesafio.get(0).getAtaqueMin()));
+        ataqueMax0.setText(String.valueOf(listaDesafio.get(0).getAtaqueMax()));
+        defensaMin0.setText(String.valueOf(listaDesafio.get(0).getDefensaMin()));
+        defensaMax0.setText(String.valueOf(listaDesafio.get(0).getDefensaMax()));
+
+        nombre1.setText(listaDesafio.get(1).getNombre());
+        imagen1.setImage(null);
+        nivel1.setText(String.valueOf(listaDesafio.get(1).getNivel()));
+        vida1.setText(String.valueOf(listaDesafio.get(1).getVidaMax()));
+        ataqueMin1.setText(String.valueOf(listaDesafio.get(1).getAtaqueMin()));
+        ataqueMax1.setText(String.valueOf(listaDesafio.get(1).getAtaqueMax()));
+        defensaMin1.setText(String.valueOf(listaDesafio.get(1).getDefensaMin()));
+        defensaMax1.setText(String.valueOf(listaDesafio.get(1).getDefensaMax()));
+
+        nombre2.setText(listaDesafio.get(2).getNombre());
+        imagen2.setImage(null);
+        nivel2.setText(String.valueOf(listaDesafio.get(2).getNivel()));
+        vida2.setText(String.valueOf(listaDesafio.get(2).getVidaMax()));
+        ataqueMin2.setText(String.valueOf(listaDesafio.get(2).getAtaqueMin()));
+        ataqueMax2.setText(String.valueOf(listaDesafio.get(2).getAtaqueMax()));
+        defensaMin2.setText(String.valueOf(listaDesafio.get(2).getDefensaMin()));
+        defensaMax2.setText(String.valueOf(listaDesafio.get(2).getDefensaMax()));
+
+        nombre3.setText(listaDesafio.get(3).getNombre());
+        imagen3.setImage(null);
+        nivel3.setText(String.valueOf(listaDesafio.get(3).getNivel()));
+        vida3.setText(String.valueOf(listaDesafio.get(3).getVidaMax()));
+        ataqueMin3.setText(String.valueOf(listaDesafio.get(3).getAtaqueMin()));
+        ataqueMax3.setText(String.valueOf(listaDesafio.get(3).getAtaqueMax()));
+        defensaMin3.setText(String.valueOf(listaDesafio.get(3).getDefensaMin()));
+        defensaMax3.setText(String.valueOf(listaDesafio.get(3).getDefensaMax()));
+
+        nombre4.setText(listaDesafio.get(4).getNombre());
+        imagen4.setImage(null);
+        nivel4.setText(String.valueOf(listaDesafio.get(4).getNivel()));
+        vida4.setText(String.valueOf(listaDesafio.get(4).getVidaMax()));
+        ataqueMin4.setText(String.valueOf(listaDesafio.get(4).getAtaqueMin()));
+        ataqueMax4.setText(String.valueOf(listaDesafio.get(4).getAtaqueMax()));
+        defensaMin4.setText(String.valueOf(listaDesafio.get(4).getDefensaMin()));
+        defensaMax4.setText(String.valueOf(listaDesafio.get(4).getDefensaMax()));
     }
 }

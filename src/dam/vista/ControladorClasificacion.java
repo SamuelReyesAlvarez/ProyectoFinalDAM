@@ -6,6 +6,7 @@
 package dam.vista;
 
 import dam.DAO.JugadorDAO;
+import dam.MainApp;
 import dam.modelo.Estadisticas;
 import dam.modelo.Jugador;
 import java.net.URL;
@@ -26,9 +27,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ControladorClasificacion implements Initializable {
 
-    private ControladorPrincipal controlPrincipal;
     private JugadorDAO jugadorDAO = new JugadorDAO();
     private ObservableList<Jugador> clasificacion;
+    private MainApp stage;
 
     @FXML
     private TableView<Jugador> tabla;
@@ -37,12 +38,14 @@ public class ControladorClasificacion implements Initializable {
     @FXML
     private TableColumn<Jugador, Integer> columnaExperiencia;
     @FXML
+    private TableColumn<Estadisticas, Integer> columnaPuntos;
+    @FXML
     private TableColumn<Estadisticas, Integer> columnaRecaudacion;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clasificacion = FXCollections.observableArrayList();
-        List<Jugador> listaJugadores = jugadorDAO.obtenerClasificacion();
+        List<Jugador> listaJugadores = jugadorDAO.clasificacion();
 
         for (Jugador jugador : listaJugadores) {
             clasificacion.add(jugador);
@@ -50,15 +53,19 @@ public class ControladorClasificacion implements Initializable {
 
         columnaNombre = new TableColumn<>();
         columnaExperiencia = new TableColumn<>();
+        columnaPuntos = new TableColumn<>();
         columnaRecaudacion = new TableColumn<>();
 
         columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
         columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
+        columnaPuntos.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("puntosCombate"));
         columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
         tabla.setItems(clasificacion);
+
+        tabla.getSelectionModel().select(stage.getJugador());
     }
 
-    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
-        this.controlPrincipal = controlPrincipal;
+    public void setStage(MainApp stage) {
+        this.stage = stage;
     }
 }

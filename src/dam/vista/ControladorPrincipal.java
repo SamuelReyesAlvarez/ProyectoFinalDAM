@@ -135,47 +135,51 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
         stage.getHostServices().showDocument(file.getPath());
     }
 
+    public void cambiarNombre() {
+        nombre.setText(jugador.getNombre());
+    }
+
     public void cambiarNivel() {
-        nivel.setText(String.valueOf(Integer.parseInt(vida.getText()) + 1));
+        nivel.setText(String.valueOf(jugador.getNivel()));
     }
 
-    public void cambiarOro(int cantidad) {
-        oro.setText(String.valueOf(Integer.parseInt(oro.getText()) + cantidad));
+    public void cambiarOro() {
+        oro.setText(String.valueOf(jugador.getOroActual()));
     }
 
-    public void cambiarVida(int cantidad) {
-        vida.setText(String.valueOf(Integer.parseInt(vida.getText()) + cantidad));
+    public void cambiarVida() {
+        vida.setText(String.valueOf(jugador.getVidaMax()));
     }
 
-    public void cambiarBarraVida(double cantidad) {
-        barraVida.setProgress(cantidad);
+    public void cambiarBarraVida() {
+        barraVida.setProgress(1);
     }
 
-    public void cambiarExperienciaActual(int cantidad) {
-        experienciaActual.setText(String.valueOf(Integer.parseInt(experienciaActual.getText()) + cantidad));
+    public void cambiarExperienciaActual() {
+        experienciaActual.setText(String.valueOf(jugador.getExpAcumuladaNivelActual()));
     }
 
-    public void cambiarExperienciaNivel(int cantidad) {
-        experienciaNivel.setText(String.valueOf(Integer.parseInt(experienciaNivel.getText()) + cantidad));
+    public void cambiarExperienciaNivel() {
+        experienciaNivel.setText(String.valueOf(jugador.getExpTotalNivelActual()));
     }
 
-    public void cambiarBarraExperiencia(double cantidad) {
-        barraExperiencia.setProgress(cantidad);
+    public void cambiarBarraExperiencia() {
+        barraExperiencia.setProgress(jugador.getProgresoExp());
     }
 
-    public void cambiarAtaqueMin(int cantidad) {
-        ataqueMin.setText(String.valueOf(Integer.parseInt(ataqueMin.getText()) + cantidad));
+    public void cambiarAtaqueMin() {
+        ataqueMin.setText(String.valueOf(jugador.getAtaqueMin()));
     }
 
-    public void cambiarAtaqueMax(int cantidad) {
-        ataqueMax.setText(String.valueOf(Integer.parseInt(ataqueMax.getText()) + cantidad));
+    public void cambiarAtaqueMax() {
+        ataqueMax.setText(String.valueOf(jugador.getAtaqueMax()));
     }
 
-    public void cambiarDefensaMin(int cantidad) {
-        defensaMin.setText(String.valueOf(Integer.parseInt(defensaMin.getText()) + cantidad));
+    public void cambiarDefensaMin() {
+        defensaMin.setText(String.valueOf(jugador.getDefensaMin()));
     }
 
-    public void cambiarDefensaMax(int cantidad) {
-        defensaMax.setText(String.valueOf(Integer.parseInt(defensaMax.getText()) + cantidad));
+    public void cambiarDefensaMax() {
+        defensaMax.setText(String.valueOf(jugador.getDefensaMax()));
     }
 }

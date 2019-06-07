@@ -45,9 +45,6 @@
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
-               <font>
-                  <Font size="20.0" />
-               </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="0.719047619047619" startX="1.0" startY="0.3571428571428571">
                      <stops>
@@ -64,62 +61,62 @@
             </ImageView>
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="50.0" text="Nivel:" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="nivel" minHeight="35.0" minWidth="50.0" text="00" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
+                  <HBox>
+                     <children>
+                        <Label minHeight="35.0" minWidth="50.0" styleClass="estado-jugador" text="Nivel:">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="nivel" minHeight="35.0" minWidth="75.0" styleClass="valor-estado-jugador" text="00">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label minHeight="35.0" minWidth="35.0" styleClass="estado-jugador" text="PC:">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label minHeight="35.0" styleClass="valor-estado-jugador" text="00">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="50.0" text="Oro:" textFill="WHITE">
+                  <Label minHeight="35.0" minWidth="50.0" styleClass="estado-jugador" text="Oro:">
                      <HBox.margin>
                         <Insets bottom="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="oro" minHeight="35.0" minWidth="50.0" text="000000" textFill="WHITE">
+                  <Label fx:id="oro" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="000000">
                      <HBox.margin>
                         <Insets bottom="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="50.0" text="Vida:" textFill="WHITE">
+                  <Label minHeight="35.0" minWidth="50.0" styleClass="estado-jugador" text="Vida:">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="vida" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="vida" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
                </children>
             </HBox>
@@ -130,34 +127,22 @@
             </ProgressBar>
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="105.0" text="Experiencia:" textFill="WHITE">
+                  <Label minHeight="35.0" minWidth="105.0" styleClass="estado-jugador" text="Experiencia:">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="experienciaActual" contentDisplay="RIGHT" minHeight="35.0" text="0000" textFill="WHITE">
+                  <Label fx:id="experienciaActual" contentDisplay="RIGHT" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
-                  <Label contentDisplay="CENTER" minHeight="35.0" text="/" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
+                  <Label contentDisplay="CENTER" minHeight="35.0" styleClass="valor-estado-jugador" text="/">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="experienciaNivel" minHeight="35.0" text="0000" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
+                  <Label fx:id="experienciaNivel" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -167,73 +152,49 @@
             <ProgressBar fx:id="barraExperiencia" minWidth="250.0" progress="1.0" />
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="80.0" text="Ataque:" textFill="WHITE">
+                  <Label minHeight="35.0" minWidth="80.0" styleClass="estado-jugador" text="Ataque:">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="ataqueMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="ataqueMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
-                  <Label contentDisplay="CENTER" minHeight="35.0" text="-" textFill="WHITE">
+                  <Label contentDisplay="CENTER" minHeight="35.0" styleClass="valor-estado-jugador" text="-">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="ataqueMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="ataqueMax" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
                </children>
             </HBox>
             <HBox>
                <children>
-                  <Label minHeight="35.0" minWidth="80.0" text="Defensa:" textFill="WHITE">
+                  <Label minHeight="35.0" minWidth="80.0" styleClass="estado-jugador" text="Defensa:">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="defensaMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="defensaMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
-                  <Label contentDisplay="CENTER" minHeight="35.0" text="-" textFill="WHITE">
+                  <Label contentDisplay="CENTER" minHeight="35.0" styleClass="valor-estado-jugador" text="-">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
-                  <Label fx:id="defensaMax" minHeight="35.0" minWidth="50.0" text="0000" textFill="WHITE">
+                  <Label fx:id="defensaMax" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                   </Label>
                </children>
             </HBox>

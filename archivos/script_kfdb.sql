@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS mision (
 CREATE TABLE IF NOT EXISTS estadisticas (
     id_estadisticas INT NOT NULL,
     id_jugador INT NULL,
+    puntos_combate INT NOT NULL,
     victorias INT NOT NULL,
     derrotas INT NOT NULL,
     ataque_total INT NOT NULL,

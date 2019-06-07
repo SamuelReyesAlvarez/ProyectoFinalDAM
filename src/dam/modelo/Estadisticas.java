@@ -6,16 +6,12 @@
 package dam.modelo;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,10 +27,8 @@ public class Estadisticas implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idEstadisticas;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    @NotNull
-    private Jugador jugador;
+    @Column(name = "puntos_combate")
+    private int puntosCombate;
 
     @Column(name = "victorias")
     private int victorias;
@@ -57,9 +51,9 @@ public class Estadisticas implements Serializable {
     public Estadisticas() {
     }
 
-    public Estadisticas(int idEstadisticas, Jugador jugador, int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas, int totalRecaudado) {
+    public Estadisticas(int idEstadisticas, int puntosCombate, int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas, int totalRecaudado) {
         this.idEstadisticas = idEstadisticas;
-        this.jugador = jugador;
+        this.puntosCombate = puntosCombate;
         this.victorias = victorias;
         this.derrotas = derrotas;
         this.totalAtaque = totalAtaque;
@@ -76,12 +70,12 @@ public class Estadisticas implements Serializable {
         this.idEstadisticas = idEstadisticas;
     }
 
-    public Jugador getJugador() {
-        return jugador;
+    public int getPuntosCombate() {
+        return puntosCombate;
     }
 
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
+    public void setPuntosCombate(int puntosCombate) {
+        this.puntosCombate = puntosCombate;
     }
 
     public int getVictorias() {
@@ -135,7 +129,7 @@ public class Estadisticas implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.jugador);
+        hash = 23 * hash + this.idEstadisticas;
         return hash;
     }
 
@@ -151,7 +145,7 @@ public class Estadisticas implements Serializable {
             return false;
         }
         final Estadisticas other = (Estadisticas) obj;
-        if (!Objects.equals(this.jugador, other.jugador)) {
+        if (this.idEstadisticas != other.idEstadisticas) {
             return false;
         }
         return true;

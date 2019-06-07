@@ -68,18 +68,18 @@ public class ControladorCarga implements Initializable {
 
         jugador.setEstadoJugador(estadoJugador);
 
-        genericDao.guardarActualizar(jugador);
-
         Estadisticas estadisticas = new Estadisticas();
         estadisticas.setDerrotas(ESTADISTICAS_INICIALES);
-        estadisticas.setJugador(jugador);
         estadisticas.setMisionesCompletadas(ESTADISTICAS_INICIALES);
+        estadisticas.setPuntosCombate(ESTADISTICAS_INICIALES);
         estadisticas.setTotalAtaque(ESTADISTICAS_INICIALES);
         estadisticas.setTotalDefensa(ESTADISTICAS_INICIALES);
         estadisticas.setTotalRecaudado(ESTADISTICAS_INICIALES);
         estadisticas.setVictorias(ESTADISTICAS_INICIALES);
 
-        genericDao.guardarActualizar(estadisticas);
+        jugador.setEstadisticas(estadisticas);
+
+        genericDao.guardarActualizar(jugador);
 
         stage.setJugador((Jugador) genericDao.obtenerTodo(jugador));
 

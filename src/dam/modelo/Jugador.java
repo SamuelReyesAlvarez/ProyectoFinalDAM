@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -85,20 +87,16 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @Cascade(CascadeType.ALL)
     private List<Mision> tareaActiva;
 
-    /*
-    @OneToMany(mappedBy = "jugador")
+    @OneToOne
+    @PrimaryKeyJoinColumn
     @Cascade(CascadeType.ALL)
-    private List<Bazar> ventas;
+    @NotNull
+    private Estadisticas estadisticas;
 
-    @OneToMany(mappedBy = "jugador")
-    @Cascade(CascadeType.ALL)
-    private List<Combate> combates;
-     */
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva) {
-        //public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, List<Bazar> ventas, List<Combate> combates) {
+    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.nivel = nivel;
@@ -108,8 +106,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.estadoJugador = estadoJugador;
         this.equipoJugador = equipoJugador;
         this.tareaActiva = tareaActiva;
-        //this.ventas = ventas;
-        //this.combates = combates;
+        this.estadisticas = estadisticas;
     }
 
     public int getIdJugador() {
@@ -184,23 +181,14 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.tareaActiva = tareaActiva;
     }
 
-    /*
-    public List<Bazar> getVentas() {
-        return ventas;
+    public Estadisticas getEstadisticas() {
+        return estadisticas;
     }
 
-    public void setVentas(List<Bazar> ventas) {
-        this.ventas = ventas;
+    public void setEstadisticas(Estadisticas estadisticas) {
+        this.estadisticas = estadisticas;
     }
 
-    public List<Combate> getCombate() {
-        return combates;
-    }
-
-    public void setCombate(List<Combate> combate) {
-        this.combates = combate;
-    }
-     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -224,6 +212,24 @@ public class Jugador implements Serializable, Comparable<Jugador> {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Jugador o) {
+        /*
+        if (this.getExpAcumulada() > o.getExpAcumulada()) {
+            return -1;
+        } else if (this.getExpAcumulada() < o.getExpAcumulada()) {
+            return 1;
+        } else {
+            return 0;
+        }
+         */
+        return Integer.compare(this.expAcumulada, o.expAcumulada);
+    }
+
+    public int compararCombates(Jugador o) {
+        return Integer.compare(this.getEstadisticas().getPuntosCombate(), o.getEstadisticas().getPuntosCombate());
     }
 
     public int getExpAcumuladaNivelActual() {
@@ -338,14 +344,12 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         }
     }
 
-    @Override
-    public int compareTo(Jugador o) {
-        if (this.getExpAcumulada() > o.getExpAcumulada()) {
-            return -1;
-        } else if (this.getExpAcumulada() < o.getExpAcumulada()) {
-            return 1;
-        } else {
-            return 0;
+    public void mejorarAtributo(Estado.TipoAtributo tipo) {
+        for (Estado estado : getEstadoJugador()) {
+            if (estado.getTipoAtributo() == tipo) {
+                estado.setPotenciado(estado.getPotenciado() + 1);
+                this.setPuntosNoUsados(this.getPuntosNoUsados() - 1);
+            }
         }
     }
 

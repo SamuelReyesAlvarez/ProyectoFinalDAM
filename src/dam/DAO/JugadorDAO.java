@@ -17,14 +17,23 @@ import org.hibernate.Session;
  */
 public class JugadorDAO {
 
-    public List obtenerClasificacion() {
+    public List clasificacion() {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
-                "FROM Jugador j, Estadisticas e "
-                + "WHERE j.idJugador = e.jugador "
+                "FROM Jugador j "
                 + "ORDER BY j.expAcumulada DESC");
+        return resultado.list();
+    }
+
+    public List filtroDesafio() {
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query resultado = session.createQuery(
+                "FROM Jugador j "
+                + "ORDER BY j.estadisticas.puntosCombate DESC");
         return resultado.list();
     }
 }
