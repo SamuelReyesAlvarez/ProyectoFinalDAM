@@ -135,7 +135,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
                         if (result.isPresent() && result.get().trim().equals(codigo)) {
                             // Crear la partida para el nuevo jugador
-                            stage.mostrarCarga();
+                            stage.mostrarCarga(nuevaCuenta);
                         } else {
                             // Informar que el código introducido no es correcto
                             error.setText("Codigo incorrecto");

@@ -39,119 +39,24 @@ public class ControladorInventario implements Initializable {
     private MainApp stage;
 
     @FXML
-    private ProgressBar barraFuerza;
+    private ProgressBar barraFuerza, barraDestreza, barraArmadura, barraConstitucion;
     @FXML
-    private ProgressBar barraDestreza;
+    private ProgressBar barraTierra, barraAgua, barraFuego, barraViento;
     @FXML
-    private ProgressBar barraArmadura;
+    private Button masFuerza, masDestreza, masArmadura, masConstitucion;
     @FXML
-    private ProgressBar barraConstitucion;
+    private Label fuerza, destreza, armadura, constitucion, puntosSinAsignar;
     @FXML
-    private ProgressBar barraTierra;
+    private Label tierra, agua, fuego, viento;
     @FXML
-    private ProgressBar barraAgua;
+    private Label pendiente, casco, collar, pulsera, chaleco, capa, escudo,
+            pantalon, arma, cinturon, botas, anillo;
     @FXML
-    private ProgressBar barraFuego;
+    private Label inv01, inv02, inv03, inv04, inv05, inv06, inv07, inv08;
     @FXML
-    private ProgressBar barraViento;
+    private Label inv09, inv10, inv11, inv12, inv13, inv14, inv15, inv16;
     @FXML
-    private Button masFuerza;
-    @FXML
-    private Button masDestreza;
-    @FXML
-    private Button masArmadura;
-    @FXML
-    private Button masConstitucion;
-    @FXML
-    private Label fuerza;
-    @FXML
-    private Label destreza;
-    @FXML
-    private Label armadura;
-    @FXML
-    private Label constitucion;
-    @FXML
-    private Label puntosSinAsignar;
-    @FXML
-    private Label tierra;
-    @FXML
-    private Label agua;
-    @FXML
-    private Label fuego;
-    @FXML
-    private Label viento;
-    @FXML
-    private Label pendiente;
-    @FXML
-    private Label casco;
-    @FXML
-    private Label collar;
-    @FXML
-    private Label pulsera;
-    @FXML
-    private Label chaleco;
-    @FXML
-    private Label capa;
-    @FXML
-    private Label escudo;
-    @FXML
-    private Label pantalon;
-    @FXML
-    private Label arma;
-    @FXML
-    private Label cinturon;
-    @FXML
-    private Label botas;
-    @FXML
-    private Label anillo;
-    @FXML
-    private Label inv01;
-    @FXML
-    private Label inv02;
-    @FXML
-    private Label inv03;
-    @FXML
-    private Label inv04;
-    @FXML
-    private Label inv05;
-    @FXML
-    private Label inv06;
-    @FXML
-    private Label inv07;
-    @FXML
-    private Label inv08;
-    @FXML
-    private Label inv09;
-    @FXML
-    private Label inv10;
-    @FXML
-    private Label inv11;
-    @FXML
-    private Label inv12;
-    @FXML
-    private Label inv13;
-    @FXML
-    private Label inv14;
-    @FXML
-    private Label inv15;
-    @FXML
-    private Label inv16;
-    @FXML
-    private Label inv17;
-    @FXML
-    private Label inv18;
-    @FXML
-    private Label inv19;
-    @FXML
-    private Label inv20;
-    @FXML
-    private Label inv21;
-    @FXML
-    private Label inv22;
-    @FXML
-    private Label inv23;
-    @FXML
-    private Label inv24;
+    private Label inv17, inv18, inv19, inv20, inv21, inv22, inv23, inv24;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -191,7 +96,7 @@ public class ControladorInventario implements Initializable {
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Error", "Acción no disponible", "No se pudo cambiar el estado del objeto");
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }
@@ -223,7 +128,7 @@ public class ControladorInventario implements Initializable {
             }
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }
@@ -246,7 +151,7 @@ public class ControladorInventario implements Initializable {
             }
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         } catch (NumberFormatException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", "Debes introducir una cantidad válida");
         }
@@ -261,7 +166,7 @@ public class ControladorInventario implements Initializable {
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }
@@ -274,7 +179,7 @@ public class ControladorInventario implements Initializable {
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }
@@ -287,7 +192,7 @@ public class ControladorInventario implements Initializable {
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }
@@ -300,7 +205,7 @@ public class ControladorInventario implements Initializable {
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
-            jugador = (Jugador) genericDao.obtenerPorId(jugador.getClass(), jugador.getIdJugador());
+            jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         stage.mostrarPrincipal();
     }

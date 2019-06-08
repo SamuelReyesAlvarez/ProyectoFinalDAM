@@ -66,22 +66,46 @@
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="nivel0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="nivel0" minHeight="35.0" minWidth="70.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="30.0" styleClass="atributo" text="PC:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="puntos0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox>
@@ -178,11 +202,15 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
+                                    <Label styleClass="victoria" text="V:" />
+                                    <Label fx:id="victoria0" styleClass="victoria" text="25" />
                                     <Button mnemonicParsing="false" onAction="#desafiar0" styleClass="boton" text="Desafiar">
                                        <HBox.margin>
                                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label styleClass="derrota" text="D:" />
+                                    <Label fx:id="derrota0" styleClass="derrota" text="25" />
                                  </children>
                               </HBox>
                            </children>
@@ -215,22 +243,46 @@
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="nivel1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="nivel1" minHeight="35.0" minWidth="70.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="30.0" styleClass="atributo" text="PC:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="puntos1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox>
@@ -327,11 +379,15 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
+                                    <Label styleClass="victoria" text="V:" />
+                                    <Label fx:id="victoria1" styleClass="victoria" text="25" />
                                     <Button mnemonicParsing="false" onAction="#desafiar1" styleClass="boton" text="Desafiar">
                                        <HBox.margin>
                                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label styleClass="derrota" text="D:" />
+                                    <Label fx:id="derrota1" styleClass="derrota" text="25" />
                                  </children>
                               </HBox>
                            </children>
@@ -364,22 +420,46 @@
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="nivel2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="nivel2" minHeight="35.0" minWidth="70.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="30.0" styleClass="atributo" text="PC:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="puntos2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox>
@@ -476,11 +556,15 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
+                                    <Label styleClass="victoria" text="V:" />
+                                    <Label fx:id="victoria2" styleClass="victoria" text="25" />
                                     <Button mnemonicParsing="false" onAction="#desafiar2" styleClass="boton" text="Desafiar">
                                        <HBox.margin>
                                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label styleClass="derrota" text="D:" />
+                                    <Label fx:id="derrota2" styleClass="derrota" text="25" />
                                  </children>
                               </HBox>
                            </children>
@@ -513,22 +597,46 @@
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="nivel3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="nivel3" minHeight="35.0" minWidth="70.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="30.0" styleClass="atributo" text="PC:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="puntos3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox>
@@ -625,11 +733,15 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
+                                    <Label styleClass="victoria" text="V:" />
+                                    <Label fx:id="victoria3" styleClass="victoria" text="25" />
                                     <Button mnemonicParsing="false" onAction="#desafiar3" styleClass="boton" text="Desafiar">
                                        <HBox.margin>
                                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label styleClass="derrota" text="D:" />
+                                    <Label fx:id="derrota3" styleClass="derrota" text="25" />
                                  </children>
                               </HBox>
                            </children>
@@ -662,22 +774,46 @@
                               </ImageView>
                               <HBox>
                                  <children>
-                                    <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="nivel4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="50.0" styleClass="atributo" text="Nivel:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="nivel4" minHeight="35.0" minWidth="70.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label minHeight="35.0" minWidth="30.0" styleClass="atributo" text="PC:" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="puntos4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="00" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox>
@@ -774,11 +910,15 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
+                                    <Label styleClass="victoria" text="V:" />
+                                    <Label fx:id="victoria4" styleClass="victoria" text="25" />
                                     <Button mnemonicParsing="false" onAction="#desafiar4" styleClass="boton" text="Desafiar">
                                        <HBox.margin>
                                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label styleClass="derrota" text="D:" />
+                                    <Label fx:id="derrota4" styleClass="derrota" text="25" />
                                  </children>
                               </HBox>
                            </children>

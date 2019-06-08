@@ -5,6 +5,7 @@
  */
 package dam;
 
+import dam.modelo.Acceso;
 import dam.modelo.HibernateUtil;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
@@ -32,8 +33,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.6.1
- * @modified 07/06/2019
+ * @version 1.6.2
+ * @modified 08/06/2019
  */
 public class MainApp extends Application {
 
@@ -76,7 +77,7 @@ public class MainApp extends Application {
         }
     }
 
-    public void mostrarCarga() {
+    public void mostrarCarga(Acceso cuenta) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaCarga.fxml"));
@@ -90,7 +91,7 @@ public class MainApp extends Application {
             controlCarga.setStage(this);
 
             try {
-                controlCarga.crearNuevoJugador();
+                controlCarga.crearNuevoJugador(cuenta);
             } catch (JuegoException ex) {
                 Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
             }

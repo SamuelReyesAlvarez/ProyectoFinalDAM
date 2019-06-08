@@ -76,7 +76,7 @@ public class GenericDAO<T> {
         session.getTransaction().commit();
     }
 
-    public List<T> obtenerTodo(T entidad) {
+    public List<T> obtenerTodos(Class<T> entidad) {
         Session session = comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();

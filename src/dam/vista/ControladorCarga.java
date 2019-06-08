@@ -7,6 +7,7 @@ package dam.vista;
 
 import dam.DAO.GenericDAO;
 import dam.MainApp;
+import dam.modelo.Acceso;
 import dam.modelo.Estadisticas;
 import dam.modelo.Estado;
 import dam.modelo.JuegoException;
@@ -45,7 +46,7 @@ public class ControladorCarga implements Initializable {
         this.stage = stage;
     }
 
-    public void crearNuevoJugador() throws JuegoException {
+    public void crearNuevoJugador(Acceso nuevaCuenta) throws JuegoException {
         jugador = new Jugador();
         jugador.setEquipoJugador(new HashSet<>());
         jugador.setEstadoJugador(new HashSet<>());
@@ -81,7 +82,11 @@ public class ControladorCarga implements Initializable {
 
         genericDao.guardarActualizar(jugador);
 
-        stage.setJugador((Jugador) genericDao.obtenerTodo(jugador));
+        nuevaCuenta.setJugador(jugador);
+        genericDao.guardarActualizar(nuevaCuenta);
+
+        stage.setJugador(((Acceso) genericDao.obtenerPorId(nuevaCuenta.getClass(),
+                nuevaCuenta.getCorreo())).getJugador());
 
         // Abrir la partida creada
         stage.mostrarPrincipal();
