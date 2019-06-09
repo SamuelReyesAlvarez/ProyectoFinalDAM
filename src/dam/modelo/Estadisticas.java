@@ -150,4 +150,32 @@ public class Estadisticas implements Serializable {
         }
         return true;
     }
+
+    public void cambiarPuntosCombate(int variacion) {
+        this.puntosCombate += variacion;
+    }
+
+    public void aumentarVictorias() {
+        this.victorias++;
+    }
+
+    public void aumentarDerrotas() {
+        this.derrotas++;
+    }
+
+    public void aumentarTotalAtaque(int cantidad) {
+        this.totalAtaque += cantidad;
+    }
+
+    public void aumentarTotalDefensa(int cantidad) {
+        this.totalDefensa += cantidad;
+    }
+
+    public void aumentarMisiones() {
+        this.misionesCompletadas++;
+    }
+
+    public void aumentarTotalRecaudado(int cantidad) {
+        this.totalRecaudado += cantidad;
+    }
 }

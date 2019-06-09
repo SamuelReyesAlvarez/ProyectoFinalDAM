@@ -7,6 +7,7 @@ package dam.DAO;
 
 import dam.modelo.HibernateUtil;
 import dam.modelo.Mision;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -17,15 +18,41 @@ import org.hibernate.Session;
  */
 public class MisionDAO {
 
-    public int tiempoRestanteMision(Mision mision) {
+    public List<Mision> obtenerParaTablon() {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query resultado = session.createQuery(
-                "SELECT TIMESTAMPDIFF(SECOND, now(), m.fin) AS diferencia"
-                + "FROM Mision m "
-                + "WHERE m = " + mision);
+                "FROM Mision m "
+                + "WHERE m.jugador = null"
+        );
 
-        return resultado; // extraer dato de la consulta
+        return resultado.list();
+    }
+
+    public boolean comenzarMision(Mision mision) {
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query resultado = session.createQuery(
+                "UPDATE  FROM Mision m "
+                + "WHERE m = " + mision
+        ).uniqueResult(); // actualizar la mision asignada al jugador con la hora de inicio y de fin
+
+        return resultado;
+    }
+
+    public int tiempoRestanteMision(Mision mision) {
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Object resultado = session.createQuery(
+                "SELECT COALESCE(TIMESTAMPDIFF(SECOND, now(), m.fin), 0)"
+                + "FROM Mision m "
+                + "WHERE m = " + mision
+                + " AND m.completada = 0"
+        ).uniqueResult();
+
+        return Integer.parseInt((String) resultado);
     }
 }

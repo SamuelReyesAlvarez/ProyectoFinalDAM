@@ -33,8 +33,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.6.2
- * @modified 08/06/2019
+ * @version 1.7.1
+ * @modified 09/06/2019
  */
 public class MainApp extends Application {
 
@@ -158,7 +158,7 @@ public class MainApp extends Application {
             principal.setCenter(mision);
 
             ControladorMision controlMision = loader.getController();
-            controlMision.setControladorPrincipal(controlPrincipal);
+            controlMision.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

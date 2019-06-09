@@ -7,16 +7,22 @@ package dam.vista;
 
 import dam.DAO.GenericDAO;
 import dam.DAO.JugadorDAO;
+import dam.DAO.MisionDAO;
 import dam.MainApp;
+import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
+import dam.modelo.Mision;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
@@ -32,9 +38,11 @@ public class ControladorCombatir implements Initializable {
 
     private GenericDAO genericDao = new GenericDAO();
     private JugadorDAO jugadorDao = new JugadorDAO();
+    private MisionDAO misionDao = new MisionDAO();
     private List<Jugador> clasificacion;
     private ArrayList<Jugador> listaDesafio;
     private MainApp stage;
+    private Jugador jugador;
 
     @FXML
     private Label nombre0, nombre1, nombre2, nombre3, nombre4;
@@ -61,6 +69,7 @@ public class ControladorCombatir implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        jugador = stage.getJugador();
         cargarListaDesafio();
     }
 
@@ -70,39 +79,64 @@ public class ControladorCombatir implements Initializable {
 
     @FXML
     public void desafiar0() {
-        desafiar(0);
+        desafiar(0, Integer.parseInt(victoria0.getText()), Integer.parseInt(derrota0.getText()));
     }
 
     @FXML
     public void desafiar1() {
-        desafiar(1);
+        desafiar(1, Integer.parseInt(victoria1.getText()), Integer.parseInt(derrota1.getText()));
     }
 
     @FXML
     public void desafiar2() {
-        desafiar(2);
+        desafiar(2, Integer.parseInt(victoria2.getText()), Integer.parseInt(derrota2.getText()));
     }
 
     @FXML
     public void desafiar3() {
-        desafiar(3);
+        desafiar(3, Integer.parseInt(victoria3.getText()), Integer.parseInt(derrota3.getText()));
     }
 
     @FXML
     public void desafiar4() {
-        desafiar(4);
+        desafiar(4, Integer.parseInt(victoria4.getText()), Integer.parseInt(derrota4.getText()));
     }
 
-    private void desafiar(int id) {
+    private void desafiar(int id, int puntosVictoria, int puntosDerrota) {
         // Comprobar si el jugador está actualmente en una misión
-        jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
+        Mision mision = jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
+        int tiempoRestante = misionDao.tiempoRestanteMision(mision);
 
-        // Realizar combate entre el jugador de la partida y el seleccionado de la lista
-        // Establecer ambos participantes
-        Jugador jugador = stage.getJugador();
-        Jugador contrario = (Jugador) genericDao.obtenerPorId(Jugador.class, listaDesafio.get(id).getIdJugador());
+        if (tiempoRestante > 0) {
+            // Informar del tiempo restante en misión
+            int horas = (tiempoRestante / 3600);
+            int minutos = (tiempoRestante / 60);
+            int segundos = (tiempoRestante % 60);
+            String tiempo = horas + ":"
+                    + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
+                    + ((segundos < 10) ? ("0" + segundos) : segundos);
 
-        //
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible",
+                    "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo);
+        } else if (tiempoRestante < 0) {
+            // Notificar que la misión ha concluido pero necesita ser completada
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Notificación",
+                    "Recompensa de misión no recibida",
+                    "Has terminado una misión pero no has recogido la recomepnsa.\n"
+                    + "Dirígete a la pantalla de misiones para cobrarla");
+        } else {
+            // Realizar combate entre el jugador de la partida y el seleccionado de la lista
+            Jugador contrario = (Jugador) genericDao.obtenerPorId(Jugador.class, listaDesafio.get(id).getIdJugador());
+
+            simularCombate(contrario, puntosVictoria, puntosDerrota);
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecera, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(mensaje);
     }
 
     private void cargarListaDesafio() {
@@ -111,7 +145,7 @@ public class ControladorCombatir implements Initializable {
 
         // Cargar lista con 5 jugadores con puntuación aproximada
         HashSet<Jugador> prelistado = new HashSet<>();
-        int posicionJugador = clasificacion.indexOf(stage.getJugador());
+        int posicionJugador = clasificacion.indexOf(jugador);
         Random r = new Random();
         int i = 0;
 
@@ -200,7 +234,7 @@ public class ControladorCombatir implements Initializable {
 
     private String calcularPuntosPorVD(Jugador otro, boolean victoria) {
         int diferenciaPuntos = otro.getEstadisticas().getPuntosCombate()
-                - stage.getJugador().getEstadisticas().getPuntosCombate();
+                - jugador.getEstadisticas().getPuntosCombate();
         int premio;
 
         if (diferenciaPuntos > 24) {
@@ -212,5 +246,108 @@ public class ControladorCombatir implements Initializable {
         }
 
         return String.valueOf((victoria) ? premio : (premio - 25));
+    }
+
+    private void simularCombate(Jugador contrario, int puntosVictoria, int puntosDerrota) {
+        int vidaJugador = jugador.getVidaMax();
+        int vidaContrario = contrario.getVidaMax();
+        int elementoAtaqueJugador = jugador.getElementoDominante().getPotenciado();
+        int elementoAtaqueContrario = contrario.getElementoDominante().getPotenciado();
+        int elementoDefensaJugador = jugador.getElementoDefensa(contrario.getElementoDominante()).getPotenciado();
+        int elementoDefensaContrario = contrario.getElementoDefensa(jugador.getElementoDominante()).getPotenciado();
+        int ventajaJugador = elementoAtaqueJugador - elementoDefensaContrario;
+        int ventajaContrario = elementoAtaqueContrario - elementoDefensaJugador;
+
+        StringBuilder resumen = new StringBuilder();
+        int ataqueTotalJugador = 0;
+        int ataqueTotalContrario = 0;
+        int defensaTotalJugador = 0;
+        int defensaTotalContrario = 0;
+        Random r;
+        int ataque;
+        int defensa;
+        int danio;
+
+        int turno = 1;
+        while (vidaJugador > 0 && vidaContrario > 0) {
+            r = new Random(System.currentTimeMillis());
+            if (turno % 2 == 0) {
+                // Turno del jugador
+                ataque = ventajaJugador + r.nextInt(jugador.getAtaqueMax()
+                        - jugador.getAtaqueMin()) + jugador.getAtaqueMin();
+                defensa = r.nextInt(contrario.getDefensaMax()
+                        - contrario.getDefensaMin()) + contrario.getDefensaMin();
+                ataque = ataque < 1 ? 0 : ataque;
+                ataqueTotalJugador += ataque;
+                defensa = ataque < defensa ? ataque : defensa;
+                defensaTotalContrario += defensa;
+                danio = ataque - defensa;
+                vidaContrario = danio < 1 ? 0 : danio;
+
+                resumen.append(jugador.getNombre() + " ataca con " + ataque
+                        + " puntos de golpe\n");
+                resumen.append(contrario.getNombre() + " detiene " + defensa
+                        + " puntos de golpe perdiendo " + danio + " puntos de vida\n\n");
+            } else {
+                // Turno del contrario
+                ataque = ventajaContrario + r.nextInt(contrario.getAtaqueMax()
+                        - contrario.getAtaqueMin()) + contrario.getAtaqueMin();
+                defensa = r.nextInt(jugador.getDefensaMax()
+                        - jugador.getDefensaMin()) + jugador.getDefensaMin();
+                ataque = ataque < 1 ? 0 : ataque;
+                ataqueTotalContrario += ataque;
+                defensa = ataque < defensa ? ataque : defensa;
+                defensaTotalJugador += defensa;
+                danio = ataque - defensa;
+                vidaJugador = danio < 1 ? 0 : danio;
+
+                resumen.append(contrario.getNombre() + " ataca con " + ataque
+                        + " puntos de golpe\n");
+                resumen.append(jugador.getNombre() + " detiene " + defensa
+                        + " puntos de golpe perdiendo " + danio + " puntos de vida\n\n");
+            }
+            turno++;
+        }
+
+        contrario.getEstadisticas().aumentarTotalAtaque(ataqueTotalContrario);
+        contrario.getEstadisticas().aumentarTotalDefensa(defensaTotalContrario);
+        jugador.getEstadisticas().aumentarTotalAtaque(ataqueTotalJugador);
+        jugador.getEstadisticas().aumentarTotalDefensa(defensaTotalJugador);
+
+        if (vidaJugador < 1) {
+            contrario.getEstadisticas().aumentarVictorias();
+            contrario.getEstadisticas().cambiarPuntosCombate(-puntosDerrota);
+            jugador.getEstadisticas().aumentarDerrotas();
+            jugador.getEstadisticas().cambiarPuntosCombate(puntosDerrota);
+
+            resumen.append(contrario.getNombre() + " gana el combate y obtiene "
+                    + (-puntosDerrota) + " puntos de combate\n");
+            resumen.append(jugador.getNombre() + " pierde el combate y "
+                    + (puntosDerrota) + " puntos de combate\n");
+        } else {
+            jugador.getEstadisticas().aumentarVictorias();
+            jugador.getEstadisticas().cambiarPuntosCombate(puntosVictoria);
+            contrario.getEstadisticas().aumentarDerrotas();
+            contrario.getEstadisticas().cambiarPuntosCombate(-puntosVictoria);
+
+            resumen.append(jugador.getNombre() + " gana el combate y obtiene "
+                    + (puntosVictoria) + " puntos de combate\n");
+            resumen.append(contrario.getNombre() + " pierde el combate y "
+                    + (-puntosVictoria) + " puntos de combate\n");
+        }
+
+        try {
+            genericDao.guardarActualizar(contrario);
+            genericDao.guardarActualizar(jugador);
+        } catch (JuegoException ex) {
+            Logger.getLogger(ControladorCombatir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        mostrarAlerta(Alert.AlertType.INFORMATION,
+                jugador.getNombre() + " vs " + contrario.getNombre(),
+                "Combate finalizado", resumen.toString());
+
+        stage.mostrarPrincipal();
+        stage.mostrarCombatir();
     }
 }

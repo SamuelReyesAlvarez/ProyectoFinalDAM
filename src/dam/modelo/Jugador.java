@@ -367,4 +367,68 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         }
         return null;
     }
+
+    public Estado getElementoDominante() {
+        Estado mayor = new Estado(0, null, null, Integer.MIN_VALUE);
+
+        for (Estado estado : estadoJugador) {
+            switch (estado.getTipoAtributo()) {
+                case TIERRA:
+                    if (mayor.getPotenciado() < estado.getPotenciado()) {
+                        mayor = estado;
+                    }
+                    break;
+                case AGUA:
+                    if (mayor.getPotenciado() < estado.getPotenciado()) {
+                        mayor = estado;
+                    }
+                    break;
+                case FUEGO:
+                    if (mayor.getPotenciado() < estado.getPotenciado()) {
+                        mayor = estado;
+                    }
+                    break;
+                case VIENTO:
+                    if (mayor.getPotenciado() < estado.getPotenciado()) {
+                        mayor = estado;
+                    }
+                    break;
+            }
+        }
+
+        return mayor;
+    }
+
+    public Estado getElementoDefensa(Estado ataque) {
+        switch (ataque.getTipoAtributo()) {
+            case TIERRA:
+                for (Estado estado : estadoJugador) {
+                    if (estado.getTipoAtributo() == Estado.TipoAtributo.AGUA) {
+                        return estado;
+                    }
+                }
+            case AGUA:
+                for (Estado estado : estadoJugador) {
+                    if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
+                        return estado;
+                    }
+                }
+                break;
+            case FUEGO:
+                for (Estado estado : estadoJugador) {
+                    if (estado.getTipoAtributo() == Estado.TipoAtributo.VIENTO) {
+                        return estado;
+                    }
+                }
+                break;
+            case VIENTO:
+                for (Estado estado : estadoJugador) {
+                    if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
+                        return estado;
+                    }
+                }
+                break;
+        }
+        return null;
+    }
 }
