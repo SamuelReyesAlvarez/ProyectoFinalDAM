@@ -20,6 +20,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 
 /**
@@ -33,7 +35,7 @@ public class Inventario implements Serializable {
 
     private static final int VALOR_BASE = 500;
     private static final int VALOR_POTENCIADO = 150;
-    private static final int PROBABILIDAD_CREAR_EQUIPO = 5;
+    public static final int PROBABILIDAD_CREAR_EQUIPO = 5;
 
     public enum TipoEquipo {
         PENDIENTE, CASCO, COLLAR, PULSERA, CHALECO, CAPA, ESCUDO, PANTALON, ARMA, CINTURON, BOTAS, ANILLO
@@ -46,6 +48,7 @@ public class Inventario implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_jugador")
+    @Cascade(CascadeType.ALL)
     private Jugador jugador;
 
     @OneToOne
@@ -214,9 +217,10 @@ public class Inventario implements Serializable {
     }
 
     public void aumentarPotenciado() throws JuegoException {
-        if (potenciado == getNivel() * 10) {
+        if (potenciado >= getNivel() * 10) {
             throw new JuegoException("Limite de potenciado alcanzado");
         }
+        estado.setPotenciado((estado.getPotenciado() / (potenciado + 1)) * (potenciado + 2));
         potenciado++;
     }
 }

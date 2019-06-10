@@ -59,6 +59,15 @@ public class Bazar implements Serializable {
     @NotNull
     private int potenciado;
 
+    @Column(name = "tipo_atributo")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Estado.TipoAtributo tipoAtributo;
+
+    @Column(name = "potenciado_atributo")
+    @NotNull
+    private int potenciadoAtributo;
+
     @Column(name = "precio")
     @NotNull
     private int precio;
@@ -71,13 +80,15 @@ public class Bazar implements Serializable {
     public Bazar() {
     }
 
-    public Bazar(int idBazar, Jugador comprador, Jugador vendedor, Inventario.TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, Date fechaVenta) {
+    public Bazar(int idBazar, Jugador comprador, Jugador vendedor, Inventario.TipoEquipo tipoEquipo, int nivel, int potenciado, Estado.TipoAtributo tipoAtributo, int potenciadoAtributo, int precio, Date fechaVenta) {
         this.idBazar = idBazar;
         this.comprador = comprador;
         this.vendedor = vendedor;
         this.tipoEquipo = tipoEquipo;
         this.nivel = nivel;
         this.potenciado = potenciado;
+        this.tipoAtributo = tipoAtributo;
+        this.potenciadoAtributo = potenciadoAtributo;
         this.precio = precio;
         this.fechaVenta = fechaVenta;
     }
@@ -128,6 +139,22 @@ public class Bazar implements Serializable {
 
     public void setPotenciado(int potenciado) {
         this.potenciado = potenciado;
+    }
+
+    public Estado.TipoAtributo getTipoAtributo() {
+        return tipoAtributo;
+    }
+
+    public void setTipoAtributo(Estado.TipoAtributo tipoAtributo) {
+        this.tipoAtributo = tipoAtributo;
+    }
+
+    public int getPotenciadoAtributo() {
+        return potenciadoAtributo;
+    }
+
+    public void setPotenciadoAtributo(int potenciadoAtributo) {
+        this.potenciadoAtributo = potenciadoAtributo;
     }
 
     public int getPrecio() {

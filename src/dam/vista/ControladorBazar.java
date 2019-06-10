@@ -7,7 +7,10 @@ package dam.vista;
 
 import dam.DAO.GenericDAO;
 import dam.DAO.InventarioDAO;
+import dam.MainApp;
+import dam.modelo.Bazar;
 import dam.modelo.Inventario;
+import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import java.net.URL;
 import java.util.Collections;
@@ -19,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -32,7 +36,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ControladorBazar implements Initializable {
 
-    private ControladorPrincipal controlPrincipal;
     private GenericDAO genericDao = new GenericDAO();
     private InventarioDAO inventarioDao = new InventarioDAO();
     private ObservableList<Inventario> ofertas;
@@ -40,6 +43,8 @@ public class ControladorBazar implements Initializable {
     private ObservableList<String> listaNivel;
     private ObservableList<String> listaPotenciado;
     private List<Inventario> listaEnVenta = new LinkedList<>();
+    private MainApp stage;
+    private Jugador jugador;
 
     @FXML
     private TableView<Inventario> tabla;
@@ -62,6 +67,8 @@ public class ControladorBazar implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        jugador = stage.getJugador();
+
         cargarComboTipoEquipo();
         cargarComboNivelEquipo();
         cargarComboPotenciadoEquipo();
@@ -105,24 +112,60 @@ public class ControladorBazar implements Initializable {
         });
     }
 
-    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
-        this.controlPrincipal = controlPrincipal;
+    public void setStage(MainApp stage) {
+        this.stage = stage;
     }
 
     @FXML
     public void comprar() {
         Inventario equipo = tabla.getSelectionModel().getSelectedItem();
 
-        // << los pasos siguientes deben hacerse dentro de la misma transaccion de hibernate >>
         // Comprobar que se dispone del oro suficiente para comprar el objeto
-        // TODO
-        // Transferir el oro del comprador al vendedor
-        // TODO
-        // Transferir el objeto del vendedor al comprador
-        // TODO
-        // Cambiar el atributo 'enVenta' del objeto a false
-        // << antes de poceder a la transaccion, controlar que el objeto no ha
-        // sido alterado por la accion de otro jugador >>
+        if (equipo.getPrecio() > jugador.getOroActual()) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Acción no disponible",
+                    "No dispones del oro suficiente para comprar este objeto.");
+        } else {
+            try {
+                equipo.setEnVenta(false);
+                equipo.setJugador(jugador);
+                genericDao.guardarActualizar(equipo);
+
+                // Transferir el oro del comprador al vendedor
+                Jugador vendedor = equipo.getJugador();
+                vendedor.actualizarOroActual(equipo.getPrecio());
+                jugador.actualizarOroActual(-equipo.getPrecio());
+                genericDao.guardarActualizar(vendedor);
+                genericDao.guardarActualizar(jugador);
+
+                // Registrar acción
+                Bazar bazar = new Bazar();
+                bazar.setComprador(jugador);
+                bazar.setVendedor(vendedor);
+                bazar.setTipoEquipo(equipo.getTipoEquipo());
+                bazar.setNivel(equipo.getNivel());
+                bazar.setPotenciado(equipo.getPotenciado());
+                bazar.setTipoAtributo(equipo.getEstado().getTipoAtributo());
+                bazar.setPotenciadoAtributo(equipo.getEstado().getPotenciado());
+                bazar.setPrecio(equipo.getPrecio());
+
+                genericDao.guardarActualizar(bazar);
+
+                // Actualizar vista
+                stage.mostrarBazar();
+            } catch (JuegoException ex) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
+                        "Hubo un fallo mientras se realizaba la transacción.");
+                stage.mostrarPrincipal();
+            }
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecera, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     private void cargarTabla(List<Inventario> listaEnVenta) {

@@ -33,12 +33,12 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.7.1
- * @modified 09/06/2019
+ * @version 1.10.1
+ * @modified 10/06/2019
  */
 public class MainApp extends Application {
 
-    private Stage stage;
+    public Stage stage;
     private BorderPane principal;
     private ControladorPrincipal controlPrincipal;
     private Jugador jugador;
@@ -65,13 +65,10 @@ public class MainApp extends Application {
             stage.centerOnScreen();
 
             ControladorAcceso controlAcceso = loader.getController();
-            controlAcceso.setStage(this);
-
             if (mensaje != null) {
                 controlAcceso.establecerMensaje(mensaje);
             }
-
-            configurarYAbrirSesion();
+            controlAcceso.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,19 +87,20 @@ public class MainApp extends Application {
             ControladorCarga controlCarga = loader.getController();
             controlCarga.setStage(this);
 
-            try {
+            if (cuenta.getJugador() == null) {
                 controlCarga.crearNuevoJugador(cuenta);
-            } catch (JuegoException ex) {
-                Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                controlCarga.cargarPartida(cuenta);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JuegoException ex) {
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void mostrarPrincipal() {
         try {
-            this.jugador = jugador;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("vista/VistaPrincipal.fxml"));
 
@@ -173,7 +171,7 @@ public class MainApp extends Application {
             principal.setCenter(bazar);
 
             ControladorBazar controlBazar = loader.getController();
-            controlBazar.setControladorPrincipal(controlPrincipal);
+            controlBazar.setStage(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

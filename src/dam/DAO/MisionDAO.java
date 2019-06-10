@@ -30,16 +30,19 @@ public class MisionDAO {
         return resultado.list();
     }
 
-    public boolean comenzarMision(Mision mision) {
+    public Mision comenzarMision(Mision mision) {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Query resultado = session.createQuery(
-                "UPDATE  FROM Mision m "
+        session.beginTransaction();
+        session.createQuery(
+                "UPDATE Mision m "
+                + "SET m.inicio = NOW(), "
+                + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " HOUR)"
                 + "WHERE m = " + mision
-        ).uniqueResult(); // actualizar la mision asignada al jugador con la hora de inicio y de fin
-
-        return resultado;
+        );
+        session.getTransaction().commit();
+        return (Mision) new GenericDAO().obtenerPorId(Mision.class, mision.getIdMision());
     }
 
     public int tiempoRestanteMision(Mision mision) {

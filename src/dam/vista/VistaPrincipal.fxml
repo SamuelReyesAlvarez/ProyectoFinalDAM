@@ -54,7 +54,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <ImageView disable="true" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagen" disable="true" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                </image>

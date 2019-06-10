@@ -12,19 +12,17 @@ import dam.modelo.Estadisticas;
 import dam.modelo.Estado;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 
 /**
  *
  * @author Samuel Reyes Alvarez
  *
  */
-public class ControladorCarga implements Initializable {
+public class ControladorCarga {
 
+    private static final String RUTA_IMAGEN = "src/imagenes/foto01.png";
     private static final String NOMBRE_INICIAL = "NuevoJugador";
     private static final int EXP_ACUMULADA_INICIAL = 0;
     private static final int NIVEL_INICIAL = 1;
@@ -34,23 +32,20 @@ public class ControladorCarga implements Initializable {
     private static final int POTENCIADO_ESTADO_INICIAL = 0;
 
     private GenericDAO genericDao = new GenericDAO();
-    private Jugador jugador;
     private MainApp stage;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 
     public void setStage(MainApp stage) {
         this.stage = stage;
     }
 
     public void crearNuevoJugador(Acceso nuevaCuenta) throws JuegoException {
-        jugador = new Jugador();
+        stage.configurarYAbrirSesion();
+
+        Jugador jugador = new Jugador();
         jugador.setEquipoJugador(new HashSet<>());
         jugador.setEstadoJugador(new HashSet<>());
         jugador.setExpAcumulada(EXP_ACUMULADA_INICIAL);
+        jugador.setImagen(RUTA_IMAGEN);
         jugador.setNivel(NIVEL_INICIAL);
         jugador.setNombre(NOMBRE_INICIAL);
         jugador.setOroActual(ORO_INICIAL);
@@ -89,6 +84,16 @@ public class ControladorCarga implements Initializable {
                 nuevaCuenta.getCorreo())).getJugador());
 
         // Abrir la partida creada
+        stage.mostrarPrincipal();
+    }
+
+    public void cargarPartida(Acceso partidaGuardada) {
+        stage.configurarYAbrirSesion();
+
+        Jugador jugador = (Jugador) genericDao.obtenerPorId(
+                Jugador.class, partidaGuardada.getJugador().getIdJugador());
+
+        stage.setJugador(jugador);
         stage.mostrarPrincipal();
     }
 }

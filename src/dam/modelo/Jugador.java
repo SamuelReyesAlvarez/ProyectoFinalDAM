@@ -55,6 +55,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     @NotNull
     private String nombre;
 
+    @Column(name = "imagen")
+    @NotNull
+    private String imagen;
+
     @Column(name = "nivel")
     @Min(1)
     @NotNull
@@ -96,9 +100,10 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
+    public Jugador(int idJugador, String nombre, String imagen, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
         this.idJugador = idJugador;
         this.nombre = nombre;
+        this.imagen = imagen;
         this.nivel = nivel;
         this.expAcumulada = expAcumulada;
         this.puntosNoUsados = puntosNoUsados;
@@ -123,6 +128,14 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public int getNivel() {
@@ -226,6 +239,20 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         }
          */
         return Integer.compare(this.expAcumulada, o.expAcumulada);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder listaEstado = new StringBuilder();
+        for (Estado estado : estadoJugador) {
+            listaEstado.append(estado.getTipoAtributo() + " " + estado.getPotenciado() + "\n");
+        }
+
+        return nombre + ", nivel " + nivel
+                + "\nvida " + getVidaMax()
+                + "\nataque " + getAtaqueMin() + " - " + getAtaqueMax()
+                + "\ndefensa " + getDefensaMin() + " - " + getDefensaMax()
+                + "\n" + listaEstado.toString();
     }
 
     public int compararCombates(Jugador o) {
@@ -430,5 +457,9 @@ public class Jugador implements Serializable, Comparable<Jugador> {
                 break;
         }
         return null;
+    }
+
+    public void actualizarOroActual(int cantidad) {
+        this.oroActual += cantidad;
     }
 }

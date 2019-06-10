@@ -5,16 +5,24 @@
  */
 package dam.vista;
 
+import dam.DAO.GenericDAO;
+import dam.DAO.JugadorDAO;
 import dam.MainApp;
+import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.modelo.MoverVentana;
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
@@ -24,11 +32,17 @@ import javafx.scene.layout.HBox;
  */
 public class ControladorPrincipal implements Initializable, MoverVentana {
 
+    private static final String RUTA_IMAGEN = "src/imagenes/foto01.png";
+
+    private GenericDAO genericDao = new GenericDAO();
+    private JugadorDAO jugadoDao = new JugadorDAO();
     private Jugador jugador;
     private MainApp stage;
 
     @FXML
     private HBox marco;
+    @FXML
+    private ImageView imagen;
     @FXML
     private Label nombre;
     @FXML
@@ -58,11 +72,13 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        creditos.setText("Knight Fight 1.4.1 - @SamuelReyesAlvarez 2019");
+        creditos.setText("Knight Fight 1.10.1 - @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
 
         // Cargar datos del jugador en los componentes
-        jugador = stage.getJugador();
+        jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
+        stage.setJugador(jugador);
+        imagen.setImage(new Image(new File(jugador.getImagen()).toURI().toString()));
         nombre.setText(jugador.getNombre());
         nivel.setText(String.valueOf(jugador.getNivel()));
         oro.setText(String.valueOf(jugador.getOroActual()));
@@ -75,6 +91,10 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
         ataqueMax.setText(String.valueOf(jugador.getAtaqueMax()));
         defensaMin.setText(String.valueOf(jugador.getDefensaMin()));
         defensaMax.setText(String.valueOf(jugador.getDefensaMax()));
+
+        if (jugador.getNombre().equalsIgnoreCase("NuevoJugador")) {
+            cambiarNombre();
+        }
     }
 
     public void setStage(MainApp stage) {
@@ -136,7 +156,43 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
     }
 
     public void cambiarNombre() {
-        nombre.setText(jugador.getNombre());
+        do {
+            TextInputDialog dialog = new TextInputDialog(String.valueOf(jugador.getNombre()));
+            dialog.setTitle("Cambio de nombre");
+            dialog.setContentText("Escribe tu nuevo nombre: ");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                if (jugadoDao.comprobarNombre(result.get().trim())) {
+                    mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Cambio de nombre",
+                            "El nombre elegido ya está en uso.\nElige un nuevo nombre");
+                } else {
+                    try {
+                        jugador.setNombre(result.get().trim());
+                        nombre.setText(jugador.getNombre());
+                        genericDao.guardarActualizar(jugador);
+                    } catch (JuegoException ex) {
+                        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
+                                "Se produjo un error mientras se actualizaba el nombre de jugador.");
+                    }
+                }
+            } else {
+                mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Cambio de nombre",
+                        "No puedes dejar el nombre en blanco");
+            }
+        } while (nombre.getText().equalsIgnoreCase("NuevoJugador"));
+    }
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecera, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(cabecera);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
+
+    public void cambiarImagen() {
+        imagen.setImage(new Image(new File(RUTA_IMAGEN).toURI().toString()));
     }
 
     public void cambiarNivel() {

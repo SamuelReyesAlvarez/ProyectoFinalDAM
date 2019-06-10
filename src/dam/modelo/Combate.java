@@ -7,7 +7,6 @@ package dam.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,24 +41,69 @@ public class Combate implements Serializable {
     @JoinColumn(name = "id_contrario")
     private Jugador contrario;
 
+    @Column(name = "nivel_jugador")
+    @NotNull
+    private int nivelJugador;
+
+    @Column(name = "nivel_contrario")
+    @NotNull
+    private int nivelContrario;
+
+    @Column(name = "vida_jugador")
+    @NotNull
+    private int vidaJugador;
+
+    @Column(name = "vida_contrario")
+    @NotNull
+    private int vidaContrario;
+
+    @Column(name = "ataque_total_jugador")
+    @NotNull
+    private int ataqueTotalJugador;
+
+    @Column(name = "ataque_total_contrario")
+    @NotNull
+    private int ataqueTotalContrario;
+
+    @Column(name = "defensa_total_jugador")
+    @NotNull
+    private int defensaTotalJugador;
+
+    @Column(name = "defensa_total_contrario")
+    @NotNull
+    private int defensaTotalContrario;
+
+    @Column(name = "puntos_jugador")
+    @NotNull
+    private int puntosJugador;
+
+    @Column(name = "puntos_contrario")
+    @NotNull
+    private int puntosContrario;
+
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     @NotNull
     private Date fecha;
 
-    @Column(name = "resultado")
-    @NotNull
-    private boolean resultado;
-
     public Combate() {
     }
 
-    public Combate(int idCombate, Jugador jugador, Jugador contrario, Date fecha, boolean resultado) {
+    public Combate(int idCombate, Jugador jugador, Jugador contrario, int nivelJugador, int nivelContrario, int vidaJugador, int vidaContrario, int ataqueTotalJugador, int ataqueTotalContrario, int defensaTotalJugador, int defensaTotalContrario, int puntosJugador, int puntosContrario, Date fecha) {
         this.idCombate = idCombate;
         this.jugador = jugador;
         this.contrario = contrario;
+        this.nivelJugador = nivelJugador;
+        this.nivelContrario = nivelContrario;
+        this.vidaJugador = vidaJugador;
+        this.vidaContrario = vidaContrario;
+        this.ataqueTotalJugador = ataqueTotalJugador;
+        this.ataqueTotalContrario = ataqueTotalContrario;
+        this.defensaTotalJugador = defensaTotalJugador;
+        this.defensaTotalContrario = defensaTotalContrario;
+        this.puntosJugador = puntosJugador;
+        this.puntosContrario = puntosContrario;
         this.fecha = fecha;
-        this.resultado = resultado;
     }
 
     public int getIdCombate() {
@@ -86,6 +130,86 @@ public class Combate implements Serializable {
         this.contrario = contrario;
     }
 
+    public int getNivelJugador() {
+        return nivelJugador;
+    }
+
+    public void setNivelJugador(int nivelJugador) {
+        this.nivelJugador = nivelJugador;
+    }
+
+    public int getNivelContrario() {
+        return nivelContrario;
+    }
+
+    public void setNivelContrario(int nivelContrario) {
+        this.nivelContrario = nivelContrario;
+    }
+
+    public int getVidaJugador() {
+        return vidaJugador;
+    }
+
+    public void setVidaJugador(int vidaJugador) {
+        this.vidaJugador = vidaJugador;
+    }
+
+    public int getVidaContrario() {
+        return vidaContrario;
+    }
+
+    public void setVidaContrario(int vidaContrario) {
+        this.vidaContrario = vidaContrario;
+    }
+
+    public int getAtaqueTotalJugador() {
+        return ataqueTotalJugador;
+    }
+
+    public void setAtaqueTotalJugador(int ataqueTotalJugador) {
+        this.ataqueTotalJugador = ataqueTotalJugador;
+    }
+
+    public int getAtaqueTotalContrario() {
+        return ataqueTotalContrario;
+    }
+
+    public void setAtaqueTotalContrario(int ataqueTotalContrario) {
+        this.ataqueTotalContrario = ataqueTotalContrario;
+    }
+
+    public int getDefensaTotalJugador() {
+        return defensaTotalJugador;
+    }
+
+    public void setDefensaTotalJugador(int defensaTotalJugador) {
+        this.defensaTotalJugador = defensaTotalJugador;
+    }
+
+    public int getDefensaTotalContrario() {
+        return defensaTotalContrario;
+    }
+
+    public void setDefensaTotalContrario(int defensaTotalContrario) {
+        this.defensaTotalContrario = defensaTotalContrario;
+    }
+
+    public int getPuntosJugador() {
+        return puntosJugador;
+    }
+
+    public void setPuntosJugador(int puntosJugador) {
+        this.puntosJugador = puntosJugador;
+    }
+
+    public int getPuntosContrario() {
+        return puntosContrario;
+    }
+
+    public void setPuntosContrario(int puntosContrario) {
+        this.puntosContrario = puntosContrario;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -94,18 +218,10 @@ public class Combate implements Serializable {
         this.fecha = fecha;
     }
 
-    public boolean isResultado() {
-        return resultado;
-    }
-
-    public void setResultado(boolean resultado) {
-        this.resultado = resultado;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.fecha);
+        int hash = 3;
+        hash = 71 * hash + this.idCombate;
         return hash;
     }
 
@@ -121,7 +237,7 @@ public class Combate implements Serializable {
             return false;
         }
         final Combate other = (Combate) obj;
-        if (!Objects.equals(this.fecha, other.fecha)) {
+        if (this.idCombate != other.idCombate) {
             return false;
         }
         return true;

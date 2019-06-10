@@ -34,7 +34,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     private static final String REMITENTE = "knight.fight.pi@gmail.com";
     private GenericDAO genericDao = new GenericDAO();
     private Jugador jugador;
-    private MainApp stage;
+    private MainApp mainApp;
 
     @FXML
     private HBox marco;
@@ -66,8 +66,8 @@ public class ControladorAcceso implements Initializable, MoverVentana {
         });
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
+    public void setStage(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     @FXML
@@ -79,11 +79,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
             if (acceder != null && acceder.getClave().equals(clave.getText().trim())) {
                 // Establecer el jugador para la partida
-                jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, acceder.getJugador().getIdJugador());
-                stage.setJugador(jugador);
-
-                // Continuar la partida para ese jugador
-                stage.mostrarPrincipal();
+                mainApp.mostrarCarga(acceder);
 
                 // Limpiar los textos de los componentes de la vista de acceso
                 correo.setText("");
@@ -135,7 +131,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
                         if (result.isPresent() && result.get().trim().equals(codigo)) {
                             // Crear la partida para el nuevo jugador
-                            stage.mostrarCarga(nuevaCuenta);
+                            mainApp.mostrarCarga(nuevaCuenta);
                         } else {
                             // Informar que el código introducido no es correcto
                             error.setText("Codigo incorrecto");
@@ -181,7 +177,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void salir() {
         // Finalizar la sesión de hibernate con la base de datos
-        this.stage.cerrarSesion();
+        this.mainApp.cerrarSesion();
 
         // Salir de la aplicación sin errores
         System.exit(1);

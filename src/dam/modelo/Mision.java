@@ -33,9 +33,10 @@ import org.hibernate.annotations.Type;
 @Table(name = "mision")
 public class Mision implements Serializable {
 
-    private static final int RECOMPENSA_POR_HORA = 100;
-    private static final int DURACION_MAXIMA = 8;
-    private static final int DURACION_MINIMA = 1;
+    public static final int RECOMPENSA_MIN_POR_HORA_Y_NIVEL = 100;
+    public static final int RECOMPENSA_MAX_POR_HORA_Y_NIVEL = 150;
+    public static final int DURACION_MAXIMA = 8;
+    public static final int DURACION_MINIMA = 1;
 
     @Id
     @Column(name = "id_mision")

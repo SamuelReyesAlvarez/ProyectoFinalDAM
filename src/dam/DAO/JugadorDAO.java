@@ -36,4 +36,14 @@ public class JugadorDAO {
                 + "ORDER BY j.estadisticas.puntosCombate DESC");
         return resultado.list();
     }
+
+    public boolean comprobarNombre(String nombre) {
+        Session session = new GenericDAO<>().comprobarConexion();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query resultado = session.createQuery(
+                "FROM Jugador j "
+                + "WHERE j.nombre = " + nombre);
+        return (resultado != null) ? true : false;
+    }
 }

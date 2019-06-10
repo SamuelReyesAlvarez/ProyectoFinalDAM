@@ -9,6 +9,7 @@ import dam.DAO.GenericDAO;
 import dam.DAO.JugadorDAO;
 import dam.DAO.MisionDAO;
 import dam.MainApp;
+import dam.modelo.Combate;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.modelo.Mision;
@@ -18,8 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -137,6 +136,7 @@ public class ControladorCombatir implements Initializable {
         alerta.setTitle(titulo);
         alerta.setHeaderText(cabecera);
         alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     private void cargarListaDesafio() {
@@ -314,6 +314,18 @@ public class ControladorCombatir implements Initializable {
         jugador.getEstadisticas().aumentarTotalAtaque(ataqueTotalJugador);
         jugador.getEstadisticas().aumentarTotalDefensa(defensaTotalJugador);
 
+        Combate combate = new Combate();
+        combate.setJugador(jugador);
+        combate.setContrario(contrario);
+        combate.setNivelJugador(jugador.getNivel());
+        combate.setNivelContrario(contrario.getNivel());
+        combate.setVidaJugador(jugador.getVidaMax());
+        combate.setVidaContrario(contrario.getVidaMax());
+        combate.setAtaqueTotalJugador(ataqueTotalJugador);
+        combate.setAtaqueTotalContrario(ataqueTotalContrario);
+        combate.setDefensaTotalJugador(defensaTotalJugador);
+        combate.setDefensaTotalContrario(defensaTotalContrario);
+
         if (vidaJugador < 1) {
             contrario.getEstadisticas().aumentarVictorias();
             contrario.getEstadisticas().cambiarPuntosCombate(-puntosDerrota);
@@ -324,6 +336,9 @@ public class ControladorCombatir implements Initializable {
                     + (-puntosDerrota) + " puntos de combate\n");
             resumen.append(jugador.getNombre() + " pierde el combate y "
                     + (puntosDerrota) + " puntos de combate\n");
+
+            combate.setPuntosJugador(puntosDerrota);
+            combate.setPuntosContrario(-puntosDerrota);
         } else {
             jugador.getEstadisticas().aumentarVictorias();
             jugador.getEstadisticas().cambiarPuntosCombate(puntosVictoria);
@@ -334,13 +349,20 @@ public class ControladorCombatir implements Initializable {
                     + (puntosVictoria) + " puntos de combate\n");
             resumen.append(contrario.getNombre() + " pierde el combate y "
                     + (-puntosVictoria) + " puntos de combate\n");
+
+            combate.setPuntosJugador(-puntosVictoria);
+            combate.setPuntosContrario(puntosVictoria);
         }
 
         try {
             genericDao.guardarActualizar(contrario);
             genericDao.guardarActualizar(jugador);
+
+            genericDao.guardarActualizar(combate);
         } catch (JuegoException ex) {
-            Logger.getLogger(ControladorCombatir.class.getName()).log(Level.SEVERE, null, ex);
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
+                    "Se produjo un error mientras se simulaba el combate y no se guardaron los cambios.");
+            stage.mostrarPrincipal();
         }
 
         mostrarAlerta(Alert.AlertType.INFORMATION,
