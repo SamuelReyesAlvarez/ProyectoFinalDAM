@@ -7,8 +7,11 @@ package dam.modelo;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -27,6 +30,10 @@ import javax.validation.constraints.Size;
 public class Acceso implements Serializable {
 
     @Id
+    @Column(name = "id_acceso")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idAcceso;
+
     @Column(name = "correo")
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     @NotNull
@@ -37,17 +44,26 @@ public class Acceso implements Serializable {
     @NotNull
     private String clave;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Jugador jugador;
 
     public Acceso() {
     }
 
-    public Acceso(String correo, String clave, Jugador jugador) {
+    public Acceso(int idAcceso, String correo, String clave, Jugador jugador) {
+        this.idAcceso = idAcceso;
         this.correo = correo;
         this.clave = clave;
         this.jugador = jugador;
+    }
+
+    public int getIdAcceso() {
+        return idAcceso;
+    }
+
+    public void setIdAcceso(int idAcceso) {
+        this.idAcceso = idAcceso;
     }
 
     public String getCorreo() {

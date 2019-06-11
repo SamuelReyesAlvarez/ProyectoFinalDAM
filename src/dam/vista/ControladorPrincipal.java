@@ -70,12 +70,11 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        creditos.setText("Knight Fight 1.10.1 - @SamuelReyesAlvarez 2019");
+        creditos.setText("Knight Fight 1.10.4 - @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
 
         // Cargar datos del jugador en los componentes
-        jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
-        stage.setJugador(jugador);
+        jugador = stage.getJugador();
         imagen.setImage(new Image(new File(jugador.getImagen()).toURI().toString()));
         nombre.setText(jugador.getNombre());
         nivel.setText(String.valueOf(jugador.getNivel()));

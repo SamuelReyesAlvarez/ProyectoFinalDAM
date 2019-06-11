@@ -33,7 +33,7 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.10.3
+ * @version 1.10.4
  * @modified 11/06/2019
  */
 public class MainApp extends Application {

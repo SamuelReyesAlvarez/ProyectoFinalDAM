@@ -7,18 +7,25 @@
 /**
  * @author:  Samuel Reyes Alvarez
  */
-DROP TABLE registro_bazar;
-DROP TABLE registro_combate;
-DROP TABLE acceso;
-DROP TABLE estadisticas;
-DROP TABLE mision;
-DROP TABLE inventario;
-DROP TABLE estado;
-DROP TABLE jugador;
+DROP TABLE IF EXISTS registro_bazar;
+DROP TABLE IF EXISTS registro_combate;
+DROP TABLE IF EXISTS estadisticas;
+DROP TABLE IF EXISTS mision;
+DROP TABLE IF EXISTS inventario;
+DROP TABLE IF EXISTS estado;
+DROP TABLE IF EXISTS jugador;
+DROP TABLE IF EXISTS acceso;
 
 DROP DATABASE IF EXISTS TwTcYjCeWV;
 CREATE DATABASE TwTcYjCeWV;
 USE TwTcYjCeWV;
+
+CREATE TABLE IF NOT EXISTS acceso (
+    id_acceso INT NOT NULL AUTO_INCREMENT,
+    correo VARCHAR(150) NOT NULL,
+    clave VARCHAR(150) NOT NULL,
+    CONSTRAINT acceso_pk PRIMARY KEY (id_acceso)
+);
 
 CREATE TABLE IF NOT EXISTS jugador (
     id_jugador INT NOT NULL,
@@ -83,14 +90,6 @@ CREATE TABLE IF NOT EXISTS estadisticas (
     CONSTRAINT estadisticas_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
 );
 
-CREATE TABLE IF NOT EXISTS acceso (
-    correo VARCHAR(150) NOT NULL,
-    clave VARCHAR(150) NOT NULL,
-    id_jugador INT NULL,
-    CONSTRAINT acceso_pk PRIMARY KEY (correo),
-    CONSTRAINT acceso_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
-);
-
 CREATE TABLE IF NOT EXISTS registro_combate (
     id_combate INT NOT NULL,
     id_jugador INT NULL,
@@ -128,6 +127,19 @@ CREATE TABLE IF NOT EXISTS registro_bazar (
 );
 
 /******************************************************************************/
+
+INSERT INTO acceso (id_acceso, correo, clave) VALUES
+(0, 'knight.fight.pi@gmail.com', '!Q2w3e4r5t6y7u8i9o0p'),
+(1, 'Rodrigo', 'Rodrigo'),
+(2, 'Alberto', 'Alberto'),
+(3, 'Alfonso', 'Alfonso'),
+(4, 'Francisco', 'Francisco'),
+(5, 'Tomas', 'Tomas'),
+(6, 'Juan', 'Juan'),
+(7, 'Raul', 'Raul'),
+(8, 'Bernardo', 'Bernardo'),
+(9, 'Carlos', 'Carlos'),
+(10, 'Victor', 'Victor');
 
 INSERT INTO jugador (id_jugador, nombre, imagen, nivel, exp_acumulada, puntos_no_usados, oro_actual) VALUES
 (1, 'Rodrigo', 'src/imagenes/foto01.png', 1, 0, 0, 0),
@@ -182,16 +194,3 @@ INSERT INTO estado (id_estado, id_jugador, tipo_atributo, potenciado) VALUES
 (38, 10, 'ARMADURA', 10),
 (39, 10, 'DESTREZA', 10),
 (40, 10, 'CONSTITUCION', 10);
-
-INSERT INTO acceso (correo, clave, id_jugador) VALUES
-('knight.fight.pi@gmail.com', '!Q2w3e4r5t6y7u8i9o0p', NULL),
-('Rodrigo', 'Rodrigo', 1),
-('Alberto', 'Alberto', 2),
-('Alfonso', 'Alfonso', 3),
-('Francisco', 'Francisco', 4),
-('Tomas', 'Tomas', 5),
-('Juan', 'Juan', 6),
-('Raul', 'Raul', 7),
-('Bernardo', 'Bernardo', 8),
-('Carlos', 'Carlos', 9),
-('Victor', 'Victor', 10);

@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -56,6 +57,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     private String nombre;
 
     @Column(name = "imagen")
+    @Size(max = 250)
     @NotNull
     private String imagen;
 

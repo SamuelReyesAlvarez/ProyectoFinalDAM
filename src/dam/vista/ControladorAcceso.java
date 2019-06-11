@@ -5,12 +5,12 @@
  */
 package dam.vista;
 
+import dam.DAO.AccesoDAO;
 import dam.DAO.GenericDAO;
 import dam.MainApp;
 import dam.modelo.Acceso;
 import dam.modelo.EnvioCorreos;
 import dam.modelo.JuegoException;
-import dam.modelo.Jugador;
 import dam.modelo.MoverVentana;
 import java.net.URL;
 import java.util.Optional;
@@ -31,9 +31,9 @@ import javafx.scene.layout.HBox;
  */
 public class ControladorAcceso implements Initializable, MoverVentana {
 
-    private static final String REMITENTE = "knight.fight.pi@gmail.com";
+    private static final int REMITENTE = 9999999;
+    private AccesoDAO accesoDao = new AccesoDAO();
     private GenericDAO genericDao = new GenericDAO();
-    private Jugador jugador;
     private MainApp mainApp;
 
     @FXML
@@ -75,8 +75,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
         if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
             // Comprobar que los datos de acceso son correctos
             Acceso acceder = new Acceso();
-            acceder = (Acceso) genericDao.obtenerPorId(acceder.getClass(), correo.getText().trim());
-
+            acceder = accesoDao.comprobarCuenta(correo.getText().trim());
             if (acceder != null && acceder.getClave().equals(clave.getText().trim())) {
                 // Establecer el jugador para la partida
                 mainApp.mostrarCarga(acceder);
@@ -101,11 +100,13 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     public void registrar() {
         // Crear un nuevo acceso con los datos introducidos
-        Acceso nuevaCuenta = new Acceso(correo.getText().trim(), clave.getText().trim(), null);
+        Acceso nuevaCuenta = new Acceso();
+        correo.getText().trim();
+        clave.getText().trim();
 
         Acceso registrar = new Acceso();
         // Comprobar que el correo introducido no está ya registrado
-        registrar = (Acceso) genericDao.obtenerPorId(registrar.getClass(), correo.getText().trim());
+        registrar = accesoDao.comprobarCuenta(correo.getText().trim());
 
         if (registrar == null) {
             try {
@@ -119,7 +120,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
                 if (cuentaKF != null) {
                     EnvioCorreos codigoVerificacion = new EnvioCorreos();
                     // Enviar el correo a la dirección introducida por el jugador
-                    String codigo = codigoVerificacion.enviarCodigoVerificacion(correo.getText().trim(), REMITENTE, cuentaKF.getClave());
+                    String codigo = codigoVerificacion.enviarCodigoVerificacion(correo.getText().trim(), cuentaKF.getCorreo(), cuentaKF.getClave());
 
                     if (codigo != null) {
                         // Pedir al jugador el código que debe haber recibido por correo
