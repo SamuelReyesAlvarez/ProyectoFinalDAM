@@ -13,6 +13,7 @@ import dam.modelo.Combate;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.modelo.Mision;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -172,7 +174,7 @@ public class ControladorCombatir implements Initializable {
 
     private void cargarDatosEnVista() {
         nombre0.setText(listaDesafio.get(0).getNombre());
-        imagen0.setImage(null);
+        imagen0.setImage(new Image(new File(listaDesafio.get(0).getImagen()).toURI().toString()));
         nivel0.setText(String.valueOf(listaDesafio.get(0).getNivel()));
         puntos0.setText(String.valueOf(listaDesafio.get(0).getEstadisticas().getPuntosCombate()));
         vida0.setText(String.valueOf(listaDesafio.get(0).getVidaMax()));
@@ -184,7 +186,7 @@ public class ControladorCombatir implements Initializable {
         derrota0.setText(calcularPuntosPorVD(listaDesafio.get(0), false));
 
         nombre1.setText(listaDesafio.get(1).getNombre());
-        imagen1.setImage(null);
+        imagen1.setImage(new Image(new File(listaDesafio.get(1).getImagen()).toURI().toString()));
         nivel1.setText(String.valueOf(listaDesafio.get(1).getNivel()));
         puntos1.setText(String.valueOf(listaDesafio.get(1).getEstadisticas().getPuntosCombate()));
         vida1.setText(String.valueOf(listaDesafio.get(1).getVidaMax()));
@@ -196,7 +198,7 @@ public class ControladorCombatir implements Initializable {
         derrota1.setText(calcularPuntosPorVD(listaDesafio.get(1), false));
 
         nombre2.setText(listaDesafio.get(2).getNombre());
-        imagen2.setImage(null);
+        imagen2.setImage(new Image(new File(listaDesafio.get(2).getImagen()).toURI().toString()));
         nivel2.setText(String.valueOf(listaDesafio.get(2).getNivel()));
         puntos2.setText(String.valueOf(listaDesafio.get(2).getEstadisticas().getPuntosCombate()));
         vida2.setText(String.valueOf(listaDesafio.get(2).getVidaMax()));
@@ -208,7 +210,7 @@ public class ControladorCombatir implements Initializable {
         derrota2.setText(calcularPuntosPorVD(listaDesafio.get(2), false));
 
         nombre3.setText(listaDesafio.get(3).getNombre());
-        imagen3.setImage(null);
+        imagen3.setImage(new Image(new File(listaDesafio.get(3).getImagen()).toURI().toString()));
         nivel3.setText(String.valueOf(listaDesafio.get(3).getNivel()));
         puntos3.setText(String.valueOf(listaDesafio.get(3).getEstadisticas().getPuntosCombate()));
         vida3.setText(String.valueOf(listaDesafio.get(3).getVidaMax()));
@@ -220,7 +222,7 @@ public class ControladorCombatir implements Initializable {
         derrota3.setText(calcularPuntosPorVD(listaDesafio.get(3), false));
 
         nombre4.setText(listaDesafio.get(4).getNombre());
-        imagen4.setImage(null);
+        imagen4.setImage(new Image(new File(listaDesafio.get(4).getImagen()).toURI().toString()));
         nivel4.setText(String.valueOf(listaDesafio.get(4).getNivel()));
         puntos4.setText(String.valueOf(listaDesafio.get(4).getEstadisticas().getPuntosCombate()));
         vida4.setText(String.valueOf(listaDesafio.get(4).getVidaMax()));

@@ -12,8 +12,8 @@ DROP TABLE registro_combate;
 DROP TABLE acceso;
 DROP TABLE estadisticas;
 DROP TABLE mision;
-DROP TABLE estado;
 DROP TABLE inventario;
+DROP TABLE estado;
 DROP TABLE jugador;
 
 DROP DATABASE IF EXISTS TwTcYjCeWV;
@@ -23,7 +23,7 @@ USE TwTcYjCeWV;
 CREATE TABLE IF NOT EXISTS jugador (
     id_jugador INT NOT NULL,
     nombre VARCHAR(15) NOT NULL,
-    imagen VARCHAR(10) NOT NULL,
+    imagen VARCHAR(250) NOT NULL,
     nivel INT NOT NULL,
     exp_acumulada INT NOT NULL,
     puntos_no_usados INT NOT NULL,
@@ -127,6 +127,71 @@ CREATE TABLE IF NOT EXISTS registro_bazar (
     CONSTRAINT bazar_vendedor_fk FOREIGN KEY (id_vendedor) REFERENCES jugador (id_jugador)
 );
 
-INSERT INTO `acceso` (`correo`, `clave`, `id_jugador`) VALUES
+/******************************************************************************/
+
+INSERT INTO jugador (id_jugador, nombre, imagen, nivel, exp_acumulada, puntos_no_usados, oro_actual) VALUES
+(1, 'Rodrigo', 'src/imagenes/foto01.png', 1, 0, 0, 0),
+(2, 'Alberto', 'src/imagenes/foto02.png', 1, 0, 0, 0),
+(3, 'Alfonso', 'src/imagenes/foto03.png', 1, 0, 0, 0),
+(4, 'Francisco', 'src/imagenes/foto04.png', 1, 0, 0, 0),
+(5, 'Tomas', 'src/imagenes/foto05.png', 1, 0, 0, 0),
+(6, 'Juan', 'src/imagenes/foto06.png', 1, 0, 0, 0),
+(7, 'Raul', 'src/imagenes/foto13.png', 1, 0, 0, 0),
+(8, 'Bernardo', 'src/imagenes/foto14.png', 1, 0, 0, 0),
+(9, 'Carlos', 'src/imagenes/foto15.png', 1, 0, 0, 0),
+(10, 'Victor', 'src/imagenes/foto16.png', 1, 0, 0, 0);
+
+INSERT INTO estado (id_estado, id_jugador, tipo_atributo, potenciado) VALUES
+(1, 1, 'FUERZA', 10),
+(2, 1, 'ARMADURA', 10),
+(3, 1, 'DESTREZA', 10),
+(4, 1, 'CONSTITUCION', 10),
+(5, 2, 'FUERZA', 10),
+(6, 2, 'ARMADURA', 10),
+(7, 2, 'DESTREZA', 10),
+(8, 2, 'CONSTITUCION', 10),
+(9, 3, 'FUERZA', 10),
+(10, 3, 'ARMADURA', 10),
+(11, 3, 'DESTREZA', 10),
+(12, 3, 'CONSTITUCION', 10),
+(13, 4, 'FUERZA', 10),
+(14, 4, 'ARMADURA', 10),
+(15, 4, 'DESTREZA', 10),
+(16, 4, 'CONSTITUCION', 10),
+(17, 5, 'FUERZA', 10),
+(18, 5, 'ARMADURA', 10),
+(19, 5, 'DESTREZA', 10),
+(20, 5, 'CONSTITUCION', 10),
+(21, 6, 'FUERZA', 10),
+(22, 6, 'ARMADURA', 10),
+(23, 6, 'DESTREZA', 10),
+(24, 6, 'CONSTITUCION', 10),
+(25, 7, 'FUERZA', 10),
+(26, 7, 'ARMADURA', 10),
+(27, 7, 'DESTREZA', 10),
+(28, 7, 'CONSTITUCION', 10),
+(29, 8, 'FUERZA', 10),
+(30, 8, 'ARMADURA', 10),
+(31, 8, 'DESTREZA', 10),
+(32, 8, 'CONSTITUCION', 10),
+(33, 9, 'FUERZA', 10),
+(34, 9, 'ARMADURA', 10),
+(35, 9, 'DESTREZA', 10),
+(36, 9, 'CONSTITUCION', 10),
+(37, 10, 'FUERZA', 10),
+(38, 10, 'ARMADURA', 10),
+(39, 10, 'DESTREZA', 10),
+(40, 10, 'CONSTITUCION', 10);
+
+INSERT INTO acceso (correo, clave, id_jugador) VALUES
 ('knight.fight.pi@gmail.com', '!Q2w3e4r5t6y7u8i9o0p', NULL),
-('prueba', 'prueba', NULL);
+('Rodrigo', 'Rodrigo', 1),
+('Alberto', 'Alberto', 2),
+('Alfonso', 'Alfonso', 3),
+('Francisco', 'Francisco', 4),
+('Tomas', 'Tomas', 5),
+('Juan', 'Juan', 6),
+('Raul', 'Raul', 7),
+('Bernardo', 'Bernardo', 8),
+('Carlos', 'Carlos', 9),
+('Victor', 'Victor', 10);

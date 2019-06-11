@@ -21,7 +21,7 @@ import org.hibernate.Session;
 public class GenericDAO<T> {
 
     public Session comprobarConexion() {
-        if (HibernateUtil.getSessionFactory().getCurrentSession().isConnected()) {
+        if (HibernateUtil.getSessionFactory().getCurrentSession().isOpen()) {
             return HibernateUtil.getSessionFactory().getCurrentSession();
         } else {
             new MainApp().mostrarLogin("Conexión perdida");
@@ -80,6 +80,7 @@ public class GenericDAO<T> {
         Session session = comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         return session.createQuery("FROM " + entidad).list();
     }
 
@@ -87,6 +88,7 @@ public class GenericDAO<T> {
         Session session = comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         return (T) session.get(objeto, id);
     }
 
@@ -94,6 +96,7 @@ public class GenericDAO<T> {
         Session session = comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         return (T) session.get(objeto, id);
     }
 }

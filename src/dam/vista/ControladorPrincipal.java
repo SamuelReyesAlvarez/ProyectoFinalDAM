@@ -32,8 +32,6 @@ import javafx.scene.layout.HBox;
  */
 public class ControladorPrincipal implements Initializable, MoverVentana {
 
-    private static final String RUTA_IMAGEN = "src/imagenes/foto01.png";
-
     private GenericDAO genericDao = new GenericDAO();
     private JugadorDAO jugadoDao = new JugadorDAO();
     private Jugador jugador;
@@ -192,7 +190,7 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
     }
 
     public void cambiarImagen() {
-        imagen.setImage(new Image(new File(RUTA_IMAGEN).toURI().toString()));
+        imagen.setImage(new Image(new File(jugador.getImagen()).toURI().toString()));
     }
 
     public void cambiarNivel() {
