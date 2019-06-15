@@ -7,6 +7,7 @@ package dam.DAO;
 
 import dam.modelo.Acceso;
 import dam.modelo.HibernateUtil;
+import dam.modelo.JuegoException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -17,16 +18,23 @@ import org.hibernate.Session;
  */
 public class AccesoDAO {
 
-    public Acceso comprobarCuenta(String correo) {
-        Session session = new GenericDAO<>().comprobarConexion();
-
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public Acceso comprobarCuenta(String correo) throws JuegoException {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Acceso a "
                 + "WHERE correo = :correo");
 
         resultado.setString("correo", correo);
-        return (Acceso) resultado.list().get(0);
+
+        if (resultado.list().size() > 0) {
+            Acceso acceso = (Acceso) resultado.list().get(0);
+            session.getTransaction().commit();
+            return acceso;
+        } else {
+            session.getTransaction().rollback();
+            HibernateUtil.closeSessionFactory();
+            throw new JuegoException("Datos de acceso erróneos");
+        }
     }
 }

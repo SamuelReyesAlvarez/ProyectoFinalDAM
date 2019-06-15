@@ -54,7 +54,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <ImageView fx:id="imagen" disable="true" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imagen" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                </image>
@@ -82,7 +82,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label minHeight="35.0" styleClass="valor-estado-jugador" text="00">
+                        <Label fx:id="puntosCombate" minHeight="35.0" styleClass="valor-estado-jugador" text="00">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
@@ -132,7 +132,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="experienciaActual" contentDisplay="RIGHT" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
+                  <Label fx:id="experienciaActual" alignment="CENTER_RIGHT" contentDisplay="RIGHT" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -157,7 +157,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="ataqueMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
+                  <Label fx:id="ataqueMin" alignment="CENTER_RIGHT" contentDisplay="RIGHT" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -181,7 +181,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="defensaMin" contentDisplay="RIGHT" minHeight="35.0" minWidth="50.0" styleClass="valor-estado-jugador" text="0000">
+                  <Label fx:id="defensaMin" alignment="CENTER_RIGHT" contentDisplay="RIGHT" minHeight="35.0" styleClass="valor-estado-jugador" text="0000">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -237,7 +237,7 @@
       </HBox>
    </top>
    <center>
-      <ImageView fitHeight="600.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <ImageView fitHeight="650.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>

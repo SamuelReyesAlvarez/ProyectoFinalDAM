@@ -88,8 +88,7 @@ public class Inventario implements Serializable {
     public Inventario() {
     }
 
-    public Inventario(int idInventario, Jugador jugador, Estado estado, TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, boolean equipado, boolean enVenta) {
-        this.idInventario = idInventario;
+    public Inventario(Jugador jugador, Estado estado, TipoEquipo tipoEquipo, int nivel, int potenciado, int precio, boolean equipado, boolean enVenta) {
         this.jugador = jugador;
         this.estado = estado;
         this.tipoEquipo = tipoEquipo;

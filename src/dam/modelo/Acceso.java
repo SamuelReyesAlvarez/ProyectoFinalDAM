@@ -51,8 +51,7 @@ public class Acceso implements Serializable {
     public Acceso() {
     }
 
-    public Acceso(int idAcceso, String correo, String clave, Jugador jugador) {
-        this.idAcceso = idAcceso;
+    public Acceso(String correo, String clave, Jugador jugador) {
         this.correo = correo;
         this.clave = clave;
         this.jugador = jugador;

@@ -67,8 +67,24 @@ public class ControladorBazar implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        jugador = stage.getJugador();
+        cargarComboTipoEquipo();
+        cargarComboNivelEquipo();
+        cargarComboPotenciadoEquipo();
 
+        columnaTipoEquipo = new TableColumn<>();
+        columnaNivel = new TableColumn<>();
+        columnaPotenciado = new TableColumn<>();
+        columnaPropietario = new TableColumn<>();
+        columnaPrecio = new TableColumn<>();
+
+        columnaTipoEquipo.setCellValueFactory(new PropertyValueFactory<Inventario, Inventario.TipoEquipo>("tipoEquipo"));
+        columnaNivel.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("nivel"));
+        columnaPotenciado.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("potenciado"));
+        columnaPropietario.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
+        columnaPrecio.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("precio"));
+    }
+
+    public void cargarCombosYTablas() {
         cargarComboTipoEquipo();
         cargarComboNivelEquipo();
         cargarComboPotenciadoEquipo();
@@ -114,49 +130,54 @@ public class ControladorBazar implements Initializable {
 
     public void setStage(MainApp stage) {
         this.stage = stage;
+        jugador = stage.getJugador();
     }
 
     @FXML
     public void comprar() {
         Inventario equipo = tabla.getSelectionModel().getSelectedItem();
 
-        // Comprobar que se dispone del oro suficiente para comprar el objeto
-        if (equipo.getPrecio() > jugador.getOroActual()) {
-            mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Acción no disponible",
-                    "No dispones del oro suficiente para comprar este objeto.");
-        } else {
-            try {
-                equipo.setEnVenta(false);
-                equipo.setJugador(jugador);
-                genericDao.guardarActualizar(equipo);
+        if (equipo != null) {
+            // Comprobar que se dispone del oro suficiente para comprar el objeto
+            if (equipo.getPrecio() > jugador.getOroActual()) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Acción no disponible",
+                        "No dispones del oro suficiente para comprar este objeto.");
+            } else {
+                try {
+                    equipo.setEnVenta(false);
+                    equipo.setJugador(jugador);
+                    genericDao.guardarActualizar(equipo);
 
-                // Transferir el oro del comprador al vendedor
-                Jugador vendedor = equipo.getJugador();
-                vendedor.actualizarOroActual(equipo.getPrecio());
-                jugador.actualizarOroActual(-equipo.getPrecio());
-                genericDao.guardarActualizar(vendedor);
-                genericDao.guardarActualizar(jugador);
+                    // Transferir el oro del comprador al vendedor
+                    Jugador vendedor = equipo.getJugador();
+                    vendedor.actualizarOroActual(equipo.getPrecio());
+                    jugador.actualizarOroActual(-equipo.getPrecio());
+                    genericDao.guardarActualizar(vendedor);
+                    genericDao.guardarActualizar(jugador);
 
-                // Registrar acción
-                Bazar bazar = new Bazar();
-                bazar.setComprador(jugador);
-                bazar.setVendedor(vendedor);
-                bazar.setTipoEquipo(equipo.getTipoEquipo());
-                bazar.setNivel(equipo.getNivel());
-                bazar.setPotenciado(equipo.getPotenciado());
-                bazar.setTipoAtributo(equipo.getEstado().getTipoAtributo());
-                bazar.setPotenciadoAtributo(equipo.getEstado().getPotenciado());
-                bazar.setPrecio(equipo.getPrecio());
+                    // Registrar acción
+                    Bazar bazar = new Bazar();
+                    bazar.setComprador(jugador);
+                    bazar.setVendedor(vendedor);
+                    bazar.setTipoEquipo(equipo.getTipoEquipo());
+                    bazar.setNivel(equipo.getNivel());
+                    bazar.setPotenciado(equipo.getPotenciado());
+                    bazar.setTipoAtributo(equipo.getEstado().getTipoAtributo());
+                    bazar.setPotenciadoAtributo(equipo.getEstado().getPotenciado());
+                    bazar.setPrecio(equipo.getPrecio());
 
-                genericDao.guardarActualizar(bazar);
+                    genericDao.guardarActualizar(bazar);
 
-                // Actualizar vista
-                stage.mostrarBazar();
-            } catch (JuegoException ex) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
-                        "Hubo un fallo mientras se realizaba la transacción.");
-                stage.mostrarPrincipal();
+                    // Actualizar vista
+                    stage.mostrarBazar();
+                } catch (JuegoException ex) {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
+                            "Hubo un fallo mientras se realizaba la transacción.");
+                    stage.mostrarPrincipal();
+                }
             }
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Comprar objeto", "No has seleccionado ningún objeto a comprar.");
         }
     }
 
@@ -177,17 +198,6 @@ public class ControladorBazar implements Initializable {
                 ofertas.add(objeto);
             }
 
-            columnaTipoEquipo = new TableColumn<>();
-            columnaNivel = new TableColumn<>();
-            columnaPotenciado = new TableColumn<>();
-            columnaPropietario = new TableColumn<>();
-            columnaPrecio = new TableColumn<>();
-
-            columnaTipoEquipo.setCellValueFactory(new PropertyValueFactory<Inventario, Inventario.TipoEquipo>("tipoEquipo"));
-            columnaNivel.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("nivel"));
-            columnaPotenciado.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("potenciado"));
-            columnaPropietario.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
-            columnaPrecio.setCellValueFactory(new PropertyValueFactory<Inventario, Integer>("precio"));
             tabla.setItems(ofertas);
             // Fin carga de la tabla del bazar
         }

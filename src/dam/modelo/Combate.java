@@ -6,7 +6,6 @@
 package dam.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -81,16 +78,10 @@ public class Combate implements Serializable {
     @NotNull
     private int puntosContrario;
 
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date fecha;
-
     public Combate() {
     }
 
-    public Combate(int idCombate, Jugador jugador, Jugador contrario, int nivelJugador, int nivelContrario, int vidaJugador, int vidaContrario, int ataqueTotalJugador, int ataqueTotalContrario, int defensaTotalJugador, int defensaTotalContrario, int puntosJugador, int puntosContrario, Date fecha) {
-        this.idCombate = idCombate;
+    public Combate(Jugador jugador, Jugador contrario, int nivelJugador, int nivelContrario, int vidaJugador, int vidaContrario, int ataqueTotalJugador, int ataqueTotalContrario, int defensaTotalJugador, int defensaTotalContrario, int puntosJugador, int puntosContrario) {
         this.jugador = jugador;
         this.contrario = contrario;
         this.nivelJugador = nivelJugador;
@@ -103,7 +94,6 @@ public class Combate implements Serializable {
         this.defensaTotalContrario = defensaTotalContrario;
         this.puntosJugador = puntosJugador;
         this.puntosContrario = puntosContrario;
-        this.fecha = fecha;
     }
 
     public int getIdCombate() {
@@ -208,14 +198,6 @@ public class Combate implements Serializable {
 
     public void setPuntosContrario(int puntosContrario) {
         this.puntosContrario = puntosContrario;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     @Override

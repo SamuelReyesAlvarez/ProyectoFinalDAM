@@ -13,7 +13,7 @@
 
 <VBox alignment="CENTER" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorCarga">
    <children>
-      <ImageView fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="650.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>

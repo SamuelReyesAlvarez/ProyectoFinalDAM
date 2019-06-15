@@ -18,11 +18,10 @@ import dam.vista.ControladorInventario;
 import dam.vista.ControladorMision;
 import dam.vista.ControladorPrincipal;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -33,10 +32,12 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.10.4
- * @modified 11/06/2019
+ * @version 1.10.5
+ * @modified 15/06/2019
  */
 public class MainApp extends Application {
+
+    private static final String ICONO_APLICACION = "imagenes/KnightFightLogoAplicacion.png";
 
     public Stage stage;
     private BorderPane principal;
@@ -46,6 +47,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
+        stage.getIcons().add(new Image(ICONO_APLICACION));
         stage.setTitle("Inicio de sesion");
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -87,15 +89,32 @@ public class MainApp extends Application {
             ControladorCarga controlCarga = loader.getController();
             controlCarga.setStage(this);
 
-            if (cuenta.getJugador() == null) {
-                controlCarga.crearNuevoJugador(cuenta);
-            } else {
-                controlCarga.cargarPartida(cuenta);
-            }
+            controlCarga.crearNuevoJugador(cuenta);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JuegoException ex) {
-            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+            mostrarLogin(ex.getMessage());
+        }
+    }
+
+    public void mostrarCarga(String correo, String clave) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("vista/VistaCarga.fxml"));
+
+            VBox acceso = (VBox) loader.load();
+            Scene scene = new Scene(acceso);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+
+            ControladorCarga controlCarga = loader.getController();
+            controlCarga.setStage(this);
+
+            controlCarga.cargarPartida(correo, clave);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JuegoException ex) {
+            mostrarLogin(ex.getMessage());
         }
     }
 
@@ -111,6 +130,7 @@ public class MainApp extends Application {
 
             controlPrincipal = loader.getController();
             controlPrincipal.setStage(this);
+            controlPrincipal.cargarDatosJugador();
             mostrarInventario();
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +146,9 @@ public class MainApp extends Application {
             principal.setCenter(inventario);
 
             ControladorInventario controlInventario = loader.getController();
+            controlInventario.setStage(this);
             controlInventario.setControladorPrincipal(controlPrincipal);
+            controlInventario.cargarEstadoJugador();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,6 +179,7 @@ public class MainApp extends Application {
 
             ControladorMision controlMision = loader.getController();
             controlMision.setStage(this);
+            controlMision.comprobarEstadoMision();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,6 +195,7 @@ public class MainApp extends Application {
 
             ControladorBazar controlBazar = loader.getController();
             controlBazar.setStage(this);
+            controlBazar.cargarCombosYTablas();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,6 +211,7 @@ public class MainApp extends Application {
 
             ControladorClasificacion controlClasificacion = loader.getController();
             controlClasificacion.setStage(this);
+            controlClasificacion.cargarTabla();
         } catch (IOException e) {
             e.printStackTrace();
         }

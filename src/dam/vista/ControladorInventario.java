@@ -36,7 +36,7 @@ public class ControladorInventario implements Initializable {
     private GenericDAO genericDao = new GenericDAO();
     private Jugador jugador;
     private ControladorPrincipal controlPrincipal;
-    private MainApp stage;
+    private MainApp mainApp;
 
     @FXML
     private ProgressBar barraFuerza, barraDestreza, barraArmadura, barraConstitucion;
@@ -62,9 +62,11 @@ public class ControladorInventario implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Iniciar etiquetas Equipado y Almacenado
         iniciarEtiquetas();
+    }
 
+    public void cargarEstadoJugador() {
         // Obtener el jugador de la partida
-        this.jugador = (new MainApp()).getJugador();
+        this.jugador = mainApp.getJugador();
 
         // Cargar estado del jugador
         cargarEstado();
@@ -85,8 +87,8 @@ public class ControladorInventario implements Initializable {
         this.controlPrincipal = controlPrincipal;
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
+    public void setStage(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     @FXML
@@ -98,7 +100,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Error", "Acción no disponible", "No se pudo cambiar el estado del objeto");
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -130,7 +132,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -155,7 +157,7 @@ public class ControladorInventario implements Initializable {
         } catch (NumberFormatException ex) {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", "Debes introducir una cantidad válida");
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -168,7 +170,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -181,7 +183,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -194,7 +196,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     @FXML
@@ -207,7 +209,7 @@ public class ControladorInventario implements Initializable {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
-        stage.mostrarPrincipal();
+        mainApp.mostrarPrincipal();
     }
 
     private void mostrarAlerta(Alert.AlertType tipoAlerta, String titulo, String cabecera, String mensaje) {
@@ -567,32 +569,36 @@ public class ControladorInventario implements Initializable {
         public MenuContextual(Label label) {
             boolean isEquipado = !(label.getId().contains("inv"));
             boolean isEnVenta = false;
-            Inventario.TipoEquipo tipoEquipo = Inventario.TipoEquipo.valueOf(label.getText().split("N:")[0].trim());
-            int nivel = Integer.parseInt(label.getText().split("N:")[1].split("P:")[0].trim());
-            int potenciado = Integer.parseInt(label.getText().split(": +")[1].split("\n")[0].trim());
-            Estado.TipoAtributo tipoAtributo = Estado.TipoAtributo.valueOf(label.getText().split("\\+")[1].split("\n")[1].trim());
-            int potenciadoEstado = Integer.parseInt(label.getText().split("\\+")[2].trim());
-            Estado estado = new Estado(0, jugador, tipoAtributo, potenciadoEstado);
 
-            Inventario equipo = jugador.getEquipo(new Inventario(0, jugador, estado, tipoEquipo, nivel, potenciado, 0, isEquipado, isEnVenta));
+            if (label.getText().split("N:").length > 1) {
+                Inventario.TipoEquipo tipoEquipo = Inventario.TipoEquipo.valueOf(label.getText().split("N:")[0].trim());
+                int nivel = Integer.parseInt(label.getText().split("N:")[1].split("P:")[0].trim());
+                int potenciado = Integer.parseInt(label.getText().split(": +")[1].split("\n")[0].trim());
+                Estado.TipoAtributo tipoAtributo = Estado.TipoAtributo.valueOf(label.getText().split("\\+")[1].split("\n")[1].trim());
+                int potenciadoEstado = Integer.parseInt(label.getText().split("\\+")[2].trim());
 
-            MenuItem item1 = new MenuItem("Des/Equipar");
-            item1.setOnAction(event -> {
-                equiparDesequipar(equipo);
-                event.consume();
-            });
-            MenuItem item2 = new MenuItem("Mejorar");
-            item2.setOnAction(event -> {
-                mejorarEquipo(equipo);
-                event.consume();
-            });
-            MenuItem item3 = new MenuItem("Vender");
-            item3.setOnAction(event -> {
-                venderEquipo(equipo);
-                event.consume();
-            });
+                Estado estado = new Estado(jugador, tipoAtributo, potenciadoEstado);
 
-            getItems().addAll(item1, item2, item3);
+                Inventario equipo = jugador.getEquipo(new Inventario(jugador, estado, tipoEquipo, nivel, potenciado, 0, isEquipado, isEnVenta));
+
+                MenuItem item1 = new MenuItem("Des/Equipar");
+                item1.setOnAction(event -> {
+                    equiparDesequipar(equipo);
+                    event.consume();
+                });
+                MenuItem item2 = new MenuItem("Mejorar");
+                item2.setOnAction(event -> {
+                    mejorarEquipo(equipo);
+                    event.consume();
+                });
+                MenuItem item3 = new MenuItem("Vender");
+                item3.setOnAction(event -> {
+                    venderEquipo(equipo);
+                    event.consume();
+                });
+
+                getItems().addAll(item1, item2, item3);
+            }
         }
     }
 }

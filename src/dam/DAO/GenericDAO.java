@@ -21,8 +21,13 @@ import org.hibernate.Session;
 public class GenericDAO<T> {
 
     public Session comprobarConexion() {
-        if (HibernateUtil.getSessionFactory().getCurrentSession().isOpen()) {
-            return HibernateUtil.getSessionFactory().getCurrentSession();
+        if (HibernateUtil.getSessionFactory().getCurrentSession() != null) {
+            if (HibernateUtil.getSessionFactory().getCurrentSession().isOpen()) {
+                return HibernateUtil.getSessionFactory().getCurrentSession();
+            } else {
+                new MainApp().mostrarLogin("Conexión perdida");
+                return null;
+            }
         } else {
             new MainApp().mostrarLogin("Conexión perdida");
             return null;
@@ -56,7 +61,7 @@ public class GenericDAO<T> {
                 }
                 mensajeError.append(constraintViolation.getPropertyPath() + ": " + mensajeValidacion + "\n");
             }
-            session.evict(entidad);
+            //session.evict(entidad);
             throw new JuegoException(mensajeError.toString());
         }
     }
@@ -81,7 +86,9 @@ public class GenericDAO<T> {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        return session.createQuery("FROM " + entidad).list();
+        List<T> resultado = session.createQuery("FROM " + entidad).list();
+        session.getTransaction().commit();
+        return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, int id) {
@@ -89,7 +96,9 @@ public class GenericDAO<T> {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        return (T) session.get(objeto, id);
+        T resultado = (T) session.get(objeto, id);
+        session.getTransaction().commit();
+        return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, String id) {
@@ -97,6 +106,8 @@ public class GenericDAO<T> {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        return (T) session.get(objeto, id);
+        T resultado = (T) session.get(objeto, id);
+        session.getTransaction().commit();
+        return resultado;
     }
 }

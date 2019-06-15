@@ -45,6 +45,13 @@ public class ControladorClasificacion implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
+        columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
+        columnaPuntos.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("puntosCombate"));
+        columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
+    }
+
+    public void cargarTabla() {
         clasificacion = FXCollections.observableArrayList();
         List<Jugador> listaJugadores = jugadorDAO.clasificacion();
 
@@ -52,15 +59,6 @@ public class ControladorClasificacion implements Initializable {
             clasificacion.add(jugador);
         }
 
-        columnaNombre = new TableColumn<>();
-        columnaExperiencia = new TableColumn<>();
-        columnaPuntos = new TableColumn<>();
-        columnaRecaudacion = new TableColumn<>();
-
-        columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
-        columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
-        columnaPuntos.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("puntosCombate"));
-        columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
         tabla.setItems(clasificacion);
 
         tabla.getSelectionModel().select(stage.getJugador());

@@ -6,8 +6,6 @@
 package dam.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -72,16 +68,10 @@ public class Bazar implements Serializable {
     @NotNull
     private int precio;
 
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date fechaVenta;
-
     public Bazar() {
     }
 
-    public Bazar(int idBazar, Jugador comprador, Jugador vendedor, Inventario.TipoEquipo tipoEquipo, int nivel, int potenciado, Estado.TipoAtributo tipoAtributo, int potenciadoAtributo, int precio, Date fechaVenta) {
-        this.idBazar = idBazar;
+    public Bazar(Jugador comprador, Jugador vendedor, Inventario.TipoEquipo tipoEquipo, int nivel, int potenciado, Estado.TipoAtributo tipoAtributo, int potenciadoAtributo, int precio) {
         this.comprador = comprador;
         this.vendedor = vendedor;
         this.tipoEquipo = tipoEquipo;
@@ -90,7 +80,6 @@ public class Bazar implements Serializable {
         this.tipoAtributo = tipoAtributo;
         this.potenciadoAtributo = potenciadoAtributo;
         this.precio = precio;
-        this.fechaVenta = fechaVenta;
     }
 
     public int getIdBazar() {
@@ -165,18 +154,10 @@ public class Bazar implements Serializable {
         this.precio = precio;
     }
 
-    public Date getFechaVenta() {
-        return fechaVenta;
-    }
-
-    public void setFechaVenta(Date fechaVenta) {
-        this.fechaVenta = fechaVenta;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.fechaVenta);
+        int hash = 3;
+        hash = 41 * hash + this.idBazar;
         return hash;
     }
 
@@ -192,7 +173,7 @@ public class Bazar implements Serializable {
             return false;
         }
         final Bazar other = (Bazar) obj;
-        if (!Objects.equals(this.fechaVenta, other.fechaVenta)) {
+        if (this.idBazar != other.idBazar) {
             return false;
         }
         return true;

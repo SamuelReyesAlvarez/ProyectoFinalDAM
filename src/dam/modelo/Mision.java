@@ -77,8 +77,7 @@ public class Mision implements Serializable {
     public Mision() {
     }
 
-    public Mision(int idMision, Jugador jugador, String descripcion, Date inicio, Date fin, int recompensa, boolean completada) {
-        this.idMision = idMision;
+    public Mision(Jugador jugador, String descripcion, Date inicio, Date fin, int recompensa, boolean completada) {
         this.jugador = jugador;
         this.descripcion = descripcion;
         this.inicio = inicio;

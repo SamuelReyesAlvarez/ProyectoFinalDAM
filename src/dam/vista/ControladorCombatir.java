@@ -14,14 +14,11 @@ import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.modelo.Mision;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -32,7 +29,7 @@ import javafx.scene.image.ImageView;
  * @author Samuel Reyes Alvarez
  *
  */
-public class ControladorCombatir implements Initializable {
+public class ControladorCombatir {
 
     private static final int MAX_LISTA_DESAFIAR = 5;
     private static final int RANGO_MAX_BUSQUEDA = 25;
@@ -68,14 +65,10 @@ public class ControladorCombatir implements Initializable {
     @FXML
     private Label derrota0, derrota1, derrota2, derrota3, derrota4;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        jugador = stage.getJugador();
-        cargarListaDesafio();
-    }
-
     public void setStage(MainApp stage) {
         this.stage = stage;
+        jugador = stage.getJugador();
+        cargarListaDesafio();
     }
 
     @FXML
@@ -105,8 +98,13 @@ public class ControladorCombatir implements Initializable {
 
     private void desafiar(int id, int puntosVictoria, int puntosDerrota) {
         // Comprobar si el jugador está actualmente en una misión
-        Mision mision = jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
-        int tiempoRestante = misionDao.tiempoRestanteMision(mision);
+        int tiempoRestante;
+        if (jugador.getTareaActiva().size() > 0) {
+            Mision mision = jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
+            tiempoRestante = misionDao.tiempoRestanteMision(mision);
+        } else {
+            tiempoRestante = 0;
+        }
 
         if (tiempoRestante > 0) {
             // Informar del tiempo restante en misión
@@ -158,11 +156,13 @@ public class ControladorCombatir implements Initializable {
                 } else {
                     prelistado.add(clasificacion.get(posicionJugador - r.nextInt(RANGO_MAX_BUSQUEDA) - 1));
                 }
-            } catch (ArrayIndexOutOfBoundsException ex) {
+            } catch (IndexOutOfBoundsException ex) {
                 // En este caso no es necesario hacer nada
             }
             i++;
         }
+
+        listaDesafio = new ArrayList<>();
 
         for (Jugador jugador : prelistado) {
             listaDesafio.add(jugador);
@@ -265,14 +265,13 @@ public class ControladorCombatir implements Initializable {
         int ataqueTotalContrario = 0;
         int defensaTotalJugador = 0;
         int defensaTotalContrario = 0;
-        Random r;
+        Random r = new Random(System.currentTimeMillis());
         int ataque;
         int defensa;
         int danio;
 
-        int turno = 1;
+        int turno = 0;
         while (vidaJugador > 0 && vidaContrario > 0) {
-            r = new Random(System.currentTimeMillis());
             if (turno % 2 == 0) {
                 // Turno del jugador
                 ataque = ventajaJugador + r.nextInt(jugador.getAtaqueMax()
@@ -284,12 +283,19 @@ public class ControladorCombatir implements Initializable {
                 defensa = ataque < defensa ? ataque : defensa;
                 defensaTotalContrario += defensa;
                 danio = ataque - defensa;
-                vidaContrario = danio < 1 ? 0 : danio;
+                vidaContrario -= danio < 1 ? 0 : danio;
+
+                System.out.println(jugador.getNombre() + " ataca con " + ataque
+                        + " y " + contrario.getNombre() + " detiene " + defensa
+                        + " perdiendo " + danio + " de vida\n"
+                        + jugador.getNombre() + " " + vidaJugador + " - "
+                        + vidaContrario + " " + contrario.getNombre() + "\n");
 
                 resumen.append(jugador.getNombre() + " ataca con " + ataque
-                        + " puntos de golpe\n");
-                resumen.append(contrario.getNombre() + " detiene " + defensa
-                        + " puntos de golpe perdiendo " + danio + " puntos de vida\n\n");
+                        + " y " + contrario.getNombre() + " detiene " + defensa
+                        + " perdiendo " + danio + " de vida\n"
+                        + jugador.getNombre() + " " + vidaJugador + " - "
+                        + vidaContrario + " " + contrario.getNombre() + "\n");
             } else {
                 // Turno del contrario
                 ataque = ventajaContrario + r.nextInt(contrario.getAtaqueMax()
@@ -301,12 +307,19 @@ public class ControladorCombatir implements Initializable {
                 defensa = ataque < defensa ? ataque : defensa;
                 defensaTotalJugador += defensa;
                 danio = ataque - defensa;
-                vidaJugador = danio < 1 ? 0 : danio;
+                vidaJugador -= danio < 1 ? 0 : danio;
+
+                System.out.println(contrario.getNombre() + " ataca con " + ataque
+                        + " y " + jugador.getNombre() + " detiene " + defensa
+                        + " perdiendo " + danio + " de vida\n"
+                        + jugador.getNombre() + " " + vidaJugador + " - "
+                        + vidaContrario + " " + contrario.getNombre() + "\n");
 
                 resumen.append(contrario.getNombre() + " ataca con " + ataque
-                        + " puntos de golpe\n");
-                resumen.append(jugador.getNombre() + " detiene " + defensa
-                        + " puntos de golpe perdiendo " + danio + " puntos de vida\n\n");
+                        + " y " + jugador.getNombre() + " detiene " + defensa
+                        + " perdiendo " + danio + " de vida\n"
+                        + jugador.getNombre() + " " + vidaJugador + " - "
+                        + vidaContrario + " " + contrario.getNombre() + "\n");
             }
             turno++;
         }
@@ -334,10 +347,8 @@ public class ControladorCombatir implements Initializable {
             jugador.getEstadisticas().aumentarDerrotas();
             jugador.getEstadisticas().cambiarPuntosCombate(puntosDerrota);
 
-            resumen.append(contrario.getNombre() + " gana el combate y obtiene "
-                    + (-puntosDerrota) + " puntos de combate\n");
-            resumen.append(jugador.getNombre() + " pierde el combate y "
-                    + (puntosDerrota) + " puntos de combate\n");
+            resumen.append(contrario.getNombre() + " gana " + (-puntosDerrota) + " PC\n"
+                    + " y " + jugador.getNombre() + " pierde " + (puntosDerrota) + " PC\n");
 
             combate.setPuntosJugador(puntosDerrota);
             combate.setPuntosContrario(-puntosDerrota);
@@ -347,29 +358,24 @@ public class ControladorCombatir implements Initializable {
             contrario.getEstadisticas().aumentarDerrotas();
             contrario.getEstadisticas().cambiarPuntosCombate(-puntosVictoria);
 
-            resumen.append(jugador.getNombre() + " gana el combate y obtiene "
-                    + (puntosVictoria) + " puntos de combate\n");
-            resumen.append(contrario.getNombre() + " pierde el combate y "
-                    + (-puntosVictoria) + " puntos de combate\n");
+            resumen.append(jugador.getNombre() + " gana " + (-puntosDerrota) + " PC\n"
+                    + " y " + contrario.getNombre() + " pierde " + (puntosDerrota) + " PC\n");
 
             combate.setPuntosJugador(-puntosVictoria);
             combate.setPuntosContrario(puntosVictoria);
         }
 
         try {
-            genericDao.guardarActualizar(contrario);
             genericDao.guardarActualizar(jugador);
-
+            genericDao.guardarActualizar(contrario);
             genericDao.guardarActualizar(combate);
-        } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
-                    "Se produjo un error mientras se simulaba el combate y no se guardaron los cambios.");
-            stage.mostrarPrincipal();
-        }
 
-        mostrarAlerta(Alert.AlertType.INFORMATION,
-                jugador.getNombre() + " vs " + contrario.getNombre(),
-                "Combate finalizado", resumen.toString());
+            mostrarAlerta(Alert.AlertType.INFORMATION,
+                    jugador.getNombre() + " vs " + contrario.getNombre(),
+                    "Combate finalizado", resumen.toString());
+        } catch (JuegoException ex) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible", ex.getMessage());
+        }
 
         stage.mostrarPrincipal();
         stage.mostrarCombatir();

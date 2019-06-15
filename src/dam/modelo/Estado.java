@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "estado")
-public class Estado implements Serializable {
+public class Estado implements Serializable, Comparable<Estado> {
 
     public enum TipoAtributo {
         FUERZA, DESTREZA, ARMADURA, CONSTITUCION, TIERRA, AGUA, FUEGO, VIENTO
@@ -53,8 +53,7 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(int idEstado, Jugador jugador, TipoAtributo tipoAtributo, int potenciado) {
-        this.idEstado = idEstado;
+    public Estado(Jugador jugador, TipoAtributo tipoAtributo, int potenciado) {
         this.jugador = jugador;
         this.tipoAtributo = tipoAtributo;
         this.potenciado = potenciado;
@@ -115,5 +114,10 @@ public class Estado implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Estado o) {
+        return Integer.compare(this.getIdEstado(), o.getIdEstado());
     }
 }

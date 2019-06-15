@@ -6,6 +6,7 @@
 package dam.DAO;
 
 import dam.modelo.HibernateUtil;
+import dam.modelo.Jugador;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,33 +18,42 @@ import org.hibernate.Session;
  */
 public class JugadorDAO {
 
-    public List clasificacion() {
+    public List<Jugador> clasificacion() {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "ORDER BY j.expAcumulada DESC");
-        return resultado.list();
+        List<Jugador> listado = resultado.list();
+        session.getTransaction().commit();
+        return listado;
     }
 
-    public List filtroDesafio() {
+    public List<Jugador> filtroDesafio() {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "ORDER BY j.estadisticas.puntosCombate DESC");
-        return resultado.list();
+        List<Jugador> listado = resultado.list();
+        session.getTransaction().commit();
+        return listado;
     }
 
     public boolean comprobarNombre(String nombre) {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "WHERE j.nombre = " + nombre);
-        return (resultado != null) ? true : false;
+        boolean existe = (resultado != null) ? true : false;
+        session.getTransaction().commit();
+        return existe;
     }
 }

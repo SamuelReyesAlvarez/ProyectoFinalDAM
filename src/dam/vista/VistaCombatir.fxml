@@ -16,7 +16,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorCombatir">
    <children>
-      <ImageView fitHeight="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="650.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../imagenes/KnightFightFondo.png" />
          </image>
@@ -59,7 +59,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen0" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen0" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
@@ -138,7 +138,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin0" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -174,7 +174,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin0" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin0" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -212,6 +212,9 @@
                                     <Label styleClass="derrota" text="D:" />
                                     <Label fx:id="derrota0" styleClass="derrota" text="25" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                            <padding>
@@ -236,7 +239,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen1" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen1" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
@@ -315,7 +318,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin1" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -351,7 +354,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin1" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin1" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -389,6 +392,9 @@
                                     <Label styleClass="derrota" text="D:" />
                                     <Label fx:id="derrota1" styleClass="derrota" text="25" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                            <padding>
@@ -413,7 +419,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen2" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen2" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
@@ -492,7 +498,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin2" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -528,7 +534,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin2" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin2" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -566,6 +572,9 @@
                                     <Label styleClass="derrota" text="D:" />
                                     <Label fx:id="derrota2" styleClass="derrota" text="25" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                            <padding>
@@ -590,7 +599,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen3" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen3" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
@@ -669,7 +678,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin3" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -705,7 +714,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin3" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin3" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -743,6 +752,9 @@
                                     <Label styleClass="derrota" text="D:" />
                                     <Label fx:id="derrota3" styleClass="derrota" text="25" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                            <padding>
@@ -767,7 +779,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imagen4" disable="true" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imagen4" disable="true" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagenes/KnightFightLogoAplicacion.png" />
                                  </image>
@@ -846,7 +858,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ataqueMin4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="ataqueMin4" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -882,7 +894,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="defensaMin4" minHeight="35.0" minWidth="50.0" styleClass="estado" text="0000" textFill="WHITE">
+                                    <Label fx:id="defensaMin4" alignment="CENTER_RIGHT" minHeight="35.0" styleClass="estado" text="0000" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -920,6 +932,9 @@
                                     <Label styleClass="derrota" text="D:" />
                                     <Label fx:id="derrota4" styleClass="derrota" text="25" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                            <padding>

@@ -6,7 +6,9 @@
 package dam.modelo;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -102,8 +104,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Jugador() {
     }
 
-    public Jugador(int idJugador, String nombre, String imagen, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
-        this.idJugador = idJugador;
+    public Jugador(String nombre, String imagen, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.nivel = nivel;
@@ -245,16 +246,22 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     @Override
     public String toString() {
-        StringBuilder listaEstado = new StringBuilder();
+        List<Estado> listado = new LinkedList<>();
         for (Estado estado : estadoJugador) {
+            listado.add(estado);
+        }
+        Collections.sort(listado);
+
+        StringBuilder listaEstado = new StringBuilder();
+        for (Estado estado : listado) {
             listaEstado.append(estado.getTipoAtributo() + " " + estado.getPotenciado() + "\n");
         }
 
-        return nombre + ", nivel " + nivel
-                + "\nvida " + getVidaMax()
+        return nombre + "\t\tnivel " + nivel
+                + "\n\nvida " + getVidaMax()
                 + "\nataque " + getAtaqueMin() + " - " + getAtaqueMax()
                 + "\ndefensa " + getDefensaMin() + " - " + getDefensaMax()
-                + "\n" + listaEstado.toString();
+                + "\n\n" + listaEstado.toString();
     }
 
     public int compararCombates(Jugador o) {
@@ -398,7 +405,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     }
 
     public Estado getElementoDominante() {
-        Estado mayor = new Estado(0, null, null, Integer.MIN_VALUE);
+        Estado mayor = new Estado(null, null, Integer.MIN_VALUE);
 
         for (Estado estado : estadoJugador) {
             switch (estado.getTipoAtributo()) {

@@ -46,6 +46,8 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
     @FXML
     private Label nivel;
     @FXML
+    private Label puntosCombate;
+    @FXML
     private Label oro;
     @FXML
     private Label vida;
@@ -72,12 +74,15 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
     public void initialize(URL location, ResourceBundle resources) {
         creditos.setText("Knight Fight 1.10.4 - @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
+    }
 
+    public void cargarDatosJugador() {
         // Cargar datos del jugador en los componentes
         jugador = stage.getJugador();
         imagen.setImage(new Image(new File(jugador.getImagen()).toURI().toString()));
         nombre.setText(jugador.getNombre());
         nivel.setText(String.valueOf(jugador.getNivel()));
+        puntosCombate.setText(String.valueOf(jugador.getEstadisticas().getPuntosCombate()));
         oro.setText(String.valueOf(jugador.getOroActual()));
         vida.setText(String.valueOf(jugador.getVidaMax()));
         barraVida.setProgress(1);
@@ -194,6 +199,10 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     public void cambiarNivel() {
         nivel.setText(String.valueOf(jugador.getNivel()));
+    }
+
+    public void cambiarPuntosCombate() {
+        puntosCombate.setText(String.valueOf(jugador.getEstadisticas().getPuntosCombate()));
     }
 
     public void cambiarOro() {

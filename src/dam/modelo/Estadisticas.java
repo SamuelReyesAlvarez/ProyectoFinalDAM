@@ -51,8 +51,7 @@ public class Estadisticas implements Serializable {
     public Estadisticas() {
     }
 
-    public Estadisticas(int idEstadisticas, int puntosCombate, int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas, int totalRecaudado) {
-        this.idEstadisticas = idEstadisticas;
+    public Estadisticas(int puntosCombate, int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas, int totalRecaudado) {
         this.puntosCombate = puntosCombate;
         this.victorias = victorias;
         this.derrotas = derrotas;
@@ -153,6 +152,7 @@ public class Estadisticas implements Serializable {
 
     public void cambiarPuntosCombate(int variacion) {
         this.puntosCombate += variacion;
+        this.puntosCombate = puntosCombate < 0 ? 0 : puntosCombate;
     }
 
     public void aumentarVictorias() {

@@ -22,12 +22,15 @@ public class MisionDAO {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Mision m "
                 + "WHERE m.jugador = null"
         );
 
-        return resultado.list();
+        List<Mision> listado = resultado.list();
+        session.getTransaction().commit();
+        return listado;
     }
 
     public Mision comenzarMision(Mision mision) {
@@ -49,6 +52,7 @@ public class MisionDAO {
         Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         Object resultado = session.createQuery(
                 "SELECT COALESCE(TIMESTAMPDIFF(SECOND, now(), m.fin), 0)"
                 + "FROM Mision m "
@@ -56,6 +60,8 @@ public class MisionDAO {
                 + " AND m.completada = 0"
         ).uniqueResult();
 
-        return Integer.parseInt((String) resultado);
+        int restante = Integer.parseInt((String) resultado);
+        session.getTransaction().commit();
+        return restante;
     }
 }

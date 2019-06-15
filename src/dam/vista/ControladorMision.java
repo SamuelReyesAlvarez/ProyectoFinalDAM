@@ -64,54 +64,64 @@ public class ControladorMision implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        descripcion.setCellValueFactory(new PropertyValueFactory<Mision, String>("descripcion"));
+        duracion.setCellValueFactory(new PropertyValueFactory<Mision, Integer>("duracion"));
+        recompensa.setCellValueFactory(new PropertyValueFactory<Mision, Integer>("recompensa"));
+    }
+
+    public void comprobarEstadoMision() {
         jugador = stage.getJugador();
 
-        // Comprobar si el jugador está actualmente en una misión
-        Mision mision = jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
-        int tiempoRestante = misionDao.tiempoRestanteMision(mision);
+        if (jugador.getTareaActiva().size() > 0) {
+            // Comprobar si el jugador está actualmente en una misión
+            Mision mision = jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1);
+            int tiempoRestante = misionDao.tiempoRestanteMision(mision);
 
-        if (tiempoRestante > 0) {
-            // Informar del tiempo restante en misión
-            int horas = (tiempoRestante / 3600);
-            int minutos = (tiempoRestante / 60);
-            int segundos = (tiempoRestante % 60);
-            String tiempo = horas + ":"
-                    + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
-                    + ((segundos < 10) ? ("0" + segundos) : segundos);
+            if (tiempoRestante > 0) {
+                // Informar del tiempo restante en misión
+                int horas = (tiempoRestante / 3600);
+                int minutos = (tiempoRestante / 60);
+                int segundos = (tiempoRestante % 60);
+                String tiempo = horas + ":"
+                        + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
+                        + ((segundos < 10) ? ("0" + segundos) : segundos);
 
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible",
-                    "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo);
+                mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible",
+                        "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo);
 
-            stage.mostrarInventario();
-        } else if (tiempoRestante < 0) {
-            try {
-                Inventario nuevoObjeto = crearObjeto();
-                String stringObjeto = ((nuevoObjeto != null) ? nuevoObjeto.toString() : "");
-                int experiencia = (jugador.getNivel() + mision.getDuracion());
+                stage.mostrarInventario();
+            } else if (tiempoRestante < 0) {
+                try {
+                    Inventario nuevoObjeto = crearObjeto();
+                    String stringObjeto = ((nuevoObjeto != null) ? nuevoObjeto.toString() : "");
+                    int experiencia = (jugador.getNivel() + mision.getDuracion());
 
-                // Cobrar la recompensa por la misión cumplida
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Cobro de misión",
-                        "Por completar la misión recibes las siguientes recompensas:",
-                        mision.getRecompensa() + " oro\n"
-                        + experiencia + " experiencia\n"
-                        + stringObjeto);
+                    // Cobrar la recompensa por la misión cumplida
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Cobro de misión",
+                            "Por completar la misión recibes las siguientes recompensas:",
+                            mision.getRecompensa() + " oro\n"
+                            + experiencia + " experiencia\n"
+                            + stringObjeto);
 
-                mision.setCompletada(true);
-                jugador.getEstadisticas().aumentarMisiones();
-                jugador.getEstadisticas().aumentarTotalRecaudado(mision.getRecompensa());
-                jugador.actualizarOroActual(mision.getRecompensa());
-                jugador.subirExpAcumulada(experiencia);
+                    mision.setCompletada(true);
+                    jugador.getEstadisticas().aumentarMisiones();
+                    jugador.getEstadisticas().aumentarTotalRecaudado(mision.getRecompensa());
+                    jugador.actualizarOroActual(mision.getRecompensa());
+                    jugador.subirExpAcumulada(experiencia);
 
-                if (nuevoObjeto != null) {
-                    jugador.getEquipoJugador().add(nuevoObjeto);
+                    if (nuevoObjeto != null) {
+                        jugador.getEquipoJugador().add(nuevoObjeto);
+                    }
+
+                    genericDao.guardarActualizar(jugador);
+                } catch (JuegoException ex) {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error",
+                            "Error al completar misión",
+                            "Se produjo un error mientras se guardaba la misión "
+                            + "finalizada y los cambios no se llevaron a cabo");
                 }
-
-                genericDao.guardarActualizar(jugador);
-            } catch (JuegoException ex) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error",
-                        "Error al completar misión",
-                        "Se produjo un error mientras se guardaba la misión "
-                        + "finalizada y los cambios no se llevaron a cabo");
+            } else {
+                cargarCrearTablonMisiones();
             }
         } else {
             cargarCrearTablonMisiones();
@@ -244,24 +254,7 @@ public class ControladorMision implements Initializable {
     private void cargarCrearTablonMisiones() {
         // Cargar la lista de misiones disponibles
         prelistado = misionDao.obtenerParaTablon();
-        if (!prelistado.isEmpty()) {
-            listaMisiones = FXCollections.observableArrayList();
-
-            tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-            for (Mision m : prelistado) {
-                listaMisiones.add(m);
-            }
-
-            descripcion = new TableColumn<>();
-            duracion = new TableColumn<>();
-            recompensa = new TableColumn<>();
-
-            descripcion.setCellValueFactory(new PropertyValueFactory<Mision, String>("descripcion"));
-            duracion.setCellValueFactory(new PropertyValueFactory<Mision, Integer>("duracion"));
-            recompensa.setCellValueFactory(new PropertyValueFactory<Mision, Integer>("recompensa"));
-            tabla.setItems(listaMisiones);
-        } else {
+        if (prelistado.isEmpty()) {
             try {
                 Random r = new Random(System.currentTimeMillis());
                 LinkedList<String> descripciones = crearListaDescripciones();
@@ -273,13 +266,29 @@ public class ControladorMision implements Initializable {
                     nueva.setDuracion(r.nextInt(Mision.DURACION_MAXIMA + 1) + Mision.DURACION_MINIMA);
                     nueva.setRecompensa(r.nextInt(Mision.RECOMPENSA_MAX_POR_HORA_Y_NIVEL + 1)
                             + Mision.RECOMPENSA_MIN_POR_HORA_Y_NIVEL);
+
+                    genericDao.guardarActualizar(nueva);
+                    cargarCrearTablonMisiones();
                 }
             } catch (IOException ex) {
                 // Controlar error de carga redirigiendo a vista principal
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error de carga",
                         "Se produjo un error mientras se cargaban datos.");
                 stage.mostrarPrincipal();
+            } catch (JuegoException ex) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Guardado de datos",
+                        "Se produjo un error mientras se guardaba la nueva misión en la base de datos.");
             }
+        } else {
+            listaMisiones = FXCollections.observableArrayList();
+
+            tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+            for (Mision m : prelistado) {
+                listaMisiones.add(m);
+            }
+
+            tabla.setItems(listaMisiones);
         }
     }
 
@@ -290,6 +299,7 @@ public class ControladorMision implements Initializable {
         String linea = lector.readLine();
         while (linea != null) {
             listado.add(linea);
+            linea = lector.readLine();
         }
 
         lector.close();
