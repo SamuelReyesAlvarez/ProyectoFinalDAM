@@ -15,11 +15,11 @@ and open the template in the editor.
 
 /********************************* Menus **************************************/  
 .menu-bar {
-    -fx-background-color: black;
+    -fx-background-color: transparent;
 }
 
 .menu-bar > .container > .menu-button {
-    -fx-background-color: black;
+    -fx-background-color: transparent;
 }
 
 .menu-bar > .container > .menu-button > .label {
@@ -34,7 +34,7 @@ and open the template in the editor.
 .menu-bar > .container > .menu-button:hover,
 .menu-bar > .container > .menu-button:focused,
 .menu-bar > .container > .menu-button:showing {
-    -fx-background-color: black;
+    -fx-background-color: transparent;
 }
 
 .menu-bar > .container > .menu-button:hover > .label,
@@ -44,7 +44,7 @@ and open the template in the editor.
 }
   
 .menu-item {
-    -fx-background-color: black; 
+    -fx-background-color: #424242; 
 }
 
 .menu-item .label {
@@ -59,7 +59,7 @@ and open the template in the editor.
 
 .menu-item:focused, .menu-item:hovered {
     -fx-font-size: 18px;
-    -fx-background-color: black; 
+    -fx-background-color: #424242; 
 }
 
 .menu-item:focused .label, .menu-item:hovered .label {
@@ -67,7 +67,7 @@ and open the template in the editor.
 }
  
 .context-menu {
-    -fx-background-color: rgb(0, 0, 0); 
+    -fx-background-color: #424242; 
 }
 
 /*************************** Tabla Clasificacion ******************************/

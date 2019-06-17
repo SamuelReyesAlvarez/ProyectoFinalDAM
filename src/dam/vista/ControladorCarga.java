@@ -155,22 +155,26 @@ public class ControladorCarga {
     }
 
     public void cargarPartida(String correo, String clave) throws JuegoException {
-        mainApp.configurarYAbrirSesion();
+        try {
+            mainApp.configurarYAbrirSesion();
 
-        // Comprobar que los datos de acceso son correctos
-        Acceso acceder = new Acceso();
-        acceder = accesoDao.comprobarCuenta(correo);
-        if (acceder != null && acceder.getClave().equals(clave)) {
-            Jugador jugador = (Jugador) genericDao.obtenerPorId(
-                    Jugador.class, acceder.getJugador().getIdJugador());
+            // Comprobar que los datos de acceso son correctos
+            Acceso acceder = new Acceso();
+            acceder = accesoDao.comprobarCuenta(correo);
+            if (acceder != null && acceder.getClave().equals(clave)) {
+                Jugador jugador = (Jugador) genericDao.obtenerPorId(
+                        Jugador.class, acceder.getJugador().getIdJugador());
 
-            mainApp.setJugador(jugador);
-            mainApp.mostrarPrincipal();
-        } else {
-            // Informar que se han introducido datos incorrectos para acceder
-            // En este caso no se informa de los errores exactos para dificultar
-            // el robo de cuentas
-            throw new JuegoException("Datos de acceso incorrectos");
+                mainApp.setJugador(jugador);
+                mainApp.mostrarPrincipal();
+            } else {
+                // Informar que se han introducido datos incorrectos para acceder
+                // En este caso no se informa de los errores exactos para dificultar
+                // el robo de cuentas
+                throw new JuegoException("Datos de acceso incorrectos");
+            }
+        } catch (JuegoException ex) {
+            mainApp.mostrarLogin("Error al cargar datos");
         }
     }
 }

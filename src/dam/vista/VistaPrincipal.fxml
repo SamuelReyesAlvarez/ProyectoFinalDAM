@@ -17,21 +17,28 @@
 
 <BorderPane styleClass="fondo-negro" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorPrincipal">
    <bottom>
-      <VBox>
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER" styleClass="bloque" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
-               </padding>
-               <children>
-                  <Label fx:id="creditos" styleClass="atributo">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
+            <ImageView fitWidth="1180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../imagenes/seperator2.jpg" />
+               </image>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ImageView>
+            <Label fx:id="creditos" alignment="CENTER" minHeight="30.0" styleClass="atributo">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
+            <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../imagenes/inferior.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </ImageView>
          </children>
       </VBox>
    </bottom>
@@ -205,36 +212,45 @@
       </VBox>
    </left>
    <top>
-      <HBox fx:id="marco" alignment="CENTER" minHeight="30.0" minWidth="950.0" BorderPane.alignment="CENTER">
+      <AnchorPane>
          <children>
-            <MenuBar>
-              <menus>
-                <Menu mnemonicParsing="false" text="Menu">
-                  <items>
-                        <MenuItem mnemonicParsing="false" onAction="#salirPartida" text="Salir de la partida" />
-                        <MenuItem mnemonicParsing="false" onAction="#salirJuego" text="Salir del juego" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Acciones">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#inventario" text="Inventario" />
-                        <MenuItem mnemonicParsing="false" onAction="#combatir" text="Combatir" />
-                        <MenuItem mnemonicParsing="false" onAction="#mision" text="Mision" />
-                        <MenuItem mnemonicParsing="false" onAction="#bazar" text="Bazar" />
-                        <MenuItem mnemonicParsing="false" onAction="#clasificacion" text="Clasificacion" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Ayuda">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#tutorial" text="Tutorial" />
-                        <MenuItem mnemonicParsing="false" onAction="#manual" text="Manual" />
-                        <MenuItem mnemonicParsing="false" onAction="#ayuda" text="Ayuda" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
+            <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+               <image>
+                  <Image url="@../../imagenes/superior.png" />
+               </image>
+            </ImageView>
+            <HBox fx:id="marco" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MenuBar>
+                    <menus>
+                      <Menu mnemonicParsing="false" text="Menu">
+                        <items>
+                              <MenuItem mnemonicParsing="false" onAction="#salirPartida" text="Salir de la partida" />
+                              <MenuItem mnemonicParsing="false" onAction="#salirJuego" text="Salir del juego" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Acciones">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#inventario" text="Inventario" />
+                              <MenuItem mnemonicParsing="false" onAction="#combatir" text="Combatir" />
+                              <MenuItem mnemonicParsing="false" onAction="#mision" text="Mision" />
+                              <MenuItem mnemonicParsing="false" onAction="#bazar" text="Bazar" />
+                              <MenuItem mnemonicParsing="false" onAction="#clasificacion" text="Clasificacion" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Ayuda">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#tutorial" text="Tutorial" />
+                              <MenuItem mnemonicParsing="false" onAction="#manual" text="Manual" />
+                              <MenuItem mnemonicParsing="false" onAction="#ayuda" text="Ayuda" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </AnchorPane>
    </top>
    <center>
       <ImageView fitHeight="650.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">

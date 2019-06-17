@@ -5,20 +5,28 @@
  */
 package dam.vista;
 
+import com.sun.javafx.scene.control.behavior.PasswordFieldBehavior;
+import com.sun.javafx.scene.control.skin.TextFieldSkin;
 import dam.DAO.AccesoDAO;
 import dam.DAO.GenericDAO;
 import dam.MainApp;
 import dam.modelo.Acceso;
 import dam.modelo.MoverVentana;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -36,7 +44,11 @@ public class ControladorAcceso implements Initializable, MoverVentana {
     @FXML
     private TextField correo;
     @FXML
-    private PasswordField clave;
+    private PasswordField claveOculta;
+    @FXML
+    private TextField claveVisible;
+    @FXML
+    private CheckBox verClave;
     @FXML
     private Label error;
 
@@ -54,11 +66,13 @@ public class ControladorAcceso implements Initializable, MoverVentana {
                 error.setVisible(false);
             }
         });
-        clave.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        claveOculta.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 error.setVisible(false);
             }
         });
+
+        mostrarOcultarClave();
     }
 
     public void setStage(MainApp mainApp) {
@@ -67,8 +81,8 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
     @FXML
     public void acceder() {
-        if (correo.getText().trim().length() > 0 && clave.getText().trim().length() > 0) {
-            mainApp.mostrarCarga(correo.getText().trim(), clave.getText().trim());
+        if (correo.getText().trim().length() > 0 && claveOculta.getText().trim().length() > 0) {
+            mainApp.mostrarCarga(correo.getText().trim(), claveOculta.getText().trim());
         } else {
             // Informar que hay campos sin rellenar
             error.setText("Rellena todos los campos");
@@ -82,7 +96,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
         // Crear un nuevo acceso con los datos introducidos
         nuevaCuenta.setCorreo(correo.getText().trim());
-        nuevaCuenta.setClave(clave.getText().trim());
+        nuevaCuenta.setClave(claveOculta.getText().trim());
 
     }
 
@@ -99,13 +113,69 @@ public class ControladorAcceso implements Initializable, MoverVentana {
         error.setText(mensaje);
         error.setVisible(true);
 
-        if (mensaje.equalsIgnoreCase("Conexión perdida")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de conexión");
-            alert.setHeaderText("Conexión perdida");
-            alert.setContentText("Se ha perdido la conexión con el servicio de persistencia de datos.\n"
-                    + "Si esto le ocurre muy a menudo, póngase en contacto con nuestro servicio técnico");
-            alert.showAndWait();
+        try {
+            if (mensaje.equalsIgnoreCase("Conexión perdida")) {
+                mostrarDialog("Error de conexión", "Conexión perdida",
+                        "Se ha perdido la conexión con el servicio de persistencia"
+                        + " de datos.\nSi esto le ocurre muy a menudo, póngase en"
+                        + " contacto con nuestro servicio técnico", null);
+            }
+        } catch (IOException ex) {
+
+        }
+    }
+
+    private void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPersonDialog.fxml"));
+        Parent parent = fxmlLoader.load();
+        ControladorDialogo controlDialogo = fxmlLoader.getController();
+        controlDialogo.contenido(titulo, cabecera, resumen, pregunta);
+
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void mostrarOcultarClave() {
+        // Set initial state
+        claveVisible.setManaged(false);
+        claveVisible.setVisible(false);
+
+        // Bind properties. Toggle textField and passwordField
+        // visibility and managability properties mutually when checkbox's state is changed.
+        // Because we want to display only one component (textField or passwordField)
+        // on the scene at a time.
+        claveVisible.managedProperty().bind(verClave.selectedProperty());
+        claveVisible.visibleProperty().bind(verClave.selectedProperty());
+
+        claveOculta.managedProperty().bind(verClave.selectedProperty().not());
+        claveOculta.visibleProperty().bind(verClave.selectedProperty().not());
+
+        // Bind the textField and passwordField text values bidirectionally.
+        claveVisible.textProperty().bindBidirectional(claveOculta.textProperty());
+    }
+
+    public class PasswordFieldSkin extends TextFieldSkin {
+
+        public static final char BULLET = '\u2022';
+
+        public PasswordFieldSkin(PasswordField passwordField) {
+            super(passwordField, new PasswordFieldBehavior(passwordField));
+        }
+
+        @Override
+        protected String maskText(String txt) {
+            TextField textField = getSkinnable();
+
+            int n = textField.getLength();
+            StringBuilder passwordBuilder = new StringBuilder(n);
+            for (int i = 0; i < n; i++) {
+                passwordBuilder.append(BULLET);
+            }
+
+            return passwordBuilder.toString();
         }
     }
 }

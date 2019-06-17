@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    @author: Samuel Reyes Alvarez
+-->
+
+<VBox styleClass="fondo-negro-60" stylesheets="@../estilo/kf_estilo.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.vista.ControladorDialogo">
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <children>
+      <Label fx:id="etiquetaTitulo" styleClass="titulo" text="Label">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </Label>
+      <Label fx:id="etiquetaCabecera" styleClass="subtitulo" text="Label">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextArea fx:id="areaResumen" editable="false" styleClass="track-background" text="texto" />
+      <HBox alignment="CENTER_RIGHT">
+         <children>
+            <Label fx:id="etiquetaPregunta" styleClass="atributo" text="Label">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="campoRespuesta" styleClass="track-background" text="texto" />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT">
+         <children>
+            <Button mnemonicParsing="false" onAction="#aceptar" styleClass="boton" text="Aceptar">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="botonCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="boton" text="Cancelar" />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

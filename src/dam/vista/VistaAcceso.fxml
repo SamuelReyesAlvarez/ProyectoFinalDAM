@@ -48,7 +48,7 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </TextField>
-                        <PasswordField fx:id="clave" minHeight="35.0" minWidth="150.0" promptText="clave de acceso" styleClass="boton">
+                        <PasswordField fx:id="claveOculta" minHeight="35.0" minWidth="150.0" promptText="clave de acceso" styleClass="boton">
                             <VBox.margin>
                                 <Insets left="50.0" right="50.0" top="5.0" />
                             </VBox.margin>
@@ -56,6 +56,15 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </PasswordField>
+                  <TextField fx:id="claveVisible" minHeight="35.0" minWidth="150.0" promptText="clave de acceso" styleClass="boton">
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" top="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </TextField>
+                  <CheckBox fx:id="verClave" mnemonicParsing="false" styleClass="atributo" text="mostrar clave introducida" />
                         <Label id="error" fx:id="error" alignment="CENTER" prefHeight="60.0" text="Datos de acceso incorrectos">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
