@@ -32,10 +32,10 @@ import javafx.scene.layout.HBox;
  */
 public class ControladorPrincipal implements Initializable, MoverVentana {
 
-    private GenericDAO genericDao = new GenericDAO();
-    private JugadorDAO jugadoDao = new JugadorDAO();
+    private MainApp mainApp;
+    private GenericDAO genericDao;
+    private JugadorDAO jugadoDao;
     private Jugador jugador;
-    private MainApp stage;
 
     @FXML
     private HBox marco;
@@ -72,13 +72,13 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        creditos.setText("Knight Fight 1.10.4 - @SamuelReyesAlvarez 2019");
+        creditos.setText("Knight Fight 1.11.2 - @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
     }
 
     public void cargarDatosJugador() {
         // Cargar datos del jugador en los componentes
-        jugador = stage.getJugador();
+        jugador = mainApp.getJugador();
         imagen.setImage(new Image(new File(jugador.getImagen()).toURI().toString()));
         nombre.setText(jugador.getNombre());
         nivel.setText(String.valueOf(jugador.getNivel()));
@@ -99,62 +99,64 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
         }
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        genericDao = new GenericDAO(mainApp);
+        jugadoDao = new JugadorDAO(mainApp);
     }
 
     @FXML
     public void salirPartida() {
-        stage.mostrarLogin(null);
+        mainApp.mostrarLogin(null);
     }
 
     @FXML
     public void salirJuego() {
-        stage.cerrarSesion();
+        mainApp.cerrarSesion();
         System.exit(1);
     }
 
     @FXML
     public void inventario() {
-        stage.mostrarInventario();
+        mainApp.mostrarInventario();
     }
 
     @FXML
     public void combatir() {
-        stage.mostrarCombatir();
+        mainApp.mostrarCombatir();
     }
 
     @FXML
     public void mision() {
-        stage.mostrarMision();
+        mainApp.mostrarMision();
     }
 
     @FXML
     public void bazar() {
-        stage.mostrarBazar();
+        mainApp.mostrarBazar();
     }
 
     @FXML
     public void clasificacion() {
-        stage.mostrarClasificacion();
+        mainApp.mostrarClasificacion();
     }
 
     @FXML
     public void tutorial() {
         File file = new File("archivos/Tutorial.pdf");
-        stage.getHostServices().showDocument(file.getPath());
+        mainApp.getHostServices().showDocument(file.getPath());
     }
 
     @FXML
     public void manual() {
         File file = new File("archivos/ManualUsuario.pdf");
-        stage.getHostServices().showDocument(file.getPath());
+        mainApp.getHostServices().showDocument(file.getPath());
     }
 
     @FXML
     public void ayuda() {
         File file = new File("archivos/GuiaRapida.pdf");
-        stage.getHostServices().showDocument(file.getPath());
+        mainApp.getHostServices().showDocument(file.getPath());
     }
 
     public void cambiarNombre() {

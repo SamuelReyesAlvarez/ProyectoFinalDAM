@@ -33,10 +33,10 @@ import javafx.scene.control.TextInputDialog;
  */
 public class ControladorInventario implements Initializable {
 
-    private GenericDAO genericDao = new GenericDAO();
+    private MainApp mainApp;
+    private GenericDAO genericDao;
     private Jugador jugador;
     private ControladorPrincipal controlPrincipal;
-    private MainApp mainApp;
 
     @FXML
     private ProgressBar barraFuerza, barraDestreza, barraArmadura, barraConstitucion;
@@ -89,6 +89,7 @@ public class ControladorInventario implements Initializable {
 
     public void setStage(MainApp mainApp) {
         this.mainApp = mainApp;
+        genericDao = new GenericDAO(mainApp);
     }
 
     @FXML

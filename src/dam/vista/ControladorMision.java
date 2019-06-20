@@ -44,11 +44,11 @@ public class ControladorMision implements Initializable {
     private static final String FICHERO = "archivos/misiones.txt";
     private static final int LIMITE_MISIONES_TABLON = 30;
 
-    private GenericDAO genericDao = new GenericDAO();
-    private MisionDAO misionDao = new MisionDAO();
+    private MainApp mainApp;
+    private GenericDAO genericDao;
+    private MisionDAO misionDao;
     private ObservableList<Mision> listaMisiones;
     private List<Mision> prelistado;
-    private MainApp stage;
     private Jugador jugador;
     private Inventario objeto;
     private Estado estado;
@@ -70,7 +70,7 @@ public class ControladorMision implements Initializable {
     }
 
     public void comprobarEstadoMision() {
-        jugador = stage.getJugador();
+        jugador = mainApp.getJugador();
 
         if (jugador.getTareaActiva().size() > 0) {
             // Comprobar si el jugador está actualmente en una misión
@@ -89,7 +89,7 @@ public class ControladorMision implements Initializable {
                 mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible",
                         "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo);
 
-                stage.mostrarInventario();
+                mainApp.mostrarInventario();
             } else if (tiempoRestante < 0) {
                 try {
                     Inventario nuevoObjeto = crearObjeto();
@@ -128,8 +128,10 @@ public class ControladorMision implements Initializable {
         }
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        genericDao = new GenericDAO(mainApp);
+        misionDao = new MisionDAO(mainApp);
     }
 
     @FXML
@@ -161,7 +163,7 @@ public class ControladorMision implements Initializable {
                         + " misiones ni retar en combate a otros jugadores hasta"
                         + " finalizarla, aunque ellos sí podrán retarte a ti");
 
-                stage.mostrarPrincipal();
+                mainApp.mostrarPrincipal();
             }
         } else {
             mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Misión no seleccionada",
@@ -274,7 +276,7 @@ public class ControladorMision implements Initializable {
                 // Controlar error de carga redirigiendo a vista principal
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error de carga",
                         "Se produjo un error mientras se cargaban datos.");
-                stage.mostrarPrincipal();
+                mainApp.mostrarPrincipal();
             } catch (JuegoException ex) {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "Guardado de datos",
                         "Se produjo un error mientras se guardaba la nueva misión en la base de datos.");

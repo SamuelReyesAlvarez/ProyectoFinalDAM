@@ -5,6 +5,7 @@
  */
 package dam.DAO;
 
+import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.Mision;
 import java.util.List;
@@ -18,11 +19,16 @@ import org.hibernate.Session;
  */
 public class MisionDAO {
 
-    public List<Mision> obtenerParaTablon() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+    private MainApp mainApp;
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public MisionDAO(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    public List<Mision> obtenerParaTablon() {
+        mainApp.configurarYAbrirSesion();
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Mision m "
@@ -30,16 +36,15 @@ public class MisionDAO {
         );
 
         List<Mision> listado = resultado.list();
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return listado;
     }
 
     public Mision comenzarMision(Mision mision) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.createQuery(
                 "UPDATE Mision m "
@@ -47,16 +52,15 @@ public class MisionDAO {
                 + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " MINUTE)"
                 + "WHERE m = " + mision
         );
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
-        return (Mision) new GenericDAO().obtenerPorId(Mision.class, mision.getIdMision());
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
+        return (Mision) new GenericDAO(mainApp).obtenerPorId(Mision.class, mision.getIdMision());
     }
 
     public int tiempoRestanteMision(Mision mision) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Object resultado = session.createQuery(
                 "SELECT COALESCE(TIMESTAMPDIFF(SECOND, now(), m.fin), 0)"
@@ -66,8 +70,8 @@ public class MisionDAO {
         ).uniqueResult();
 
         int restante = Integer.parseInt((String) resultado);
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return restante;
     }
 }

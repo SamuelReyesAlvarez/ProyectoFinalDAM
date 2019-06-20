@@ -13,19 +13,12 @@ DROP TABLE IF EXISTS estadisticas;
 DROP TABLE IF EXISTS mision;
 DROP TABLE IF EXISTS inventario;
 DROP TABLE IF EXISTS estado;
-DROP TABLE IF EXISTS jugador;
 DROP TABLE IF EXISTS acceso;
+DROP TABLE IF EXISTS jugador;
 
 DROP DATABASE IF EXISTS TwTcYjCeWV;
 CREATE DATABASE TwTcYjCeWV;
 USE TwTcYjCeWV;
-
-CREATE TABLE IF NOT EXISTS acceso (
-    id_acceso INT AUTO_INCREMENT,
-    correo VARCHAR(150) NOT NULL,
-    clave VARCHAR(150) NOT NULL,
-    CONSTRAINT acceso_pk PRIMARY KEY (id_acceso)
-);
 
 CREATE TABLE IF NOT EXISTS jugador (
     id_jugador INT AUTO_INCREMENT,
@@ -38,6 +31,14 @@ CREATE TABLE IF NOT EXISTS jugador (
     CONSTRAINT jugador_pk PRIMARY KEY (id_jugador)
 );
 
+CREATE TABLE IF NOT EXISTS acceso (
+    id_acceso INT AUTO_INCREMENT,
+    correo VARCHAR(150) NOT NULL,
+    clave VARCHAR(150) NOT NULL,
+    id_jugador INT NULL,
+    CONSTRAINT acceso_pk PRIMARY KEY (id_acceso),
+    CONSTRAINT acceso_jugador_fk FOREIGN KEY (id_jugador) REFERENCES jugador (id_jugador)
+);
 
 CREATE TABLE IF NOT EXISTS estado (
     id_estado INT AUTO_INCREMENT,

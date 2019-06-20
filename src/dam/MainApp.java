@@ -5,6 +5,9 @@
  */
 package dam;
 
+import dam.DAO.AccesoDAO;
+import dam.DAO.EstadoDAO;
+import dam.DAO.InventarioDAO;
 import dam.modelo.Acceso;
 import dam.modelo.HibernateUtil;
 import dam.modelo.JuegoException;
@@ -35,7 +38,7 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.11.2
+ * @version 1.11.3
  * @modified 20/06/2019
  */
 public class MainApp extends Application {
@@ -74,8 +77,6 @@ public class MainApp extends Application {
                 controlAcceso.establecerMensaje(mensaje);
             }
             controlAcceso.setStage(this);
-
-            configurarYAbrirSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,8 +119,6 @@ public class MainApp extends Application {
             controlCarga.cargarPartida(correo, clave);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JuegoException ex) {
-            mostrarLogin(ex.getMessage());
         }
     }
 
@@ -134,7 +133,7 @@ public class MainApp extends Application {
             stage.centerOnScreen();
 
             controlPrincipal = loader.getController();
-            controlPrincipal.setStage(this);
+            controlPrincipal.setMainApp(this);
             controlPrincipal.cargarDatosJugador();
             mostrarInventario();
         } catch (IOException e) {
@@ -183,7 +182,7 @@ public class MainApp extends Application {
             principal.setCenter(mision);
 
             ControladorMision controlMision = loader.getController();
-            controlMision.setStage(this);
+            controlMision.setMainApp(this);
             controlMision.comprobarEstadoMision();
         } catch (IOException e) {
             e.printStackTrace();
@@ -222,26 +221,34 @@ public class MainApp extends Application {
         }
     }
 
-    public void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta, String respuesta) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPersonDialog.fxml"));
+    public void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta, String[] respuesta) throws IOException {
+        Stage dialog = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vista/DialogPersonalizado.fxml"));
         Parent parent = fxmlLoader.load();
+        dialog.setScene(new Scene(parent));
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(stage);
+        dialog.initStyle(StageStyle.UNDECORATED);
+
         ControladorDialogo controlDialogo = fxmlLoader.getController();
         controlDialogo.contenido(titulo, cabecera, resumen, pregunta);
         controlDialogo.setRespuesta(respuesta);
 
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
+        dialog.showAndWait();
     }
 
     public Jugador getJugador() {
         return jugador;
     }
 
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
+    public void setJugador(Acceso cuenta) {
+        AccesoDAO accesoDao = new AccesoDAO(this);
+        InventarioDAO inventarioDao = new InventarioDAO(this);
+        EstadoDAO estadoDao = new EstadoDAO(this);
+
+        this.jugador = (accesoDao.comprobarCuenta(cuenta.getCorreo())).getJugador();
+        this.jugador.setEquipoJugador(inventarioDao.obtenerInventarioJugador(jugador));
+        this.jugador.setEstadoJugador(estadoDao.obtenerEstadoJugador(jugador));
     }
 
     /**

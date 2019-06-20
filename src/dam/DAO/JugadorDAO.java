@@ -5,6 +5,7 @@
  */
 package dam.DAO;
 
+import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.Jugador;
 import java.util.List;
@@ -18,48 +19,51 @@ import org.hibernate.Session;
  */
 public class JugadorDAO {
 
-    public List<Jugador> clasificacion() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+    private MainApp mainApp;
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public JugadorDAO(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    public List<Jugador> clasificacion() {
+        mainApp.configurarYAbrirSesion();
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "ORDER BY j.expAcumulada DESC");
         List<Jugador> listado = resultado.list();
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return listado;
     }
 
     public List<Jugador> filtroDesafio() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "ORDER BY j.estadisticas.puntosCombate DESC");
         List<Jugador> listado = resultado.list();
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return listado;
     }
 
     public boolean comprobarNombre(String nombre) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        //Session session = new GenericDAO<>().comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
                 + "WHERE j.nombre = " + nombre);
         boolean existe = (resultado != null) ? true : false;
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return existe;
     }
 }

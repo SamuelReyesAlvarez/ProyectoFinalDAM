@@ -5,6 +5,7 @@
  */
 package dam.DAO;
 
+import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.JuegoException;
 import java.util.List;
@@ -19,21 +20,12 @@ import org.hibernate.Session;
  */
 public class GenericDAO<T> {
 
-    /*
-    public Session comprobarConexion() {
-        if (HibernateUtil.getSessionFactory().getCurrentSession() != null) {
-            if (HibernateUtil.getSessionFactory().getCurrentSession().isOpen()) {
-                return HibernateUtil.getSessionFactory().getCurrentSession();
-            } else {
-                new MainApp().mostrarLogin("Conexión perdida");
-                return null;
-            }
-        } else {
-            new MainApp().mostrarLogin("Conexión perdida");
-            return null;
-        }
+    private MainApp mainApp;
+
+    public GenericDAO(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
-     */
+
     /**
      * Guarda o actualiza el objeto pasado por parámetro y sus relaciones a
      * través de una transacción.
@@ -44,18 +36,16 @@ public class GenericDAO<T> {
         StringBuilder mensajeError = new StringBuilder();
         String mensajeValidacion;
 
-        //Session session = comprobarConexion();
-        //HibernateUtil.openSessionAndBindToThread();
+        mainApp.configurarYAbrirSesion();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            //session.beginTransaction();
+            session.beginTransaction();
             session.saveOrUpdate(entidad);
-            //session.getTransaction().commit();
-            //session.evict(entidad);
-            session.getSessionFactory().close();
+            session.getTransaction().commit();
+            mainApp.cerrarSesion();
         } catch (ConstraintViolationException e) {
-            //session.getTransaction().rollback();
-            session.getSessionFactory().close();
+            session.getTransaction().rollback();
+            mainApp.cerrarSesion();
             for (ConstraintViolation constraintViolation : e.getConstraintViolations()) {
                 if (constraintViolation.getPropertyPath().toString().contains("correo")) {
                     mensajeValidacion = "formato incorrecto";
@@ -64,7 +54,6 @@ public class GenericDAO<T> {
                 }
                 mensajeError.append(constraintViolation.getPropertyPath() + ": " + mensajeValidacion + "\n");
             }
-            //session.evict(entidad);
             throw new JuegoException(mensajeError.toString());
         }
     }
@@ -76,45 +65,45 @@ public class GenericDAO<T> {
      * @param entidad que se desea borrar
      */
     public void borrar(T entidad) {
-        //Session session = comprobarConexion();
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        mainApp.configurarYAbrirSesion();
 
-        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         session.delete(entidad);
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
     }
 
     public List<T> obtenerTodos(Class<T> entidad) {
-        //Session session = comprobarConexion();
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        mainApp.configurarYAbrirSesion();
 
-        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         List<T> resultado = session.createQuery("FROM " + entidad).list();
-        //session.getTransaction().commit();
-        session.getSessionFactory().close();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, int id) {
-        //Session session = comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //session.beginTransaction();
+        session.beginTransaction();
         T resultado = (T) session.get(objeto, id);
-        //session.getTransaction().commit();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, String id) {
-        //Session session = comprobarConexion();
+        mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //session.beginTransaction();
+        session.beginTransaction();
         T resultado = (T) session.get(objeto, id);
-        //session.getTransaction().commit();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
         return resultado;
     }
 }

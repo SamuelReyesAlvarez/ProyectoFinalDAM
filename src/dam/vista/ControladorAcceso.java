@@ -7,8 +7,6 @@ package dam.vista;
 
 import com.sun.javafx.scene.control.behavior.PasswordFieldBehavior;
 import com.sun.javafx.scene.control.skin.TextFieldSkin;
-import dam.DAO.AccesoDAO;
-import dam.DAO.GenericDAO;
 import dam.MainApp;
 import dam.modelo.Acceso;
 import dam.modelo.MoverVentana;
@@ -30,8 +28,6 @@ import javafx.scene.layout.HBox;
  */
 public class ControladorAcceso implements Initializable, MoverVentana {
 
-    private AccesoDAO accesoDao = new AccesoDAO();
-    private GenericDAO genericDao = new GenericDAO();
     private MainApp mainApp;
 
     @FXML

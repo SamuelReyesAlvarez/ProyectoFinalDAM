@@ -28,9 +28,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ControladorClasificacion implements Initializable {
 
-    private JugadorDAO jugadorDAO = new JugadorDAO();
-    private ObservableList<Jugador> clasificacion;
     private MainApp mainApp;
+    private JugadorDAO jugadorDAO;
+    private ObservableList<Jugador> clasificacion;
 
     @FXML
     private TableView<Jugador> tabla;
@@ -66,6 +66,7 @@ public class ControladorClasificacion implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        jugadorDAO = new JugadorDAO(mainApp);
     }
 
     @FXML

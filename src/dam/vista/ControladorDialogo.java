@@ -39,41 +39,48 @@ public class ControladorDialogo {
     @FXML
     private Button botonCancelar;
 
-    private String respuesta;
+    private String[] respuesta;
 
     public void contenido(String titulo, String cabecera, String resumen, String pregunta) {
         etiquetaTitulo.setText(titulo);
 
-        if (cabecera.length() < 1 || cabecera == null) {
+        if (cabecera == null || cabecera.length() < 1) {
             etiquetaCabecera.setVisible(false);
+            etiquetaCabecera.setMaxSize(0, 0);
         } else {
             etiquetaCabecera.setText(cabecera);
         }
 
-        if (resumen.length() < 1 || resumen == null) {
+        if (resumen == null || resumen.length() < 1) {
             areaResumen.setVisible(false);
+            areaResumen.setMaxSize(0, 0);
         } else {
             areaResumen.setText(resumen);
             etiquetaPregunta.setVisible(false);
+            etiquetaPregunta.setMaxSize(0, 0);
             campoRespuesta.setVisible(false);
+            campoRespuesta.setMaxSize(0, 0);
             botonCancelar.setVisible(false);
+            botonCancelar.setMaxSize(0, 0);
         }
 
-        if (pregunta.length() < 1 || pregunta == null) {
+        if (pregunta == null || pregunta.length() < 1) {
             etiquetaPregunta.setVisible(false);
+            etiquetaPregunta.setMaxSize(0, 0);
         } else {
             etiquetaPregunta.setText(pregunta);
             areaResumen.setVisible(false);
+            areaResumen.setMaxSize(0, 0);
         }
     }
 
-    public void setRespuesta(String respuesta) {
+    public void setRespuesta(String[] respuesta) {
         this.respuesta = respuesta;
     }
 
     @FXML
     public void aceptar(ActionEvent event) {
-        respuesta = campoRespuesta.getText().trim();
+        respuesta[0] = campoRespuesta.getText().trim();
 
         cancelar(event);
     }

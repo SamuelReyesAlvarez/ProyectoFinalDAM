@@ -34,12 +34,12 @@ public class ControladorCombatir {
     private static final int MAX_LISTA_DESAFIAR = 5;
     private static final int RANGO_MAX_BUSQUEDA = 25;
 
-    private GenericDAO genericDao = new GenericDAO();
-    private JugadorDAO jugadorDao = new JugadorDAO();
-    private MisionDAO misionDao = new MisionDAO();
+    private MainApp mainApp;
+    private GenericDAO genericDao;
+    private JugadorDAO jugadorDao;
+    private MisionDAO misionDao;
     private List<Jugador> clasificacion;
     private ArrayList<Jugador> listaDesafio;
-    private MainApp mainApp;
     private Jugador jugador;
 
     @FXML
@@ -68,6 +68,9 @@ public class ControladorCombatir {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         jugador = mainApp.getJugador();
+        genericDao = new GenericDAO(mainApp);
+        jugadorDao = new JugadorDAO(mainApp);
+        misionDao = new MisionDAO(mainApp);
         cargarListaDesafio();
     }
 

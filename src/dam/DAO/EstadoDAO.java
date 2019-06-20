@@ -6,8 +6,10 @@
 package dam.DAO;
 
 import dam.MainApp;
-import dam.modelo.Acceso;
+import dam.modelo.Estado;
 import dam.modelo.HibernateUtil;
+import dam.modelo.Jugador;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -16,34 +18,25 @@ import org.hibernate.Session;
  * @author Samuel Reyes Alvarez
  *
  */
-public class AccesoDAO {
+public class EstadoDAO {
 
     private MainApp mainApp;
 
-    public AccesoDAO(MainApp mainApp) {
+    public EstadoDAO(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
-    public Acceso comprobarCuenta(String correo) {
+    public List<Estado> obtenerEstadoJugador(Jugador jugador) {
         mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
-                "FROM Acceso a "
-                + "WHERE correo = :correo");
-
-        resultado.setString("correo", correo);
-
-        if (resultado.list().size() > 0) {
-            Acceso acceso = (Acceso) resultado.list().get(0);
-            session.getTransaction().commit();
-            mainApp.cerrarSesion();
-            return acceso;
-        } else {
-            session.getTransaction().rollback();
-            mainApp.cerrarSesion();
-            return null;
-        }
+                "FROM Estado i "
+                + "WHERE i.jugador = " + jugador);
+        List<Estado> listado = resultado.list();
+        session.getTransaction().commit();
+        mainApp.cerrarSesion();
+        return listado;
     }
 }

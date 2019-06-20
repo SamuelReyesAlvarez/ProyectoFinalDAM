@@ -36,14 +36,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ControladorBazar implements Initializable {
 
-    private GenericDAO genericDao = new GenericDAO();
-    private InventarioDAO inventarioDao = new InventarioDAO();
+    private MainApp mainApp;
+    private GenericDAO genericDao;
+    private InventarioDAO inventarioDao;
     private ObservableList<Inventario> ofertas;
     private ObservableList<String> listaTipoEquipo;
     private ObservableList<String> listaNivel;
     private ObservableList<String> listaPotenciado;
     private List<Inventario> listaEnVenta = new LinkedList<>();
-    private MainApp mainApp;
     private Jugador jugador;
 
     @FXML
@@ -131,6 +131,8 @@ public class ControladorBazar implements Initializable {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         jugador = mainApp.getJugador();
+        genericDao = new GenericDAO(mainApp);
+        inventarioDao = new InventarioDAO(mainApp);
     }
 
     @FXML

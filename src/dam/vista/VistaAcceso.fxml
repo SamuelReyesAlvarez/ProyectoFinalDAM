@@ -28,7 +28,7 @@
             <children>
             <HBox fx:id="marco">
                <children>
-                        <ImageView fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../imagenes/KnightFightPortada.png" />
                             </image>
@@ -64,8 +64,11 @@
                         <Insets left="20.0" right="20.0" />
                      </padding>
                   </TextField>
-                  <CheckBox fx:id="verClave" mnemonicParsing="false" styleClass="atributo" text="mostrar clave introducida" />
-                        <Label id="error" fx:id="error" alignment="CENTER" prefHeight="60.0" text="Datos de acceso incorrectos">
+                  <CheckBox fx:id="verClave" mnemonicParsing="false" styleClass="atributo" text="mostrar clave introducida">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin></CheckBox>
+                        <Label id="error" fx:id="error" alignment="CENTER" prefHeight="60.0" prefWidth="250.0">
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>

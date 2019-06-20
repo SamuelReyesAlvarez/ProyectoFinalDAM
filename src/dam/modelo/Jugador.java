@@ -7,11 +7,9 @@ package dam.modelo;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -85,11 +83,11 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     @OneToMany(mappedBy = "jugador")
     @Cascade(CascadeType.ALL)
-    private Set<Estado> estadoJugador;
+    private List<Estado> estadoJugador;
 
     @OneToMany(mappedBy = "jugador")
     @Cascade(CascadeType.ALL)
-    private Set<Inventario> equipoJugador;
+    private List<Inventario> equipoJugador;
 
     @OneToMany(mappedBy = "jugador")
     @Cascade(CascadeType.ALL)
@@ -104,7 +102,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Jugador() {
     }
 
-    public Jugador(String nombre, String imagen, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, Set<Estado> estadoJugador, Set<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
+    public Jugador(String nombre, String imagen, int nivel, int expAcumulada, int puntosNoUsados, int oroActual, List<Estado> estadoJugador, List<Inventario> equipoJugador, List<Mision> tareaActiva, Estadisticas estadisticas) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.nivel = nivel;
@@ -173,19 +171,19 @@ public class Jugador implements Serializable, Comparable<Jugador> {
         this.oroActual = oroActual;
     }
 
-    public Set<Estado> getEstadoJugador() {
+    public List<Estado> getEstadoJugador() {
         return estadoJugador;
     }
 
-    public void setEstadoJugador(HashSet<Estado> estadoJugador) {
+    public void setEstadoJugador(List<Estado> estadoJugador) {
         this.estadoJugador = estadoJugador;
     }
 
-    public Set<Inventario> getEquipoJugador() {
+    public List<Inventario> getEquipoJugador() {
         return equipoJugador;
     }
 
-    public void setEquipoJugador(HashSet<Inventario> equipoJugador) {
+    public void setEquipoJugador(List<Inventario> equipoJugador) {
         this.equipoJugador = equipoJugador;
     }
 
@@ -286,7 +284,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public int getValorAtributo(Estado.TipoAtributo tipo) {
         int potenciando = 0;
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == tipo) {
                 potenciando = estado.getPotenciado();
             }
@@ -296,7 +294,16 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public int getVidaMax() {
         int vidaTotal = VIDA_BASE;
-        for (Estado estado : estadoJugador) {
+        for (int i = 0; i < getEstadoJugador().size(); i++) {
+            if (getEstadoJugador().get(i).getTipoAtributo() == Estado.TipoAtributo.AGUA) {
+                vidaTotal += getEstadoJugador().get(i).getPotenciado();
+            }
+            if (getEstadoJugador().get(i).getTipoAtributo() == Estado.TipoAtributo.CONSTITUCION) {
+                vidaTotal += getEstadoJugador().get(i).getPotenciado() * VALOR_CONSTITUCION;
+            }
+        }
+        /*
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == Estado.TipoAtributo.AGUA) {
                 vidaTotal += estado.getPotenciado();
             }
@@ -304,12 +311,13 @@ public class Jugador implements Serializable, Comparable<Jugador> {
                 vidaTotal += estado.getPotenciado() * VALOR_CONSTITUCION;
             }
         }
+         */
         return vidaTotal;
     }
 
     public int getAtaqueMin() {
         int ataqueMin = ATAQUE_MIN_BASE;
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
                 ataqueMin += estado.getPotenciado();
             }
@@ -322,7 +330,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public int getAtaqueMax() {
         int ataqueMax = ATAQUE_MAX_BASE;
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
                 ataqueMax += estado.getPotenciado();
             }
@@ -341,7 +349,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public int getDefensaMin() {
         int defensaMin = DEFENSA_MIN_BASE;
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
                 defensaMin += estado.getPotenciado();
             }
@@ -354,7 +362,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     public int getDefensaMax() {
         int defensaMax = DEFENSA_MAX_BASE;
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
                 defensaMax += estado.getPotenciado();
             }
@@ -390,7 +398,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     }
 
     public Inventario getEquipo(Inventario patron) {
-        for (Inventario equipo : equipoJugador) {
+        for (Inventario equipo : getEquipoJugador()) {
             if (equipo.isEquipado() == patron.isEquipado()
                     && equipo.isEnVenta() == patron.isEnVenta()
                     && equipo.getTipoEquipo() == patron.getTipoEquipo()
@@ -407,7 +415,7 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Estado getElementoDominante() {
         Estado mayor = new Estado(null, null, Integer.MIN_VALUE);
 
-        for (Estado estado : estadoJugador) {
+        for (Estado estado : getEstadoJugador()) {
             switch (estado.getTipoAtributo()) {
                 case TIERRA:
                     if (mayor.getPotenciado() < estado.getPotenciado()) {
@@ -438,27 +446,27 @@ public class Jugador implements Serializable, Comparable<Jugador> {
     public Estado getElementoDefensa(Estado ataque) {
         switch (ataque.getTipoAtributo()) {
             case TIERRA:
-                for (Estado estado : estadoJugador) {
+                for (Estado estado : getEstadoJugador()) {
                     if (estado.getTipoAtributo() == Estado.TipoAtributo.AGUA) {
                         return estado;
                     }
                 }
             case AGUA:
-                for (Estado estado : estadoJugador) {
+                for (Estado estado : getEstadoJugador()) {
                     if (estado.getTipoAtributo() == Estado.TipoAtributo.FUEGO) {
                         return estado;
                     }
                 }
                 break;
             case FUEGO:
-                for (Estado estado : estadoJugador) {
+                for (Estado estado : getEstadoJugador()) {
                     if (estado.getTipoAtributo() == Estado.TipoAtributo.VIENTO) {
                         return estado;
                     }
                 }
                 break;
             case VIENTO:
-                for (Estado estado : estadoJugador) {
+                for (Estado estado : getEstadoJugador()) {
                     if (estado.getTipoAtributo() == Estado.TipoAtributo.TIERRA) {
                         return estado;
                     }
