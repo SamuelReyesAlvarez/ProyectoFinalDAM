@@ -67,7 +67,7 @@ public class ControladorDialogo {
         }
     }
 
-    public void setString(String respuesta) {
+    public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
     }
 

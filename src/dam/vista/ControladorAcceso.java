@@ -16,17 +16,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  *
@@ -116,27 +111,14 @@ public class ControladorAcceso implements Initializable, MoverVentana {
 
         try {
             if (mensaje.equalsIgnoreCase("Conexión perdida")) {
-                mostrarDialog("Error de conexión", "Conexión perdida",
+                mainApp.mostrarDialog("Error de conexión", "Conexión perdida",
                         "Se ha perdido la conexión con el servicio de persistencia"
                         + " de datos.\nSi esto le ocurre muy a menudo, póngase en"
-                        + " contacto con nuestro servicio técnico", null);
+                        + " contacto con nuestro servicio técnico", null, null);
             }
         } catch (IOException ex) {
 
         }
-    }
-
-    private void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPersonDialog.fxml"));
-        Parent parent = fxmlLoader.load();
-        ControladorDialogo controlDialogo = fxmlLoader.getController();
-        controlDialogo.contenido(titulo, cabecera, resumen, pregunta);
-
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
     }
 
     public void mostrarOcultarClave() {

@@ -14,12 +14,12 @@ import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import dam.modelo.Mision;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,7 +39,7 @@ public class ControladorCombatir {
     private MisionDAO misionDao = new MisionDAO();
     private List<Jugador> clasificacion;
     private ArrayList<Jugador> listaDesafio;
-    private MainApp stage;
+    private MainApp mainApp;
     private Jugador jugador;
 
     @FXML
@@ -65,38 +65,38 @@ public class ControladorCombatir {
     @FXML
     private Label derrota0, derrota1, derrota2, derrota3, derrota4;
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
-        jugador = stage.getJugador();
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        jugador = mainApp.getJugador();
         cargarListaDesafio();
     }
 
     @FXML
-    public void desafiar0() {
+    public void desafiar0() throws IOException {
         desafiar(0, Integer.parseInt(victoria0.getText()), Integer.parseInt(derrota0.getText()));
     }
 
     @FXML
-    public void desafiar1() {
+    public void desafiar1() throws IOException {
         desafiar(1, Integer.parseInt(victoria1.getText()), Integer.parseInt(derrota1.getText()));
     }
 
     @FXML
-    public void desafiar2() {
+    public void desafiar2() throws IOException {
         desafiar(2, Integer.parseInt(victoria2.getText()), Integer.parseInt(derrota2.getText()));
     }
 
     @FXML
-    public void desafiar3() {
+    public void desafiar3() throws IOException {
         desafiar(3, Integer.parseInt(victoria3.getText()), Integer.parseInt(derrota3.getText()));
     }
 
     @FXML
-    public void desafiar4() {
+    public void desafiar4() throws IOException {
         desafiar(4, Integer.parseInt(victoria4.getText()), Integer.parseInt(derrota4.getText()));
     }
 
-    private void desafiar(int id, int puntosVictoria, int puntosDerrota) {
+    private void desafiar(int id, int puntosVictoria, int puntosDerrota) throws IOException {
         // Comprobar si el jugador está actualmente en una misión
         int tiempoRestante;
         if (jugador.getTareaActiva().size() > 0) {
@@ -115,28 +115,20 @@ public class ControladorCombatir {
                     + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
                     + ((segundos < 10) ? ("0" + segundos) : segundos);
 
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible",
-                    "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo);
+            mainApp.mostrarDialog("Atención", "Acción no disponible",
+                    "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo, null, null);
         } else if (tiempoRestante < 0) {
             // Notificar que la misión ha concluido pero necesita ser completada
-            mostrarAlerta(Alert.AlertType.INFORMATION, "Notificación",
+            mainApp.mostrarDialog("Notificación",
                     "Recompensa de misión no recibida",
                     "Has terminado una misión pero no has recogido la recomepnsa.\n"
-                    + "Dirígete a la pantalla de misiones para cobrarla");
+                    + "Dirígete a la pantalla de misiones para cobrarla", null, null);
         } else {
             // Realizar combate entre el jugador de la partida y el seleccionado de la lista
             Jugador contrario = (Jugador) genericDao.obtenerPorId(Jugador.class, listaDesafio.get(id).getIdJugador());
 
             simularCombate(contrario, puntosVictoria, puntosDerrota);
         }
-    }
-
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecera, String mensaje) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(cabecera);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 
     private void cargarListaDesafio() {
@@ -250,7 +242,7 @@ public class ControladorCombatir {
         return String.valueOf((victoria) ? premio : (premio - 25));
     }
 
-    private void simularCombate(Jugador contrario, int puntosVictoria, int puntosDerrota) {
+    private void simularCombate(Jugador contrario, int puntosVictoria, int puntosDerrota) throws IOException {
         int vidaJugador = jugador.getVidaMax();
         int vidaContrario = contrario.getVidaMax();
         int elementoAtaqueJugador = jugador.getElementoDominante().getPotenciado();
@@ -370,14 +362,13 @@ public class ControladorCombatir {
             genericDao.guardarActualizar(contrario);
             genericDao.guardarActualizar(combate);
 
-            mostrarAlerta(Alert.AlertType.INFORMATION,
-                    jugador.getNombre() + " vs " + contrario.getNombre(),
-                    "Combate finalizado", resumen.toString());
+            mainApp.mostrarDialog(jugador.getNombre() + " vs " + contrario.getNombre(),
+                    "Combate finalizado", resumen.toString(), null, null);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible", ex.getMessage());
+            mainApp.mostrarDialog("Error", "Acción no disponible", ex.getMessage(), null, null);
         }
 
-        stage.mostrarPrincipal();
-        stage.mostrarCombatir();
+        mainApp.mostrarPrincipal();
+        mainApp.mostrarCombatir();
     }
 }

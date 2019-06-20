@@ -45,10 +45,11 @@ public class GenericDAO<T> {
         String mensajeValidacion;
 
         //Session session = comprobarConexion();
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        //HibernateUtil.openSessionAndBindToThread();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             //session.beginTransaction();
-            session.persist(entidad);
+            session.saveOrUpdate(entidad);
             //session.getTransaction().commit();
             //session.evict(entidad);
             session.getSessionFactory().close();

@@ -9,6 +9,7 @@ import dam.DAO.JugadorDAO;
 import dam.MainApp;
 import dam.modelo.Estadisticas;
 import dam.modelo.Jugador;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,7 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -30,7 +30,7 @@ public class ControladorClasificacion implements Initializable {
 
     private JugadorDAO jugadorDAO = new JugadorDAO();
     private ObservableList<Jugador> clasificacion;
-    private MainApp stage;
+    private MainApp mainApp;
 
     @FXML
     private TableView<Jugador> tabla;
@@ -61,19 +61,17 @@ public class ControladorClasificacion implements Initializable {
 
         tabla.setItems(clasificacion);
 
-        tabla.getSelectionModel().select(stage.getJugador());
+        tabla.getSelectionModel().select(mainApp.getJugador());
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     @FXML
-    public void verDetalles() {
+    public void verDetalles() throws IOException {
         Jugador seleccionado = tabla.getSelectionModel().getSelectedItem();
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(seleccionado.getNombre() + " - Detalles");
-        alerta.setContentText(seleccionado.toString());
-        alerta.showAndWait();
+        mainApp.mostrarDialog(seleccionado.getNombre() + " - Detalles", null,
+                seleccionado.toString(), null, null);
     }
 }

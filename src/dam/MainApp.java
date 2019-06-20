@@ -14,17 +14,20 @@ import dam.vista.ControladorBazar;
 import dam.vista.ControladorCarga;
 import dam.vista.ControladorClasificacion;
 import dam.vista.ControladorCombatir;
+import dam.vista.ControladorDialogo;
 import dam.vista.ControladorInventario;
 import dam.vista.ControladorMision;
 import dam.vista.ControladorPrincipal;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -32,8 +35,8 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.11.1
- * @modified 19/06/2019
+ * @version 1.11.2
+ * @modified 20/06/2019
  */
 public class MainApp extends Application {
 
@@ -71,6 +74,8 @@ public class MainApp extends Application {
                 controlAcceso.establecerMensaje(mensaje);
             }
             controlAcceso.setStage(this);
+
+            configurarYAbrirSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +168,7 @@ public class MainApp extends Application {
             principal.setCenter(combatir);
 
             ControladorCombatir controlCombatir = loader.getController();
-            controlCombatir.setStage(this);
+            controlCombatir.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -194,7 +199,7 @@ public class MainApp extends Application {
             principal.setCenter(bazar);
 
             ControladorBazar controlBazar = loader.getController();
-            controlBazar.setStage(this);
+            controlBazar.setMainApp(this);
             controlBazar.cargarCombosYTablas();
         } catch (IOException e) {
             e.printStackTrace();
@@ -210,11 +215,25 @@ public class MainApp extends Application {
             principal.setCenter(clasificacion);
 
             ControladorClasificacion controlClasificacion = loader.getController();
-            controlClasificacion.setStage(this);
+            controlClasificacion.setMainApp(this);
             controlClasificacion.cargarTabla();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta, String respuesta) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPersonDialog.fxml"));
+        Parent parent = fxmlLoader.load();
+        ControladorDialogo controlDialogo = fxmlLoader.getController();
+        controlDialogo.contenido(titulo, cabecera, resumen, pregunta);
+        controlDialogo.setRespuesta(respuesta);
+
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 
     public Jugador getJugador() {

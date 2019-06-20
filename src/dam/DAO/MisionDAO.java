@@ -44,7 +44,7 @@ public class MisionDAO {
         session.createQuery(
                 "UPDATE Mision m "
                 + "SET m.inicio = NOW(), "
-                + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " HOUR)"
+                + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " MINUTE)"
                 + "WHERE m = " + mision
         );
         //session.getTransaction().commit();

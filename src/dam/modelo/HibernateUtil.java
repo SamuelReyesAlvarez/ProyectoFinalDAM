@@ -26,12 +26,16 @@ public class HibernateUtil {
     }
 
     public static void openSessionAndBindToThread() {
+        if (sessionFactory == null) {
+            buildSessionFactory();
+        }
         Session session = sessionFactory.openSession();
         ThreadLocalSessionContext.bind(session);
     }
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
+            System.out.println("ESTO NO DEBERIA SALIR");
             buildSessionFactory();
         }
         return sessionFactory;

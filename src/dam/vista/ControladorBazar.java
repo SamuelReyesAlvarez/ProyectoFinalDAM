@@ -12,6 +12,7 @@ import dam.modelo.Bazar;
 import dam.modelo.Inventario;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,7 +23,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -43,7 +43,7 @@ public class ControladorBazar implements Initializable {
     private ObservableList<String> listaNivel;
     private ObservableList<String> listaPotenciado;
     private List<Inventario> listaEnVenta = new LinkedList<>();
-    private MainApp stage;
+    private MainApp mainApp;
     private Jugador jugador;
 
     @FXML
@@ -128,20 +128,20 @@ public class ControladorBazar implements Initializable {
         });
     }
 
-    public void setStage(MainApp stage) {
-        this.stage = stage;
-        jugador = stage.getJugador();
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        jugador = mainApp.getJugador();
     }
 
     @FXML
-    public void comprar() {
+    public void comprar() throws IOException {
         Inventario equipo = tabla.getSelectionModel().getSelectedItem();
 
         if (equipo != null) {
             // Comprobar que se dispone del oro suficiente para comprar el objeto
             if (equipo.getPrecio() > jugador.getOroActual()) {
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Acción no disponible",
-                        "No dispones del oro suficiente para comprar este objeto.");
+                mainApp.mostrarDialog("Atención", "Acción no disponible",
+                        "No dispones del oro suficiente para comprar este objeto.", null, null);
             } else {
                 try {
                     equipo.setEnVenta(false);
@@ -169,24 +169,17 @@ public class ControladorBazar implements Initializable {
                     genericDao.guardarActualizar(bazar);
 
                     // Actualizar vista
-                    stage.mostrarBazar();
+                    mainApp.mostrarBazar();
                 } catch (JuegoException ex) {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Acción no disponible",
-                            "Hubo un fallo mientras se realizaba la transacción.");
-                    stage.mostrarPrincipal();
+                    mainApp.mostrarDialog("Error", "Acción no disponible",
+                            "Hubo un fallo mientras se realizaba la transacción.", null, null);
+                    mainApp.mostrarPrincipal();
                 }
             }
         } else {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Comprar objeto", "No has seleccionado ningún objeto a comprar.");
+            mainApp.mostrarDialog("Atención", "Comprar objeto",
+                    "No has seleccionado ningún objeto a comprar.", null, null);
         }
-    }
-
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecera, String mensaje) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(cabecera);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 
     private void cargarTabla(List<Inventario> listaEnVenta) {
