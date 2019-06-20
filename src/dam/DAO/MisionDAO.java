@@ -19,7 +19,8 @@ import org.hibernate.Session;
 public class MisionDAO {
 
     public List<Mision> obtenerParaTablon() {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -29,12 +30,14 @@ public class MisionDAO {
         );
 
         List<Mision> listado = resultado.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return listado;
     }
 
     public Mision comenzarMision(Mision mision) {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -44,12 +47,14 @@ public class MisionDAO {
                 + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " HOUR)"
                 + "WHERE m = " + mision
         );
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return (Mision) new GenericDAO().obtenerPorId(Mision.class, mision.getIdMision());
     }
 
     public int tiempoRestanteMision(Mision mision) {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -61,7 +66,8 @@ public class MisionDAO {
         ).uniqueResult();
 
         int restante = Integer.parseInt((String) resultado);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return restante;
     }
 }

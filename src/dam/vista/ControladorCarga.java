@@ -46,7 +46,7 @@ public class ControladorCarga {
     }
 
     public void crearNuevoJugador(Acceso nuevaCuenta) throws JuegoException {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Acceso registrar = new Acceso();
         // Comprobar que el correo introducido no está ya registrado
@@ -156,7 +156,7 @@ public class ControladorCarga {
 
     public void cargarPartida(String correo, String clave) throws JuegoException {
         try {
-            mainApp.configurarYAbrirSesion();
+            //mainApp.configurarYAbrirSesion();
 
             // Comprobar que los datos de acceso son correctos
             Acceso acceder = new Acceso();

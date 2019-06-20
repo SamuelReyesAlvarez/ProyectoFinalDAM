@@ -19,8 +19,9 @@ import org.hibernate.Session;
 public class AccesoDAO {
 
     public Acceso comprobarCuenta(String correo) throws JuegoException {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Acceso a "
                 + "WHERE correo = :correo");
@@ -29,12 +30,14 @@ public class AccesoDAO {
 
         if (resultado.list().size() > 0) {
             Acceso acceso = (Acceso) resultado.list().get(0);
-            session.getTransaction().commit();
+            session.getSessionFactory().close();
+            //session.getTransaction().commit();
             return acceso;
         } else {
-            session.getTransaction().rollback();
-            HibernateUtil.closeSessionFactory();
-            throw new JuegoException("Datos de acceso erróneos");
+            //session.getTransaction().rollback();
+            session.getSessionFactory().close();
+            //throw new JuegoException("Datos de acceso erróneos");
+            return null;
         }
     }
 }

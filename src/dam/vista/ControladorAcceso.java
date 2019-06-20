@@ -98,6 +98,7 @@ public class ControladorAcceso implements Initializable, MoverVentana {
         nuevaCuenta.setCorreo(correo.getText().trim());
         nuevaCuenta.setClave(claveOculta.getText().trim());
 
+        mainApp.mostrarCarga(nuevaCuenta);
     }
 
     @FXML

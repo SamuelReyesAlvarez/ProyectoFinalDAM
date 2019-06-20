@@ -19,7 +19,8 @@ import org.hibernate.Session;
 public class JugadorDAO {
 
     public List<Jugador> clasificacion() {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -27,12 +28,14 @@ public class JugadorDAO {
                 "FROM Jugador j "
                 + "ORDER BY j.expAcumulada DESC");
         List<Jugador> listado = resultado.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return listado;
     }
 
     public List<Jugador> filtroDesafio() {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -40,12 +43,14 @@ public class JugadorDAO {
                 "FROM Jugador j "
                 + "ORDER BY j.estadisticas.puntosCombate DESC");
         List<Jugador> listado = resultado.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return listado;
     }
 
     public boolean comprobarNombre(String nombre) {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -53,7 +58,8 @@ public class JugadorDAO {
                 "FROM Jugador j "
                 + "WHERE j.nombre = " + nombre);
         boolean existe = (resultado != null) ? true : false;
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return existe;
     }
 }

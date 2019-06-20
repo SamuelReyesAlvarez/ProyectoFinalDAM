@@ -37,7 +37,8 @@ public class InventarioDAO {
 
         }
 
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -48,12 +49,14 @@ public class InventarioDAO {
                 + filtroNivel
                 + filtroPotenciado);
         List<Inventario> listado = resultado.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return listado;
     }
 
     public List<Inventario> obtenerInventarioJugador(Jugador jugador) {
-        Session session = new GenericDAO<>().comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Session session = new GenericDAO<>().comprobarConexion();
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -61,7 +64,8 @@ public class InventarioDAO {
                 "FROM Inventario i "
                 + "WHERE i.jugador = " + jugador);
         List<Inventario> listado = resultado.list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return listado;
     }
 }

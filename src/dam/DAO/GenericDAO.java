@@ -5,7 +5,6 @@
  */
 package dam.DAO;
 
-import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.JuegoException;
 import java.util.List;
@@ -20,6 +19,7 @@ import org.hibernate.Session;
  */
 public class GenericDAO<T> {
 
+    /*
     public Session comprobarConexion() {
         if (HibernateUtil.getSessionFactory().getCurrentSession() != null) {
             if (HibernateUtil.getSessionFactory().getCurrentSession().isOpen()) {
@@ -33,7 +33,7 @@ public class GenericDAO<T> {
             return null;
         }
     }
-
+     */
     /**
      * Guarda o actualiza el objeto pasado por parámetro y sus relaciones a
      * través de una transacción.
@@ -44,15 +44,17 @@ public class GenericDAO<T> {
         StringBuilder mensajeError = new StringBuilder();
         String mensajeValidacion;
 
-        Session session = comprobarConexion();
-
+        //Session session = comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            session.beginTransaction();
-            session.saveOrUpdate(entidad);
-            session.getTransaction().commit();
-            session.evict(entidad);
+            //session.beginTransaction();
+            session.persist(entidad);
+            //session.getTransaction().commit();
+            //session.evict(entidad);
+            session.getSessionFactory().close();
         } catch (ConstraintViolationException e) {
-            session.getTransaction().rollback();
+            //session.getTransaction().rollback();
+            session.getSessionFactory().close();
             for (ConstraintViolation constraintViolation : e.getConstraintViolations()) {
                 if (constraintViolation.getPropertyPath().toString().contains("correo")) {
                     mensajeValidacion = "formato incorrecto";
@@ -73,41 +75,45 @@ public class GenericDAO<T> {
      * @param entidad que se desea borrar
      */
     public void borrar(T entidad) {
-        Session session = comprobarConexion();
+        //Session session = comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //session.beginTransaction();
         session.delete(entidad);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
     }
 
     public List<T> obtenerTodos(Class<T> entidad) {
-        Session session = comprobarConexion();
+        //Session session = comprobarConexion();
+        Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //session.beginTransaction();
         List<T> resultado = session.createQuery("FROM " + entidad).list();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
+        session.getSessionFactory().close();
         return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, int id) {
-        Session session = comprobarConexion();
+        //Session session = comprobarConexion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //session.beginTransaction();
         T resultado = (T) session.get(objeto, id);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         return resultado;
     }
 
     public T obtenerPorId(Class<T> objeto, String id) {
-        Session session = comprobarConexion();
+        //Session session = comprobarConexion();
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //session.beginTransaction();
         T resultado = (T) session.get(objeto, id);
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         return resultado;
     }
 }
