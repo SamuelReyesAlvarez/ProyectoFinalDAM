@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -52,8 +51,7 @@ public class Inventario implements Serializable {
     private Jugador jugador;
 
     @OneToOne
-    @PrimaryKeyJoinColumn
-    @NotNull
+    @JoinColumn(name = "id_estado")
     private Estado estado;
 
     @Column(name = "tipo_equipo")

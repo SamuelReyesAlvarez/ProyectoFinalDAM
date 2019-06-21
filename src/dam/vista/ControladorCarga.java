@@ -41,8 +41,8 @@ public class ControladorCarga {
 
     public void setStage(MainApp mainApp) {
         this.mainApp = mainApp;
-        genericDao = new GenericDAO(mainApp);
-        accesoDao = new AccesoDAO(mainApp);
+        genericDao = new GenericDAO();
+        accesoDao = new AccesoDAO();
     }
 
     public void crearNuevoJugador(Acceso nuevaCuenta) throws JuegoException, IOException {

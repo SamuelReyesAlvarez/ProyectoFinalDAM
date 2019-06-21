@@ -72,7 +72,7 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        creditos.setText("Knight Fight 2.0.1 <-> @SamuelReyesAlvarez 2019");
+        creditos.setText("Knight Fight 2.1.0  <->  @SamuelReyesAlvarez 2019");
         this.onDraggedScene(marco);
     }
 
@@ -101,8 +101,8 @@ public class ControladorPrincipal implements Initializable, MoverVentana {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        genericDao = new GenericDAO(mainApp);
-        jugadoDao = new JugadorDAO(mainApp);
+        genericDao = new GenericDAO();
+        jugadoDao = new JugadorDAO();
     }
 
     @FXML

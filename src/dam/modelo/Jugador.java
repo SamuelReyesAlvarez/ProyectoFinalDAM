@@ -253,15 +253,6 @@ public class Jugador implements Serializable, Comparable<Jugador> {
 
     @Override
     public int compareTo(Jugador o) {
-        /*
-        if (this.getExpAcumulada() > o.getExpAcumulada()) {
-            return -1;
-        } else if (this.getExpAcumulada() < o.getExpAcumulada()) {
-            return 1;
-        } else {
-            return 0;
-        }
-         */
         return Integer.compare(this.expAcumulada, o.expAcumulada);
     }
 

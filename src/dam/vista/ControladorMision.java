@@ -70,6 +70,7 @@ public class ControladorMision implements Initializable {
 
     public void comprobarEstadoMision() throws IOException {
         jugador = mainApp.getJugador();
+        jugador.setTareaActiva(misionDao.obtenerMisionActiva(jugador));
 
         if (jugador.getTareaActiva().size() > 0) {
             // Comprobar si el jugador está actualmente en una misión
@@ -115,7 +116,7 @@ public class ControladorMision implements Initializable {
                         jugador.getEquipoJugador().add(nuevoObjeto);
                     }
 
-                    genericDao.guardarActualizar(jugador);
+                    genericDao.guardarActualizar(estado);
 
                     mainApp.mostrarPrincipal();
                 } catch (JuegoException ex) {
@@ -135,8 +136,8 @@ public class ControladorMision implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        genericDao = new GenericDAO(mainApp);
-        misionDao = new MisionDAO(mainApp);
+        genericDao = new GenericDAO();
+        misionDao = new MisionDAO();
     }
 
     @FXML
@@ -198,7 +199,7 @@ public class ControladorMision implements Initializable {
             objeto.setEnVenta(false);
             objeto.setEquipado(false);
             objeto.setJugador(jugador);
-            objeto.setNivel(r.nextInt(jugador.getNivel() / 10) + 1);
+            objeto.setNivel((jugador.getNivel() / 10) + 1);
             objeto.setPotenciado(0);
             objeto.setTipoEquipo(Inventario.TipoEquipo.values()[r.nextInt(Inventario.TipoEquipo.values().length)]);
             crearEstadoEquipo();

@@ -74,8 +74,8 @@ public class ControladorCombatir implements Initializable {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         jugador = mainApp.getJugador();
-        genericDao = new GenericDAO(mainApp);
-        jugadorDao = new JugadorDAO(mainApp);
+        genericDao = new GenericDAO();
+        jugadorDao = new JugadorDAO();
         cargarListaDesafio();
     }
 
@@ -106,28 +106,35 @@ public class ControladorCombatir implements Initializable {
 
     private void desafiar(int id, int puntosVictoria, int puntosDerrota) throws IOException {
         // Comprobar si el jugador está actualmente en una misión
-        Mision mision = (Mision) genericDao.obtenerPorId(Mision.class,
-                jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1).getIdMision());
+        Mision mision;
+        int tiempoRestante;
+        if (jugador.getTareaActiva().size() > 0) {
+            mision = (Mision) genericDao.obtenerPorId(Mision.class,
+                    jugador.getTareaActiva().get(jugador.getTareaActiva().size() - 1).getIdMision());
+            tiempoRestante = (int) ((mision.getFin().getTime() - new Date().getTime()) / 1000);
+            if (tiempoRestante > 0) {
+                // Informar del tiempo restante en misión
+                int horas = (tiempoRestante / 3600);
+                int minutos = ((tiempoRestante % 3600) / 60);
+                int segundos = (tiempoRestante % 60);
+                String tiempo = horas + ":"
+                        + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
+                        + ((segundos < 10) ? ("0" + segundos) : segundos);
 
-        int tiempoRestante = (int) ((mision.getFin().getTime() - new Date().getTime()) / 1000);
+                mainApp.mostrarDialog("Atención", "Acción no disponible",
+                        "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo, null, null, false);
+            } else if (tiempoRestante <= 0 && !mision.isCompletada()) {
+                // Notificar que la misión ha concluido pero necesita ser completada
+                mainApp.mostrarDialog("Notificación",
+                        "Recompensa de misión no recibida",
+                        "Has terminado una misión pero no has recogido la recomepnsa.\n"
+                        + "Dirígete a la pantalla de misiones para cobrarla", null, null, false);
+            } else {
+                // Realizar combate entre el jugador de la partida y el seleccionado de la lista
+                Jugador contrario = (Jugador) genericDao.obtenerPorId(Jugador.class, listaDesafio.get(id).getIdJugador());
 
-        if (tiempoRestante > 0) {
-            // Informar del tiempo restante en misión
-            int horas = (tiempoRestante / 3600);
-            int minutos = ((tiempoRestante % 3600) / 60);
-            int segundos = (tiempoRestante % 60);
-            String tiempo = horas + ":"
-                    + ((minutos < 10) ? ("0" + minutos) : minutos) + ":"
-                    + ((segundos < 10) ? ("0" + segundos) : segundos);
-
-            mainApp.mostrarDialog("Atención", "Acción no disponible",
-                    "Actualmente estás en una misión.\nTiempo restante:\n" + tiempo, null, null, false);
-        } else if (tiempoRestante <= 0 && !mision.isCompletada()) {
-            // Notificar que la misión ha concluido pero necesita ser completada
-            mainApp.mostrarDialog("Notificación",
-                    "Recompensa de misión no recibida",
-                    "Has terminado una misión pero no has recogido la recomepnsa.\n"
-                    + "Dirígete a la pantalla de misiones para cobrarla", null, null, false);
+                simularCombate(contrario, puntosVictoria, puntosDerrota);
+            }
         } else {
             // Realizar combate entre el jugador de la partida y el seleccionado de la lista
             Jugador contrario = (Jugador) genericDao.obtenerPorId(Jugador.class, listaDesafio.get(id).getIdJugador());

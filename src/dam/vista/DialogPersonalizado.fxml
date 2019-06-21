@@ -35,7 +35,7 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="campoRespuesta" styleClass="track-background" text="texto" />
+            <TextField fx:id="campoRespuesta" styleClass="track-background" />
          </children>
          <VBox.margin>
             <Insets top="10.0" />

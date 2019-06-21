@@ -38,7 +38,6 @@
                 <TableColumn fx:id="tipoEquipo" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Tipo Equipo" />
                 <TableColumn fx:id="nivel" editable="false" maxWidth="3000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Nivel" />
                   <TableColumn fx:id="potenciado" editable="false" maxWidth="3000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Potenciado" />
-                  <TableColumn fx:id="propietario" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Propietario" />
                   <TableColumn fx:id="precio" editable="false" maxWidth="4000.0" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Precio" />
               </columns>
                <BorderPane.margin>

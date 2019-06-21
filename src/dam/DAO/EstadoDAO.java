@@ -5,7 +5,6 @@
  */
 package dam.DAO;
 
-import dam.MainApp;
 import dam.modelo.Estado;
 import dam.modelo.HibernateUtil;
 import dam.modelo.Jugador;
@@ -20,15 +19,7 @@ import org.hibernate.Session;
  */
 public class EstadoDAO {
 
-    private MainApp mainApp;
-
-    public EstadoDAO(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
     public List<Estado> obtenerEstadoJugador(Jugador jugador) {
-        //mainApp.configurarYAbrirSesion();
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -38,7 +29,6 @@ public class EstadoDAO {
 
         List<Estado> listado = resultado.list();
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return listado;
     }
 }

@@ -13,7 +13,6 @@ import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,6 @@ public class ControladorInventario implements Initializable {
     private MainApp mainApp;
     private GenericDAO genericDao;
     private Jugador jugador;
-    private ControladorPrincipal controlPrincipal;
 
     @FXML
     private ProgressBar barraFuerza, barraDestreza, barraArmadura, barraConstitucion;
@@ -64,9 +62,6 @@ public class ControladorInventario implements Initializable {
     }
 
     public void cargarEstadoJugador() {
-        // Obtener el jugador de la partida
-        this.jugador = mainApp.getJugador();
-
         // Cargar estado del jugador
         cargarEstado();
         puntosSinAsignar.setText(String.valueOf(jugador.getPuntosNoUsados()));
@@ -77,20 +72,18 @@ public class ControladorInventario implements Initializable {
             if (!objeto.isEnVenta()) {
                 if (objeto.isEquipado()) {
                     cargarEquipado(objeto);
-                } else if (!objeto.isEnVenta()) {
+                } else {
                     cargarAlmacenado(objeto);
                 }
             }
         }
+        rellenarBarras();
     }
 
-    public void setControladorPrincipal(ControladorPrincipal controlPrincipal) {
-        this.controlPrincipal = controlPrincipal;
-    }
-
-    public void setStage(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        genericDao = new GenericDAO(mainApp);
+        this.jugador = mainApp.getJugador();
+        genericDao = new GenericDAO();
     }
 
     @FXML
@@ -121,16 +114,18 @@ public class ControladorInventario implements Initializable {
                     + objeto.getNivel() + " +" + objeto.getPotenciado() + " requiere "
                     + coste + " de oro\n¿Confirmar acción?", null, respuesta, true);
 
-            if (respuesta[0].equals("aceptado")) {
-                if (coste > disponible) {
-                    throw new JuegoException("No dispones de oro suficiente");
-                } else {
-                    // Mejorar objeto
-                    objeto.aumentarPotenciado();
-                    // Restar coste
-                    jugador.setOroActual(disponible - coste);
-                    // Guardar cambios a través del jugador
-                    genericDao.guardarActualizar(jugador);
+            if (respuesta[0] != null) {
+                if (respuesta[0].equals("aceptado")) {
+                    if (coste > disponible) {
+                        throw new JuegoException("No dispones de oro suficiente");
+                    } else {
+                        // Mejorar objeto
+                        objeto.aumentarPotenciado();
+                        // Restar coste
+                        jugador.setOroActual(disponible - coste);
+                        // Guardar cambios a través del jugador
+                        genericDao.guardarActualizar(jugador);
+                    }
                 }
             }
         } catch (JuegoException ex) {
@@ -143,9 +138,6 @@ public class ControladorInventario implements Initializable {
     @FXML
     public void venderEquipo(Inventario objeto) throws IOException {
         try {
-            // Obtener el valor estándar del objeto
-            int precio = objeto.getValor();
-
             // Informar y solicitar confirmación recogiendo precio deseado para el objeto
             String[] respuesta = new String[1];
             mainApp.mostrarDialog("Confirmar acción", null, null, "Enviar "
@@ -158,6 +150,8 @@ public class ControladorInventario implements Initializable {
 
             if (respuesta[0] != null) {
                 objeto.setPrecio(Integer.parseInt(respuesta[0]));
+                objeto.setEnVenta(true);
+                objeto.setEquipado(false);
                 genericDao.guardarActualizar(objeto);
             }
         } catch (JuegoException ex) {
@@ -225,28 +219,28 @@ public class ControladorInventario implements Initializable {
         for (Estado estado : jugador.getEstadoJugador()) {
             switch (estado.getTipoAtributo()) {
                 case AGUA:
-                    agua.setText(String.valueOf(estado.getPotenciado()));
+                    agua.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.AGUA)));
                     break;
                 case ARMAD:
-                    armadura.setText(String.valueOf(estado.getPotenciado()));
+                    armadura.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.ARMAD)));
                     break;
                 case CONST:
-                    constitucion.setText(String.valueOf(estado.getPotenciado()));
+                    constitucion.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.CONST)));
                     break;
                 case DESTR:
-                    destreza.setText(String.valueOf(estado.getPotenciado()));
+                    destreza.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.DESTR)));
                     break;
                 case FUEGO:
-                    fuego.setText(String.valueOf(estado.getPotenciado()));
+                    fuego.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.FUEGO)));
                     break;
                 case FUERZA:
-                    fuerza.setText(String.valueOf(estado.getPotenciado()));
+                    fuerza.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.FUERZA)));
                     break;
                 case TIERRA:
-                    tierra.setText(String.valueOf(estado.getPotenciado()));
+                    tierra.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.TIERRA)));
                     break;
                 case VIENTO:
-                    viento.setText(String.valueOf(estado.getPotenciado()));
+                    viento.setText(String.valueOf(jugador.getValorAtributo(Estado.TipoAtributo.VIENTO)));
                     break;
             }
         }
@@ -486,7 +480,6 @@ public class ControladorInventario implements Initializable {
         agua.setText("0");
         fuego.setText("0");
         viento.setText("0");
-        rellenarBarras();
 
         pendiente.setDisable(true);
         casco.setDisable(true);
@@ -527,21 +520,33 @@ public class ControladorInventario implements Initializable {
     }
 
     private void rellenarBarras() {
-        double[] atributos = {Double.parseDouble(fuerza.getText()), Double.parseDouble(destreza.getText()), Double.parseDouble(armadura.getText()), Double.parseDouble(constitucion.getText())};
-        double mayorAtributo = Arrays.stream(atributos).max().getAsDouble();
+        double[] atributos = {jugador.getValorAtributo(Estado.TipoAtributo.FUERZA),
+            jugador.getValorAtributo(Estado.TipoAtributo.DESTR),
+            jugador.getValorAtributo(Estado.TipoAtributo.ARMAD),
+            jugador.getValorAtributo(Estado.TipoAtributo.CONST)};
+        double mayorAtributo = atributos[0];
+        for (int i = 1; i < atributos.length; i++) {
+            mayorAtributo = atributos[i] > mayorAtributo ? atributos[i] : mayorAtributo;
+        }
 
-        barraFuerza.setProgress(Double.parseDouble(fuerza.getText()) / (double) mayorAtributo);
-        barraDestreza.setProgress(Double.parseDouble(destreza.getText()) / (double) mayorAtributo);
-        barraArmadura.setProgress(Double.parseDouble(armadura.getText()) / (double) mayorAtributo);
-        barraConstitucion.setProgress(Double.parseDouble(constitucion.getText()) / (double) mayorAtributo);
+        barraFuerza.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.FUERZA) / (double) mayorAtributo);
+        barraDestreza.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.DESTR) / (double) mayorAtributo);
+        barraArmadura.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.ARMAD) / (double) mayorAtributo);
+        barraConstitucion.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.CONST) / (double) mayorAtributo);
 
-        double[] elementos = {Double.parseDouble(tierra.getText()), Double.parseDouble(agua.getText()), Double.parseDouble(fuego.getText()), Double.parseDouble(viento.getText())};
-        double mayorElemento = Arrays.stream(elementos).max().getAsDouble();
+        double[] elementos = {jugador.getValorAtributo(Estado.TipoAtributo.TIERRA),
+            jugador.getValorAtributo(Estado.TipoAtributo.AGUA),
+            jugador.getValorAtributo(Estado.TipoAtributo.FUEGO),
+            jugador.getValorAtributo(Estado.TipoAtributo.VIENTO)};
+        double mayorElemento = elementos[0];
+        for (int i = 1; i < elementos.length; i++) {
+            mayorElemento = elementos[i] > mayorElemento ? elementos[i] : mayorElemento;
+        }
 
-        barraTierra.setProgress(Double.parseDouble(tierra.getText()) / mayorElemento);
-        barraAgua.setProgress(Double.parseDouble(agua.getText()) / mayorElemento);
-        barraFuego.setProgress(Double.parseDouble(fuego.getText()) / mayorElemento);
-        barraViento.setProgress(Double.parseDouble(viento.getText()) / mayorElemento);
+        barraTierra.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.TIERRA) / (double) mayorElemento);
+        barraAgua.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.AGUA) / (double) mayorElemento);
+        barraFuego.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.FUEGO) / (double) mayorElemento);
+        barraViento.setProgress((double) jugador.getValorAtributo(Estado.TipoAtributo.VIENTO) / (double) mayorElemento);
     }
 
     private void activarDesactivarBotones() {

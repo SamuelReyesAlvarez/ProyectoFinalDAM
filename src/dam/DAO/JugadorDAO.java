@@ -5,7 +5,6 @@
  */
 package dam.DAO;
 
-import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.Jugador;
 import java.util.List;
@@ -19,15 +18,7 @@ import org.hibernate.Session;
  */
 public class JugadorDAO {
 
-    private MainApp mainApp;
-
-    public JugadorDAO(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
     public List<Jugador> clasificacion() {
-        //mainApp.configurarYAbrirSesion();
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -35,13 +26,10 @@ public class JugadorDAO {
                 + "ORDER BY j.expAcumulada DESC");
         List<Jugador> listado = resultado.list();
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return listado;
     }
 
     public List<Jugador> filtroDesafio() {
-        //mainApp.configurarYAbrirSesion();
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -49,13 +37,10 @@ public class JugadorDAO {
                 + "ORDER BY j.puntosCombate DESC");
         List<Jugador> listado = resultado.list();
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return listado;
     }
 
     public boolean comprobarNombre(String nombre) {
-        //mainApp.configurarYAbrirSesion();
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -65,7 +50,6 @@ public class JugadorDAO {
 
         boolean existe = (resultado.list().isEmpty()) ? false : true;
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return existe;
     }
 }

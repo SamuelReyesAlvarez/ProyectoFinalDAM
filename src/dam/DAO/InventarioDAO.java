@@ -5,7 +5,6 @@
  */
 package dam.DAO;
 
-import dam.MainApp;
 import dam.modelo.HibernateUtil;
 import dam.modelo.Inventario;
 import dam.modelo.Jugador;
@@ -20,18 +19,11 @@ import org.hibernate.Session;
  */
 public class InventarioDAO {
 
-    private MainApp mainApp;
-
-    public InventarioDAO(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
     public List<Inventario> obtenerObjetosEnVenta(String tipo, String nivel, String potenciado) {
         String filtroTipo = "";
         String filtroNivel = "";
         String filtroPotenciado = "";
 
-        //mainApp.configurarYAbrirSesion();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -59,13 +51,10 @@ public class InventarioDAO {
 
         List<Inventario> listado = resultado.list();
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return listado;
     }
 
     public List<Inventario> obtenerInventarioJugador(Jugador jugador) {
-        //mainApp.configurarYAbrirSesion();
-
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -75,7 +64,6 @@ public class InventarioDAO {
 
         List<Inventario> listado = resultado.list();
         session.getTransaction().commit();
-        //mainApp.cerrarSesion();
         return listado;
     }
 }

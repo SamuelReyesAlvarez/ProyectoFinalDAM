@@ -64,7 +64,7 @@ public class ControladorClasificacion implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        jugadorDAO = new JugadorDAO(mainApp);
+        jugadorDAO = new JugadorDAO();
     }
 
     @FXML

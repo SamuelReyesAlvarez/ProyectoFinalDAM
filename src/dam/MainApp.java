@@ -38,8 +38,9 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 2.0.1
- * @modified 20/06/2019
+ * @version 2.1.0
+ * @modified 21/06/2019
+ *
  */
 public class MainApp extends Application {
 
@@ -151,7 +152,7 @@ public class MainApp extends Application {
             principal.setCenter(inventario);
 
             ControladorInventario controlInventario = loader.getController();
-            controlInventario.setStage(this);
+            controlInventario.setMainApp(this);
             controlInventario.cargarEstadoJugador();
         } catch (IOException e) {
             e.printStackTrace();
@@ -242,9 +243,9 @@ public class MainApp extends Application {
     }
 
     public void setJugador(Jugador cargaJugador) {
-        GenericDAO genericDao = new GenericDAO(this);
-        InventarioDAO inventarioDao = new InventarioDAO(this);
-        EstadoDAO estadoDao = new EstadoDAO(this);
+        GenericDAO genericDao = new GenericDAO();
+        InventarioDAO inventarioDao = new InventarioDAO();
+        EstadoDAO estadoDao = new EstadoDAO();
 
         this.jugador = (Jugador) (genericDao.obtenerPorId(Jugador.class, cargaJugador.getIdJugador()));
         this.jugador.setEquipoJugador(inventarioDao.obtenerInventarioJugador(jugador));
