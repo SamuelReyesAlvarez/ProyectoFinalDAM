@@ -101,19 +101,15 @@ public class ControladorAcceso implements Initializable, MoverVentana {
         System.exit(1);
     }
 
-    public void establecerMensaje(String mensaje) {
+    public void establecerMensaje(String mensaje) throws IOException {
         error.setText(mensaje);
         error.setVisible(true);
 
-        try {
-            if (mensaje.equalsIgnoreCase("Conexión perdida")) {
-                mainApp.mostrarDialog("Error de conexión", "Conexión perdida",
-                        "Se ha perdido la conexión con el servicio de persistencia"
-                        + " de datos.\nSi esto le ocurre muy a menudo, póngase en"
-                        + " contacto con nuestro servicio técnico", null, null);
-            }
-        } catch (IOException ex) {
-
+        if (mensaje.equalsIgnoreCase("Conexión perdida")) {
+            mainApp.mostrarDialog("Error de conexión", "Conexión perdida",
+                    "Se ha perdido la conexión con el servicio de persistencia"
+                    + " de datos.\nSi esto le ocurre muy a menudo, póngase en"
+                    + " contacto con nuestro servicio técnico", null, null, false);
         }
     }
 

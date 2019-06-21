@@ -26,7 +26,7 @@ public class MisionDAO {
     }
 
     public List<Mision> obtenerParaTablon() {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -37,41 +37,49 @@ public class MisionDAO {
 
         List<Mision> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 
+    /*
     public Mision comenzarMision(Mision mision) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        session.createQuery(
+        Query resultado = session.createQuery(
                 "UPDATE Mision m "
                 + "SET m.inicio = NOW(), "
-                + "SET m.fin = (NOW() + INTERVAL " + mision.getDuracion() + " MINUTE)"
-                + "WHERE m = " + mision
+                + "SET m.fin = (NOW() + INTERVAL :duracion MINUTE) "
+                + "WHERE m = :mision"
         );
+
+        resultado.setInteger("duracion", mision.getDuracion());
+        resultado.setEntity("mision", mision);
+
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return (Mision) new GenericDAO(mainApp).obtenerPorId(Mision.class, mision.getIdMision());
     }
 
     public int tiempoRestanteMision(Mision mision) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Object resultado = session.createQuery(
+        Query resultado = session.createQuery(
                 "SELECT COALESCE(TIMESTAMPDIFF(SECOND, now(), m.fin), 0)"
                 + "FROM Mision m "
-                + "WHERE m = " + mision
-                + " AND m.completada = 0"
-        ).uniqueResult();
+                + "WHERE m = :mision "
+                + "AND m.completada = 0"
+        );
 
-        int restante = Integer.parseInt((String) resultado);
+        resultado.setEntity("mision", mision);
+
+        int restante = Integer.parseInt(resultado.getQueryString());
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return restante;
     }
+     */
 }

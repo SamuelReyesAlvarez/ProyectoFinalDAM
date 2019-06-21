@@ -11,20 +11,19 @@ import dam.modelo.Estado;
 import dam.modelo.Inventario;
 import dam.modelo.JuegoException;
 import dam.modelo.Jugador;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextInputDialog;
 
 /**
  *
@@ -75,10 +74,12 @@ public class ControladorInventario implements Initializable {
 
         // Cargar objetos del inventario
         for (Inventario objeto : jugador.getEquipoJugador()) {
-            if (objeto.isEquipado()) {
-                cargarEquipado(objeto);
-            } else if (!objeto.isEnVenta()) {
-                cargarAlmacenado(objeto);
+            if (!objeto.isEnVenta()) {
+                if (objeto.isEquipado()) {
+                    cargarEquipado(objeto);
+                } else if (!objeto.isEnVenta()) {
+                    cargarAlmacenado(objeto);
+                }
             }
         }
     }
@@ -93,31 +94,34 @@ public class ControladorInventario implements Initializable {
     }
 
     @FXML
-    public void equiparDesequipar(Inventario objeto) {
+    public void equiparDesequipar(Inventario objeto) throws IOException {
         try {
             objeto.setEquipado(!objeto.isEquipado());
             genericDao.guardarActualizar(jugador);
+            mainApp.setJugador(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Error", "Acción no disponible", "No se pudo cambiar el estado del objeto");
+            mainApp.mostrarDialog("Error", "Acción no disponible", "No se pudo cambiar el estado del objeto", null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void mejorarEquipo(Inventario objeto) {
+    public void mejorarEquipo(Inventario objeto) throws IOException {
         try {
             // Comprobar coste de mejora
             int coste = objeto.getCostePotenciar();
             // Comprobar oro disponible
             int disponible = jugador.getOroActual();
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmar acción");
-            alert.setContentText("Mejorar " + objeto.getTipoEquipo() + " nivel: " + objeto.getNivel() + " +" + objeto.getPotenciado() + " requiere " + coste + " de oro\n¿Confirmar acción?");
+            String[] respuesta = new String[1];
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
+            mainApp.mostrarDialog("Confirmar acción", null,
+                    "Mejorar " + objeto.getTipoEquipo() + " nivel: "
+                    + objeto.getNivel() + " +" + objeto.getPotenciado() + " requiere "
+                    + coste + " de oro\n¿Confirmar acción?", null, respuesta, true);
+
+            if (respuesta[0].equals("aceptado")) {
                 if (coste > disponible) {
                     throw new JuegoException("No dispones de oro suficiente");
                 } else {
@@ -130,95 +134,91 @@ public class ControladorInventario implements Initializable {
                 }
             }
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
+            mainApp.mostrarDialog("Atención", "Acción no disponible", ex.getMessage(), null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void venderEquipo(Inventario objeto) {
+    public void venderEquipo(Inventario objeto) throws IOException {
         try {
             // Obtener el valor estándar del objeto
             int precio = objeto.getValor();
 
             // Informar y solicitar confirmación recogiendo precio deseado para el objeto
-            TextInputDialog dialog = new TextInputDialog(String.valueOf(precio));
-            dialog.setTitle("Confirmar acción");
-            dialog.setContentText("Enviar " + objeto.getTipoEquipo() + " nivel: " + objeto.getNivel() + " +" + objeto.getPotenciado() + " con " + objeto.getEstado().getTipoAtributo() + " +" + objeto.getEstado().getPotenciado() + " al bazar con un precio de venta de: ");
+            String[] respuesta = new String[1];
+            mainApp.mostrarDialog("Confirmar acción", null, null, "Enviar "
+                    + objeto.getTipoEquipo() + " nivel: " + objeto.getNivel()
+                    + " +" + objeto.getPotenciado() + " con "
+                    + objeto.getEstado().getTipoAtributo()
+                    + " +" + objeto.getEstado().getPotenciado()
+                    + " al bazar con un precio de venta de: ",
+                    respuesta, true);
 
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                objeto.setPrecio(Integer.parseInt(result.get()));
-                genericDao.guardarActualizar(jugador);
+            if (respuesta[0] != null) {
+                objeto.setPrecio(Integer.parseInt(respuesta[0]));
+                genericDao.guardarActualizar(objeto);
             }
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", ex.getMessage());
+            mainApp.mostrarDialog("Atención", "Acción no disponible", ex.getMessage(), null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         } catch (NumberFormatException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Acción no disponible", "Debes introducir una cantidad válida");
+            mainApp.mostrarDialog("Atención", "Acción no disponible", "Debes introducir una cantidad válida", null, null, false);
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void asignarPuntosFuerza() {
+    public void asignarPuntosFuerza() throws IOException {
         try {
             jugador.mejorarAtributo(Estado.TipoAtributo.FUERZA);
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mainApp.mostrarDialog("Atención", "Función no disponible", "No te quedan puntos para asignar", null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void asignarPuntosDestreza() {
+    public void asignarPuntosDestreza() throws IOException {
         try {
-            jugador.mejorarAtributo(Estado.TipoAtributo.DESTREZA);
+            jugador.mejorarAtributo(Estado.TipoAtributo.DESTR);
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mainApp.mostrarDialog("Atención", "Función no disponible", "No te quedan puntos para asignar", null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void asignarPuntosArmadura() {
+    public void asignarPuntosArmadura() throws IOException {
         try {
-            jugador.mejorarAtributo(Estado.TipoAtributo.ARMADURA);
+            jugador.mejorarAtributo(Estado.TipoAtributo.ARMAD);
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mainApp.mostrarDialog("Atención", "Función no disponible", "No te quedan puntos para asignar", null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
     }
 
     @FXML
-    public void asignarPuntosConstitucion() {
+    public void asignarPuntosConstitucion() throws IOException {
         try {
-            jugador.mejorarAtributo(Estado.TipoAtributo.CONSTITUCION);
+            jugador.mejorarAtributo(Estado.TipoAtributo.CONST);
             rellenarBarras();
             genericDao.guardarActualizar(jugador);
         } catch (JuegoException ex) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Atención", "Función no disponible", "No te quedan puntos para asignar");
+            mainApp.mostrarDialog("Atención", "Función no disponible", "No te quedan puntos para asignar", null, null, false);
             jugador = (Jugador) genericDao.obtenerPorId(Jugador.class, jugador.getIdJugador());
         }
         mainApp.mostrarPrincipal();
-    }
-
-    private void mostrarAlerta(Alert.AlertType tipoAlerta, String titulo, String cabecera, String mensaje) {
-        Alert alert = new Alert(tipoAlerta);
-        alert.setTitle(titulo);
-        alert.setHeaderText(cabecera);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
     }
 
     private void cargarEstado() {
@@ -227,13 +227,13 @@ public class ControladorInventario implements Initializable {
                 case AGUA:
                     agua.setText(String.valueOf(estado.getPotenciado()));
                     break;
-                case ARMADURA:
+                case ARMAD:
                     armadura.setText(String.valueOf(estado.getPotenciado()));
                     break;
-                case CONSTITUCION:
+                case CONST:
                     constitucion.setText(String.valueOf(estado.getPotenciado()));
                     break;
-                case DESTREZA:
+                case DESTR:
                     destreza.setText(String.valueOf(estado.getPotenciado()));
                     break;
                 case FUEGO:
@@ -250,8 +250,6 @@ public class ControladorInventario implements Initializable {
                     break;
             }
         }
-        actualizarControlPrincipal();
-        rellenarBarras();
     }
 
     private void cargarEquipado(Inventario objeto) {
@@ -260,151 +258,186 @@ public class ControladorInventario implements Initializable {
                 if (pendiente.isDisabled()) {
                     pendiente.setText(objeto.toString());
                     pendiente.setDisable(false);
+                    pendiente.setContextMenu(new MenuContextual(pendiente));
                 }
                 break;
             case CASCO:
                 if (casco.isDisabled()) {
                     casco.setText(objeto.toString());
                     casco.setDisable(false);
+                    casco.setContextMenu(new MenuContextual(casco));
                 }
                 break;
             case COLLAR:
                 if (collar.isDisabled()) {
                     collar.setText(objeto.toString());
                     collar.setDisable(false);
+                    collar.setContextMenu(new MenuContextual(collar));
                 }
                 break;
             case PULSERA:
                 if (pulsera.isDisabled()) {
                     pulsera.setText(objeto.toString());
                     pulsera.setDisable(false);
+                    pulsera.setContextMenu(new MenuContextual(pulsera));
                 }
                 break;
             case CHALECO:
                 if (chaleco.isDisabled()) {
                     chaleco.setText(objeto.toString());
                     chaleco.setDisable(false);
+                    chaleco.setContextMenu(new MenuContextual(chaleco));
                 }
                 break;
             case CAPA:
                 if (capa.isDisabled()) {
                     capa.setText(objeto.toString());
                     capa.setDisable(false);
+                    capa.setContextMenu(new MenuContextual(capa));
                 }
                 break;
             case ESCUDO:
                 if (escudo.isDisabled()) {
                     escudo.setText(objeto.toString());
                     escudo.setDisable(false);
+                    escudo.setContextMenu(new MenuContextual(escudo));
                 }
                 break;
             case PANTALON:
                 if (pantalon.isDisabled()) {
                     pantalon.setText(objeto.toString());
                     pantalon.setDisable(false);
+                    pantalon.setContextMenu(new MenuContextual(pantalon));
                 }
                 break;
             case ARMA:
                 if (arma.isDisabled()) {
                     arma.setText(objeto.toString());
                     arma.setDisable(false);
+                    arma.setContextMenu(new MenuContextual(arma));
                 }
                 break;
             case CINTURON:
                 if (cinturon.isDisabled()) {
                     cinturon.setText(objeto.toString());
                     cinturon.setDisable(false);
+                    cinturon.setContextMenu(new MenuContextual(cinturon));
                 }
                 break;
             case BOTAS:
                 if (botas.isDisabled()) {
                     botas.setText(objeto.toString());
                     botas.setDisable(false);
+                    botas.setContextMenu(new MenuContextual(botas));
                 }
                 break;
             case ANILLO:
                 if (anillo.isDisabled()) {
                     anillo.setText(objeto.toString());
                     anillo.setDisable(false);
+                    anillo.setContextMenu(new MenuContextual(anillo));
                 }
                 break;
         }
-        actualizarControlPrincipal();
     }
 
     private void cargarAlmacenado(Inventario objeto) {
         if (inv01.isDisabled()) {
             inv01.setText(objeto.toString());
             inv01.setDisable(false);
-        } else if (inv01.isDisabled()) {
-            inv01.setText(objeto.toString());
-            inv01.setDisable(false);
+            inv01.setContextMenu(new MenuContextual(inv01));
         } else if (inv02.isDisabled()) {
             inv02.setText(objeto.toString());
             inv02.setDisable(false);
+            inv02.setContextMenu(new MenuContextual(inv02));
         } else if (inv03.isDisabled()) {
             inv03.setText(objeto.toString());
             inv03.setDisable(false);
+            inv03.setContextMenu(new MenuContextual(inv03));
         } else if (inv04.isDisabled()) {
             inv04.setText(objeto.toString());
             inv04.setDisable(false);
+            inv04.setContextMenu(new MenuContextual(inv04));
         } else if (inv05.isDisabled()) {
             inv05.setText(objeto.toString());
             inv05.setDisable(false);
+            inv05.setContextMenu(new MenuContextual(inv05));
         } else if (inv06.isDisabled()) {
             inv06.setText(objeto.toString());
             inv06.setDisable(false);
+            inv06.setContextMenu(new MenuContextual(inv06));
         } else if (inv07.isDisabled()) {
             inv07.setText(objeto.toString());
             inv07.setDisable(false);
+            inv07.setContextMenu(new MenuContextual(inv07));
         } else if (inv08.isDisabled()) {
             inv08.setText(objeto.toString());
             inv08.setDisable(false);
+            inv08.setContextMenu(new MenuContextual(inv08));
         } else if (inv09.isDisabled()) {
             inv09.setText(objeto.toString());
             inv09.setDisable(false);
+            inv09.setContextMenu(new MenuContextual(inv09));
+        } else if (inv10.isDisabled()) {
+            inv10.setText(objeto.toString());
+            inv10.setDisable(false);
+            inv10.setContextMenu(new MenuContextual(inv10));
         } else if (inv11.isDisabled()) {
             inv11.setText(objeto.toString());
             inv11.setDisable(false);
+            inv11.setContextMenu(new MenuContextual(inv11));
         } else if (inv12.isDisabled()) {
             inv12.setText(objeto.toString());
             inv12.setDisable(false);
+            inv12.setContextMenu(new MenuContextual(inv12));
         } else if (inv13.isDisabled()) {
             inv13.setText(objeto.toString());
             inv13.setDisable(false);
+            inv13.setContextMenu(new MenuContextual(inv13));
         } else if (inv14.isDisabled()) {
             inv14.setText(objeto.toString());
             inv14.setDisable(false);
+            inv14.setContextMenu(new MenuContextual(inv14));
         } else if (inv15.isDisabled()) {
             inv15.setText(objeto.toString());
             inv15.setDisable(false);
+            inv15.setContextMenu(new MenuContextual(inv15));
         } else if (inv16.isDisabled()) {
             inv16.setText(objeto.toString());
             inv16.setDisable(false);
+            inv16.setContextMenu(new MenuContextual(inv16));
         } else if (inv17.isDisabled()) {
             inv17.setText(objeto.toString());
             inv17.setDisable(false);
+            inv17.setContextMenu(new MenuContextual(inv17));
         } else if (inv18.isDisabled()) {
             inv18.setText(objeto.toString());
             inv18.setDisable(false);
+            inv18.setContextMenu(new MenuContextual(inv18));
         } else if (inv19.isDisabled()) {
             inv19.setText(objeto.toString());
             inv19.setDisable(false);
+            inv19.setContextMenu(new MenuContextual(inv19));
         } else if (inv20.isDisabled()) {
             inv20.setText(objeto.toString());
             inv20.setDisable(false);
+            inv20.setContextMenu(new MenuContextual(inv20));
         } else if (inv21.isDisabled()) {
             inv21.setText(objeto.toString());
             inv21.setDisable(false);
+            inv21.setContextMenu(new MenuContextual(inv21));
         } else if (inv22.isDisabled()) {
             inv22.setText(objeto.toString());
             inv22.setDisable(false);
+            inv22.setContextMenu(new MenuContextual(inv22));
         } else if (inv23.isDisabled()) {
             inv23.setText(objeto.toString());
             inv23.setDisable(false);
+            inv23.setContextMenu(new MenuContextual(inv23));
         } else if (inv24.isDisabled()) {
             inv24.setText(objeto.toString());
             inv24.setDisable(false);
+            inv24.setContextMenu(new MenuContextual(inv24));
         }
     }
 
@@ -491,53 +524,16 @@ public class ControladorInventario implements Initializable {
         inv22.setDisable(true);
         inv23.setDisable(true);
         inv24.setDisable(true);
-
-        pendiente.setContextMenu(new MenuContextual(pendiente));
-        casco.setContextMenu(new MenuContextual(casco));
-        collar.setContextMenu(new MenuContextual(collar));
-        pulsera.setContextMenu(new MenuContextual(pulsera));
-        chaleco.setContextMenu(new MenuContextual(chaleco));
-        capa.setContextMenu(new MenuContextual(capa));
-        escudo.setContextMenu(new MenuContextual(escudo));
-        pantalon.setContextMenu(new MenuContextual(pantalon));
-        arma.setContextMenu(new MenuContextual(arma));
-        cinturon.setContextMenu(new MenuContextual(cinturon));
-        botas.setContextMenu(new MenuContextual(botas));
-        anillo.setContextMenu(new MenuContextual(anillo));
-        inv01.setContextMenu(new MenuContextual(inv01));
-        inv02.setContextMenu(new MenuContextual(inv02));
-        inv03.setContextMenu(new MenuContextual(inv03));
-        inv04.setContextMenu(new MenuContextual(inv04));
-        inv05.setContextMenu(new MenuContextual(inv05));
-        inv06.setContextMenu(new MenuContextual(inv06));
-        inv07.setContextMenu(new MenuContextual(inv07));
-        inv08.setContextMenu(new MenuContextual(inv08));
-        inv09.setContextMenu(new MenuContextual(inv09));
-        inv10.setContextMenu(new MenuContextual(inv10));
-        inv11.setContextMenu(new MenuContextual(inv11));
-        inv12.setContextMenu(new MenuContextual(inv12));
-        inv13.setContextMenu(new MenuContextual(inv13));
-        inv14.setContextMenu(new MenuContextual(inv14));
-        inv15.setContextMenu(new MenuContextual(inv15));
-        inv16.setContextMenu(new MenuContextual(inv16));
-        inv17.setContextMenu(new MenuContextual(inv17));
-        inv18.setContextMenu(new MenuContextual(inv18));
-        inv19.setContextMenu(new MenuContextual(inv19));
-        inv20.setContextMenu(new MenuContextual(inv20));
-        inv21.setContextMenu(new MenuContextual(inv21));
-        inv22.setContextMenu(new MenuContextual(inv22));
-        inv23.setContextMenu(new MenuContextual(inv23));
-        inv24.setContextMenu(new MenuContextual(inv24));
     }
 
     private void rellenarBarras() {
         double[] atributos = {Double.parseDouble(fuerza.getText()), Double.parseDouble(destreza.getText()), Double.parseDouble(armadura.getText()), Double.parseDouble(constitucion.getText())};
         double mayorAtributo = Arrays.stream(atributos).max().getAsDouble();
 
-        barraFuerza.setProgress(Double.parseDouble(fuerza.getText()) / mayorAtributo);
-        barraDestreza.setProgress(Double.parseDouble(destreza.getText()) / mayorAtributo);
-        barraArmadura.setProgress(Double.parseDouble(armadura.getText()) / mayorAtributo);
-        barraConstitucion.setProgress(Double.parseDouble(constitucion.getText()) / mayorAtributo);
+        barraFuerza.setProgress(Double.parseDouble(fuerza.getText()) / (double) mayorAtributo);
+        barraDestreza.setProgress(Double.parseDouble(destreza.getText()) / (double) mayorAtributo);
+        barraArmadura.setProgress(Double.parseDouble(armadura.getText()) / (double) mayorAtributo);
+        barraConstitucion.setProgress(Double.parseDouble(constitucion.getText()) / (double) mayorAtributo);
 
         double[] elementos = {Double.parseDouble(tierra.getText()), Double.parseDouble(agua.getText()), Double.parseDouble(fuego.getText()), Double.parseDouble(viento.getText())};
         double mayorElemento = Arrays.stream(elementos).max().getAsDouble();
@@ -557,14 +553,6 @@ public class ControladorInventario implements Initializable {
         masFuerza.setDisable(activado);
     }
 
-    private void actualizarControlPrincipal() {
-        controlPrincipal.cambiarVida();
-        controlPrincipal.cambiarAtaqueMin();
-        controlPrincipal.cambiarAtaqueMax();
-        controlPrincipal.cambiarDefensaMin();
-        controlPrincipal.cambiarDefensaMax();
-    }
-
     private class MenuContextual extends ContextMenu {
 
         public MenuContextual(Label label) {
@@ -574,7 +562,7 @@ public class ControladorInventario implements Initializable {
             if (label.getText().split("N:").length > 1) {
                 Inventario.TipoEquipo tipoEquipo = Inventario.TipoEquipo.valueOf(label.getText().split("N:")[0].trim());
                 int nivel = Integer.parseInt(label.getText().split("N:")[1].split("P:")[0].trim());
-                int potenciado = Integer.parseInt(label.getText().split(": +")[1].split("\n")[0].trim());
+                int potenciado = Integer.parseInt(label.getText().split(": \\+")[1].split("\n")[0].trim());
                 Estado.TipoAtributo tipoAtributo = Estado.TipoAtributo.valueOf(label.getText().split("\\+")[1].split("\n")[1].trim());
                 int potenciadoEstado = Integer.parseInt(label.getText().split("\\+")[2].trim());
 
@@ -584,18 +572,30 @@ public class ControladorInventario implements Initializable {
 
                 MenuItem item1 = new MenuItem("Des/Equipar");
                 item1.setOnAction(event -> {
-                    equiparDesequipar(equipo);
-                    event.consume();
+                    try {
+                        equiparDesequipar(equipo);
+                        event.consume();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControladorInventario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
                 MenuItem item2 = new MenuItem("Mejorar");
                 item2.setOnAction(event -> {
-                    mejorarEquipo(equipo);
-                    event.consume();
+                    try {
+                        mejorarEquipo(equipo);
+                        event.consume();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControladorInventario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
                 MenuItem item3 = new MenuItem("Vender");
                 item3.setOnAction(event -> {
-                    venderEquipo(equipo);
-                    event.consume();
+                    try {
+                        venderEquipo(equipo);
+                        event.consume();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControladorInventario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
 
                 getItems().addAll(item1, item2, item3);

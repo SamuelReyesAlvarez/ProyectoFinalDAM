@@ -31,21 +31,7 @@ public class InventarioDAO {
         String filtroNivel = "";
         String filtroPotenciado = "";
 
-        if (!tipo.equals("Todos")) {
-            filtroTipo = " AND i.tipoEquipo = '" + tipo + "'";
-        }
-
-        if (!nivel.equals("Todos")) {
-            filtroNivel = " AND i.nivel = " + nivel;
-        }
-
-        if (!potenciado.equals("Todos")) {
-            filtroPotenciado = " AND i.potenciado = " + potenciado;
-
-        }
-
-        mainApp.configurarYAbrirSesion();
-
+        //mainApp.configurarYAbrirSesion();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
@@ -54,23 +40,42 @@ public class InventarioDAO {
                 + filtroTipo
                 + filtroNivel
                 + filtroPotenciado);
+
+        if (!tipo.equals("Todos")) {
+            filtroTipo = " AND i.tipoEquipo = :tipo";
+            resultado.setString("tipo", tipo);
+        }
+
+        if (!nivel.equals("Todos")) {
+            filtroNivel = " AND i.nivel = :nivel";
+            resultado.setString("nivel", nivel);
+        }
+
+        if (!potenciado.equals("Todos")) {
+            filtroPotenciado = " AND i.potenciado = :potenciado";
+            resultado.setString("potenciado", potenciado);
+
+        }
+
         List<Inventario> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 
     public List<Inventario> obtenerInventarioJugador(Jugador jugador) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Inventario i "
-                + "WHERE i.jugador = " + jugador);
+                + "WHERE i.jugador = :jugador");
+        resultado.setEntity("jugador", jugador);
+
         List<Inventario> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 }

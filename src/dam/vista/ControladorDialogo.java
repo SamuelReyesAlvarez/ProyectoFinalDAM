@@ -41,7 +41,7 @@ public class ControladorDialogo {
 
     private String[] respuesta;
 
-    public void contenido(String titulo, String cabecera, String resumen, String pregunta) {
+    public void contenido(String titulo, String cabecera, String resumen, String pregunta, boolean cancelar) {
         etiquetaTitulo.setText(titulo);
 
         if (cabecera == null || cabecera.length() < 1) {
@@ -60,8 +60,6 @@ public class ControladorDialogo {
             etiquetaPregunta.setMaxSize(0, 0);
             campoRespuesta.setVisible(false);
             campoRespuesta.setMaxSize(0, 0);
-            botonCancelar.setVisible(false);
-            botonCancelar.setMaxSize(0, 0);
         }
 
         if (pregunta == null || pregunta.length() < 1) {
@@ -72,6 +70,11 @@ public class ControladorDialogo {
             areaResumen.setVisible(false);
             areaResumen.setMaxSize(0, 0);
         }
+
+        if (!cancelar) {
+            botonCancelar.setVisible(false);
+            botonCancelar.setMaxSize(0, 0);
+        }
     }
 
     public void setRespuesta(String[] respuesta) {
@@ -80,8 +83,11 @@ public class ControladorDialogo {
 
     @FXML
     public void aceptar(ActionEvent event) {
-        respuesta[0] = campoRespuesta.getText().trim();
-
+        if (campoRespuesta.isVisible()) {
+            respuesta[0] = campoRespuesta.getText().trim();
+        } else if (respuesta != null) {
+            respuesta[0] = "aceptado";
+        }
         cancelar(event);
     }
 

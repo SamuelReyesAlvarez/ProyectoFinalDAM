@@ -51,12 +51,6 @@
          <bottom>
             <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
                <children>
-                  <TextField prefWidth="200.0" promptText="Buscar jugador" styleClass="boton" />
-                  <Button mnemonicParsing="false" styleClass="boton" text="Buscar">
-                     <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
                   <Button mnemonicParsing="false" onAction="#verDetalles" styleClass="boton" text="Ver detalles">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

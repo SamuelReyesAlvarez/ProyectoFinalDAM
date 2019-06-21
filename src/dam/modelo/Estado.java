@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 public class Estado implements Serializable, Comparable<Estado> {
 
     public enum TipoAtributo {
-        FUERZA, DESTREZA, ARMADURA, CONSTITUCION, TIERRA, AGUA, FUEGO, VIENTO
+        FUERZA, DESTR, ARMAD, CONST, TIERRA, AGUA, FUEGO, VIENTO
     }
 
     @Id

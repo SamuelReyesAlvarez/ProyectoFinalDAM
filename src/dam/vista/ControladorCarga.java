@@ -63,7 +63,7 @@ public class ControladorCarga {
                 // Pedir al jugador el código que debe haber recibido por correo
                 String[] respuesta = new String[1];
                 mainApp.mostrarDialog("Registro Knight Fight", "Confirmación de cuenta",
-                        null, "Introduce el código aquí:", respuesta);
+                        null, "Introduce el código aquí:", respuesta, true);
 
                 if (respuesta != null && respuesta[0].trim().equals(codigo)) {
                     // Crear la partida para el nuevo jugador
@@ -79,7 +79,7 @@ public class ControladorCarga {
             } else {
                 // Informar que no se pudo enviar el correo con el código de verificación
                 mainApp.mostrarDialog("Error", "Correo no enviado",
-                        "Se produjo un error en el envío del correo de confirmación.", null, null);
+                        "Se produjo un error en el envío del correo de confirmación.", null, null, false);
                 genericDao.borrar(nuevaCuenta);
             }
         } else {
@@ -99,6 +99,8 @@ public class ControladorCarga {
         jugador.setNombre(NOMBRE_INICIAL);
         jugador.setOroActual(ORO_INICIAL);
         jugador.setPuntosNoUsados(PUNTOS_NO_USADOS_INICIAL);
+        jugador.setPuntosCombate(ESTADISTICAS_INICIALES);
+        jugador.setTotalRecaudado(ESTADISTICAS_INICIALES);
         jugador.setTareaActiva(new ArrayList<>());
 
         ArrayList<Estado> estadoJugador = new ArrayList<Estado>();
@@ -117,17 +119,15 @@ public class ControladorCarga {
         Estadisticas estadisticas = new Estadisticas();
         estadisticas.setDerrotas(ESTADISTICAS_INICIALES);
         estadisticas.setMisionesCompletadas(ESTADISTICAS_INICIALES);
-        estadisticas.setPuntosCombate(ESTADISTICAS_INICIALES);
         estadisticas.setTotalAtaque(ESTADISTICAS_INICIALES);
         estadisticas.setTotalDefensa(ESTADISTICAS_INICIALES);
-        estadisticas.setTotalRecaudado(ESTADISTICAS_INICIALES);
         estadisticas.setVictorias(ESTADISTICAS_INICIALES);
 
         jugador.setEstadisticas(estadisticas);
         nuevaCuenta.setJugador(jugador);
         genericDao.guardarActualizar(nuevaCuenta);
 
-        mainApp.setJugador(nuevaCuenta);
+        mainApp.setJugador(nuevaCuenta.getJugador());
     }
 
     public void cargarPartida(String correo, String clave) {
@@ -135,7 +135,7 @@ public class ControladorCarga {
             // Comprobar que los datos de acceso son correctos
             Acceso acceder = accesoDao.comprobarCuenta(correo);
             if (acceder != null && acceder.getClave().equals(clave)) {
-                mainApp.setJugador(acceder);
+                mainApp.setJugador(acceder.getJugador());
                 mainApp.mostrarPrincipal();
             } else {
                 // Informar que se han introducido datos incorrectos para acceder

@@ -27,9 +27,6 @@ public class Estadisticas implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idEstadisticas;
 
-    @Column(name = "puntos_combate")
-    private int puntosCombate;
-
     @Column(name = "victorias")
     private int victorias;
 
@@ -45,20 +42,15 @@ public class Estadisticas implements Serializable {
     @Column(name = "misiones")
     private int misionesCompletadas;
 
-    @Column(name = "recaudacion")
-    private int totalRecaudado;
-
     public Estadisticas() {
     }
 
-    public Estadisticas(int puntosCombate, int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas, int totalRecaudado) {
-        this.puntosCombate = puntosCombate;
+    public Estadisticas(int victorias, int derrotas, int totalAtaque, int totalDefensa, int misionesCompletadas) {
         this.victorias = victorias;
         this.derrotas = derrotas;
         this.totalAtaque = totalAtaque;
         this.totalDefensa = totalDefensa;
         this.misionesCompletadas = misionesCompletadas;
-        this.totalRecaudado = totalRecaudado;
     }
 
     public int getIdEstadisticas() {
@@ -67,14 +59,6 @@ public class Estadisticas implements Serializable {
 
     public void setIdEstadisticas(int idEstadisticas) {
         this.idEstadisticas = idEstadisticas;
-    }
-
-    public int getPuntosCombate() {
-        return puntosCombate;
-    }
-
-    public void setPuntosCombate(int puntosCombate) {
-        this.puntosCombate = puntosCombate;
     }
 
     public int getVictorias() {
@@ -117,14 +101,6 @@ public class Estadisticas implements Serializable {
         this.misionesCompletadas = misionesCompletadas;
     }
 
-    public int getTotalRecaudado() {
-        return totalRecaudado;
-    }
-
-    public void setTotalRecaudado(int totalRecaudado) {
-        this.totalRecaudado = totalRecaudado;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -150,11 +126,6 @@ public class Estadisticas implements Serializable {
         return true;
     }
 
-    public void cambiarPuntosCombate(int variacion) {
-        this.puntosCombate += variacion;
-        this.puntosCombate = puntosCombate < 0 ? 0 : puntosCombate;
-    }
-
     public void aumentarVictorias() {
         this.victorias++;
     }
@@ -173,9 +144,5 @@ public class Estadisticas implements Serializable {
 
     public void aumentarMisiones() {
         this.misionesCompletadas++;
-    }
-
-    public void aumentarTotalRecaudado(int cantidad) {
-        this.totalRecaudado += cantidad;
     }
 }

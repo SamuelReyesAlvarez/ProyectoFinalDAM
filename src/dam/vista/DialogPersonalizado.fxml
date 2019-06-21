@@ -27,7 +27,7 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </Label>
-      <TextArea fx:id="areaResumen" editable="false" styleClass="track-background" text="texto" />
+      <TextArea fx:id="areaResumen" editable="false" styleClass="track-background" wrapText="true" />
       <HBox alignment="CENTER_RIGHT">
          <children>
             <Label fx:id="etiquetaPregunta" styleClass="atributo" text="Label">

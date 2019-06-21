@@ -58,11 +58,11 @@ public class Mision implements Serializable {
     private int duracion;
 
     @Column(name = "inicio")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date inicio;
 
     @Column(name = "fin")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fin;
 
     @Column(name = "recompensa")

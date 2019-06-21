@@ -35,7 +35,7 @@ public class Inventario implements Serializable {
 
     private static final int VALOR_BASE = 500;
     private static final int VALOR_POTENCIADO = 150;
-    public static final int PROBABILIDAD_CREAR_EQUIPO = 5;
+    public static final int PROBABILIDAD_CREAR_EQUIPO = 1;
 
     public enum TipoEquipo {
         PENDIENTE, CASCO, COLLAR, PULSERA, CHALECO, CAPA, ESCUDO, PANTALON, ARMA, CINTURON, BOTAS, ANILLO

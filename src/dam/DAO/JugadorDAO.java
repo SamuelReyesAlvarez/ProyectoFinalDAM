@@ -26,7 +26,7 @@ public class JugadorDAO {
     }
 
     public List<Jugador> clasificacion() {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -35,35 +35,37 @@ public class JugadorDAO {
                 + "ORDER BY j.expAcumulada DESC");
         List<Jugador> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 
     public List<Jugador> filtroDesafio() {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
-                + "ORDER BY j.estadisticas.puntosCombate DESC");
+                + "ORDER BY j.puntosCombate DESC");
         List<Jugador> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 
     public boolean comprobarNombre(String nombre) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
                 "FROM Jugador j "
-                + "WHERE j.nombre = " + nombre);
-        boolean existe = (resultado != null) ? true : false;
+                + "WHERE j.nombre = :nombre");
+        resultado.setString("nombre", nombre);
+
+        boolean existe = (resultado.list().isEmpty()) ? false : true;
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return existe;
     }
 }

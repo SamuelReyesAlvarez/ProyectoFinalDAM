@@ -238,13 +238,6 @@
                               <MenuItem mnemonicParsing="false" onAction="#clasificacion" text="Clasificacion" />
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Ayuda">
-                        <items>
-                          <MenuItem mnemonicParsing="false" onAction="#tutorial" text="Tutorial" />
-                              <MenuItem mnemonicParsing="false" onAction="#manual" text="Manual" />
-                              <MenuItem mnemonicParsing="false" onAction="#ayuda" text="Ayuda" />
-                        </items>
-                      </Menu>
                     </menus>
                   </MenuBar>
                </children>

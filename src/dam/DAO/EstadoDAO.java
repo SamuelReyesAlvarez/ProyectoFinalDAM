@@ -27,16 +27,18 @@ public class EstadoDAO {
     }
 
     public List<Estado> obtenerEstadoJugador(Jugador jugador) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query resultado = session.createQuery(
-                "FROM Estado i "
-                + "WHERE i.jugador = " + jugador);
+                "FROM Estado e "
+                + "WHERE e.jugador = :jugador");
+        resultado.setEntity("jugador", jugador);
+
         List<Estado> listado = resultado.list();
         session.getTransaction().commit();
-        mainApp.cerrarSesion();
+        //mainApp.cerrarSesion();
         return listado;
     }
 }

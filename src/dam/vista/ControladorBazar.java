@@ -143,7 +143,7 @@ public class ControladorBazar implements Initializable {
             // Comprobar que se dispone del oro suficiente para comprar el objeto
             if (equipo.getPrecio() > jugador.getOroActual()) {
                 mainApp.mostrarDialog("Atención", "Acción no disponible",
-                        "No dispones del oro suficiente para comprar este objeto.", null, null);
+                        "No dispones del oro suficiente para comprar este objeto.", null, null, false);
             } else {
                 try {
                     equipo.setEnVenta(false);
@@ -174,13 +174,13 @@ public class ControladorBazar implements Initializable {
                     mainApp.mostrarBazar();
                 } catch (JuegoException ex) {
                     mainApp.mostrarDialog("Error", "Acción no disponible",
-                            "Hubo un fallo mientras se realizaba la transacción.", null, null);
+                            "Hubo un fallo mientras se realizaba la transacción.", null, null, false);
                     mainApp.mostrarPrincipal();
                 }
             }
         } else {
             mainApp.mostrarDialog("Atención", "Comprar objeto",
-                    "No has seleccionado ningún objeto a comprar.", null, null);
+                    "No has seleccionado ningún objeto a comprar.", null, null, false);
         }
     }
 

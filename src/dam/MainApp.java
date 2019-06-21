@@ -5,8 +5,8 @@
  */
 package dam;
 
-import dam.DAO.AccesoDAO;
 import dam.DAO.EstadoDAO;
+import dam.DAO.GenericDAO;
 import dam.DAO.InventarioDAO;
 import dam.modelo.Acceso;
 import dam.modelo.HibernateUtil;
@@ -38,7 +38,7 @@ import javafx.stage.StageStyle;
  *
  * @author Samuel Reyes Alvarez
  *
- * @version 1.11.3
+ * @version 2.0.1
  * @modified 20/06/2019
  */
 public class MainApp extends Application {
@@ -47,7 +47,6 @@ public class MainApp extends Application {
 
     public Stage stage;
     private BorderPane principal;
-    private ControladorPrincipal controlPrincipal;
     private Jugador jugador;
 
     @Override
@@ -77,6 +76,8 @@ public class MainApp extends Application {
                 controlAcceso.establecerMensaje(mensaje);
             }
             controlAcceso.setStage(this);
+
+            configurarYAbrirSesion();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,7 +133,7 @@ public class MainApp extends Application {
             stage.setScene(scene);
             stage.centerOnScreen();
 
-            controlPrincipal = loader.getController();
+            ControladorPrincipal controlPrincipal = loader.getController();
             controlPrincipal.setMainApp(this);
             controlPrincipal.cargarDatosJugador();
             mostrarInventario();
@@ -151,7 +152,6 @@ public class MainApp extends Application {
 
             ControladorInventario controlInventario = loader.getController();
             controlInventario.setStage(this);
-            controlInventario.setControladorPrincipal(controlPrincipal);
             controlInventario.cargarEstadoJugador();
         } catch (IOException e) {
             e.printStackTrace();
@@ -221,7 +221,7 @@ public class MainApp extends Application {
         }
     }
 
-    public void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta, String[] respuesta) throws IOException {
+    public void mostrarDialog(String titulo, String cabecera, String resumen, String pregunta, String[] respuesta, boolean cancelar) throws IOException {
         Stage dialog = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vista/DialogPersonalizado.fxml"));
         Parent parent = fxmlLoader.load();
@@ -231,8 +231,8 @@ public class MainApp extends Application {
         dialog.initStyle(StageStyle.UNDECORATED);
 
         ControladorDialogo controlDialogo = fxmlLoader.getController();
-        controlDialogo.contenido(titulo, cabecera, resumen, pregunta);
         controlDialogo.setRespuesta(respuesta);
+        controlDialogo.contenido(titulo, cabecera, resumen, pregunta, cancelar);
 
         dialog.showAndWait();
     }
@@ -241,12 +241,12 @@ public class MainApp extends Application {
         return jugador;
     }
 
-    public void setJugador(Acceso cuenta) {
-        AccesoDAO accesoDao = new AccesoDAO(this);
+    public void setJugador(Jugador cargaJugador) {
+        GenericDAO genericDao = new GenericDAO(this);
         InventarioDAO inventarioDao = new InventarioDAO(this);
         EstadoDAO estadoDao = new EstadoDAO(this);
 
-        this.jugador = (accesoDao.comprobarCuenta(cuenta.getCorreo())).getJugador();
+        this.jugador = (Jugador) (genericDao.obtenerPorId(Jugador.class, cargaJugador.getIdJugador()));
         this.jugador.setEquipoJugador(inventarioDao.obtenerInventarioJugador(jugador));
         this.jugador.setEstadoJugador(estadoDao.obtenerEstadoJugador(jugador));
     }

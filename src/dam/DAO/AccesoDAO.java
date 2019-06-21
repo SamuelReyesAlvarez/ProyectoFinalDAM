@@ -25,7 +25,7 @@ public class AccesoDAO {
     }
 
     public Acceso comprobarCuenta(String correo) {
-        mainApp.configurarYAbrirSesion();
+        //mainApp.configurarYAbrirSesion();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -38,11 +38,11 @@ public class AccesoDAO {
         if (resultado.list().size() > 0) {
             Acceso acceso = (Acceso) resultado.list().get(0);
             session.getTransaction().commit();
-            mainApp.cerrarSesion();
+            //mainApp.cerrarSesion();
             return acceso;
         } else {
             session.getTransaction().rollback();
-            mainApp.cerrarSesion();
+            //mainApp.cerrarSesion();
             return null;
         }
     }

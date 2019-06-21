@@ -7,7 +7,6 @@ package dam.vista;
 
 import dam.DAO.JugadorDAO;
 import dam.MainApp;
-import dam.modelo.Estadisticas;
 import dam.modelo.Jugador;
 import java.io.IOException;
 import java.net.URL;
@@ -39,16 +38,16 @@ public class ControladorClasificacion implements Initializable {
     @FXML
     private TableColumn<Jugador, Integer> columnaExperiencia;
     @FXML
-    private TableColumn<Estadisticas, Integer> columnaPuntos;
+    private TableColumn<Jugador, Integer> columnaPuntos;
     @FXML
-    private TableColumn<Estadisticas, Integer> columnaRecaudacion;
+    private TableColumn<Jugador, Integer> columnaRecaudacion;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         columnaNombre.setCellValueFactory(new PropertyValueFactory<Jugador, String>("nombre"));
-        columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("experiencia"));
-        columnaPuntos.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("puntosCombate"));
-        columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Estadisticas, Integer>("totalRecaudacion"));
+        columnaExperiencia.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("expAcumulada"));
+        columnaPuntos.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("puntosCombate"));
+        columnaRecaudacion.setCellValueFactory(new PropertyValueFactory<Jugador, Integer>("totalRecaudado"));
     }
 
     public void cargarTabla() {
@@ -60,7 +59,6 @@ public class ControladorClasificacion implements Initializable {
         }
 
         tabla.setItems(clasificacion);
-
         tabla.getSelectionModel().select(mainApp.getJugador());
     }
 
@@ -73,6 +71,6 @@ public class ControladorClasificacion implements Initializable {
     public void verDetalles() throws IOException {
         Jugador seleccionado = tabla.getSelectionModel().getSelectedItem();
         mainApp.mostrarDialog(seleccionado.getNombre() + " - Detalles", null,
-                seleccionado.toString(), null, null);
+                seleccionado.toString(), null, null, false);
     }
 }
